@@ -353,11 +353,19 @@
 
 1567701310 c:\dev\c\gamegent\lib\window.h
 
-1567701242 source:c:\dev\c\gamegent\main.c
+1567702054 source:c:\dev\c\gamegent\main.c
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
 	"main.h"
+	"src\gui\window.h"
 
 1567658871 c:\dev\c\gamegent\main.h
+
+1567702023 c:\dev\c\gamegent\src\gui\window.h
+
+1567702951 source:c:\dev\c\gamegent\src\gui\window.c
+	<SDL.h>
+	<stdio.h>
+	"window.h"
 

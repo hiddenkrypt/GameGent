@@ -26,6 +26,11 @@ int main ( int argn, char* args[] ) {
             }
         }
         SDL_Delay(1);
+
+        SDL_Rect LCDRect = { 0, 0, 160, 144 };
+        SDL_SetRenderDrawColor( rend, 0x00, 0x81, 0x41, 0x00 );
+        SDL_RenderFillRect( rend, &LCDRect );
+        SDL_RenderPresent( rend );
     }
     shutdown();
     return 0;
