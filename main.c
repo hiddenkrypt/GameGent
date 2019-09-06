@@ -7,13 +7,11 @@
 #include "src\gui\window.h"
 
 
-
-
 enum program_state currentState = state_menu;
-SDL_Renderer* rend = NULL;
+
 
 int main ( int argn, char* args[] ) {
-    rend = Gui_init();
+    SDL_Renderer* rend = Gui_init();
     if ( rend == NULL ) {
         printf("Window Initialization Failure!");
         return -1;
