@@ -3,7 +3,9 @@
 #include <SDL.h>
 #include <stdbool.h>
 #include "main.h"
+#include "src\gui\gui.h"
 #include "src\gui\window.h"
+
 
 
 
@@ -11,8 +13,7 @@ enum program_state currentState = state_main_menu;
 SDL_Renderer* rend = NULL;
 
 int main ( int argn, char* args[] ) {
-
-    rend = Window_init();
+    rend = Gui_init();
     if ( rend == NULL ) {
         printf("Window Initialization Failure!");
         return -1;
@@ -26,7 +27,9 @@ int main ( int argn, char* args[] ) {
             }
         }
         SDL_Delay(1);
-
+        if(currentState == state_main_menu){
+            Gui_draw( rend );
+        }
         SDL_Rect LCDRect = { 0, 0, 160, 144 };
         SDL_SetRenderDrawColor( rend, 0x00, 0x81, 0x41, 0x00 );
         SDL_RenderFillRect( rend, &LCDRect );
@@ -37,5 +40,5 @@ int main ( int argn, char* args[] ) {
 }
 
 void shutdown(){
-    Window_shutdown();
+    Gui_shutdown();
 }

@@ -36,14 +36,18 @@
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add directory="C:/dev/libs/SDL2-2.0.10/i686-w64-mingw32/lib" />
 		</Linker>
-		<Unit filename="lib/window.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="lib/window.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.h" />
+		<Unit filename="src/gui/gui.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/gui.h" />
+		<Unit filename="src/gui/window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/window.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
