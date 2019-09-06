@@ -30,9 +30,12 @@ SDL_Renderer* Window_init(){
         printf( "Renderer could not be created. SDL Error: %s\n", SDL_GetError() );
         return NULL;
     }
-    if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ){
+    if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
         printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
         return NULL;
+    }
+    if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
+        printf( "Warning, blendmode failed to set." );
     }
 	return mainRenderer;
 }
