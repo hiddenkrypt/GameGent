@@ -9,6 +9,6 @@ void shutdown();
 
 
 enum program_state{
-    state_main_menu,
+    state_menu,
     state_emulating
 };
