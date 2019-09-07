@@ -7,7 +7,7 @@
 #include "tilemap.h"
 
 
-const char* tiles_CharacterMapPath = "CharacterTileMap.bmp";
+const char* tiles_CharacterMapPath = "img/CharacterTileMap.bmp";
 SDL_Texture* tiles_charMap = NULL;
 
 
