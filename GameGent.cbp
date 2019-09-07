@@ -45,6 +45,10 @@
 		</Unit>
 		<Unit filename="src/gui/gui.h" />
 		<Unit filename="src/gui/gui_state.h" />
+		<Unit filename="src/gui/tilemap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/tilemap.h" />
 		<Unit filename="src/gui/window.c">
 			<Option compilerVar="CC" />
 		</Unit>
