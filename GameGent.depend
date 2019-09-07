@@ -372,8 +372,11 @@
 
 1567790437 c:\dev\c\gamegent\src\gui\gui.h
 
-1567790597 source:c:\dev\c\gamegent\src\gui\gui.c
+1567792386 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	"gui.h"
 	"window.h"
+	"gui_state.h"
+
+1567792309 c:\dev\c\gamegent\src\gui\gui_state.h
 
