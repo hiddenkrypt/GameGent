@@ -1,12 +1,11 @@
 #include <SDL.h>
-#include "gui.h"
 #include "window.h"
-#include "gui_state.h"
 #include "tilemap.h"
+#include "gamegent_state.h"
+
+#include "gui.h"
 
 
-
-enum gui_state currentGuiState = gui_state_main_menu;
 
 SDL_Renderer* Gui_init () {
     SDL_Renderer* renderer = Window_init();
@@ -15,13 +14,13 @@ SDL_Renderer* Gui_init () {
 }
 
 
-void Gui_draw ( SDL_Renderer*  rend ) {
+void Gui_draw ( SDL_Renderer*  rend, gamegent_state state ) {
     SDL_Rect LCDRect = { 0, 0, 160, 144 };
     SDL_SetRenderDrawColor( rend, 0x00, 0x81, 0x41, 0xef );
     SDL_RenderFillRect( rend, &LCDRect );
     SDL_SetRenderDrawColor( rend, 0x00, 0x00, 0x00, 0xff );
     tiles_paintStringAt( 8, 8, "YEET", rend);
-    //Menus_draw( currentGuiState );
+    //Menus_draw( rend, enum state );
 }
 
 

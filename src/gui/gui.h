@@ -1,6 +1,5 @@
 
 #pragma once
-
 /*!
  * @brief Intializes Gui system
  *
@@ -14,8 +13,11 @@ SDL_Renderer* Gui_init();
  * @brief Draws the gui
  *
  * draws the current gui state with the given renderer
+ * @param rend the SDL_Renderer to draw on
+ * @param state the current state of the gamegent
  */
-void Gui_draw( SDL_Renderer* rend );
+
+void Gui_draw ( SDL_Renderer*  rend, gamegent_state state ) ;
 
 /*!
  * @brief Cleanup gui subsystems
