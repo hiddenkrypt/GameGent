@@ -11,7 +11,6 @@
 const int FPS = 1;
 
 int main ( int argn, char* args[] ) {
-
     gamegent_state currentState = state_main_menu;
     SDL_Renderer* rend = Gui_init();
     if ( rend == NULL ) {
@@ -28,6 +27,9 @@ int main ( int argn, char* args[] ) {
                 Gui_handleEvent( e );
             }
         }
+
+        SDL_SetRenderDrawColor( rend, 0x00, 0x00, 0x00, 0xff );
+        SDL_RenderClear( rend );
         SDL_Delay(1000/FPS);
         Gui_draw( rend,  currentState );
         SDL_RenderPresent( rend );
