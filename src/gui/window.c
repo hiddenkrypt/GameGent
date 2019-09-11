@@ -8,8 +8,8 @@ SDL_Renderer* mainRenderer = NULL;
 
 const int LCD_WIDTH = 160;
 const int LCD_HEIGHT = 144;
-int screenWidth = 640;
-int screenHeight = 480;
+int screenWidth = 160*2;
+int screenHeight = 144*2;
 
 
 SDL_Renderer* Window_init(){
@@ -34,9 +34,9 @@ SDL_Renderer* Window_init(){
         printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
         return NULL;
     }
-   // if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
-   //     printf( "Warning, blendmode failed to set." );
-   // }
+    if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
+        printf( "Warning, blendmode failed to set." );
+    }
 	return mainRenderer;
 }
 void Window_shutdown(){
