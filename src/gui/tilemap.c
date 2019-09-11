@@ -28,19 +28,24 @@ bool tiles_init( SDL_Renderer* renderer ){
     return true;
 }
 
-void tiles_paintCharAt(int x, int y, unsigned char character, SDL_Renderer* renderer ){
+
+void tiles_paintCharAt(int x, int y, unsigned const char character, SDL_Renderer* renderer ){
     SDL_Rect tileClip = { ((character-32)%8)*8, ((character-32)/8)*8, 8, 8 };
     SDL_Rect tilePos = {x*8, y*8, 8, 8};
-    printf ( "PAINT %d:'%c' at {%d,%d}: clip{%d,%d,%d,%d}, pos{%d,%d,%d,%d}\n\n", character,character, x, y, tileClip.x,tileClip.y,tileClip.w,tileClip.h,tilePos.x,tilePos.y,tilePos.w,tilePos.h );
+    //printf ( "PAINT %d:'%c' at {%d,%d}: clip{%d,%d,%d,%d}, pos{%d,%d,%d,%d}\n\n", character,character, x, y, tileClip.x,tileClip.y,tileClip.w,tileClip.h,tilePos.x,tilePos.y,tilePos.w,tilePos.h );
     SDL_RenderCopy( renderer, tiles_charMap, &tileClip, &tilePos );
 }
-void tiles_paintStringAt(int x, int y, char* message, SDL_Renderer* renderer ){
+
+
+void tiles_paintStringAt(int x, int y, const char* message, SDL_Renderer* renderer ){
     int msgLen = strlen(message);
     int i=0;
     for(i=0; i < msgLen; i++){
         tiles_paintCharAt(x+i,y,message[i], renderer);
     }
 }
+
+
 void tiles_cleanup(){
 	SDL_DestroyTexture( tiles_charMap );
 }

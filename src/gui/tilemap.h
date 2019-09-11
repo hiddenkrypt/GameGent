@@ -22,7 +22,7 @@ bool tiles_init( SDL_Renderer* renderer );
  * @param message Character string to display
  * @param renderer SDL_Renderer to draw on
  */
-void tiles_paintStringAt(int x, int y, char* message, SDL_Renderer* renderer );
+void tiles_paintStringAt(int x, int y, const char* message, SDL_Renderer* renderer );
 
 /*!
  * @brief Draws a single character at tile position
@@ -33,7 +33,7 @@ void tiles_paintStringAt(int x, int y, char* message, SDL_Renderer* renderer );
  * @param character character to display
  * @param renderer SDL_Renderer to draw on
  */
-void tiles_paintCharAt(int x, int y, unsigned char character, SDL_Renderer* renderer );
+void tiles_paintCharAt(int x, int y, unsigned const char character, SDL_Renderer* renderer );
 
 /*!
  * @brief Frees tile memory
