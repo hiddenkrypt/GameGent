@@ -2,7 +2,7 @@
 #include "window.h"
 #include "tilemap.h"
 #include "gamegent_state.h"
-
+#include "menus.h"
 #include "gui.h"
 
 
@@ -20,7 +20,7 @@ void Gui_draw ( SDL_Renderer*  rend, gamegent_state state ) {
     SDL_RenderFillRect( rend, &LCDRect );
     SDL_SetRenderDrawColor( rend, 0x00, 0x00, 0x00, 0xff );
     tiles_paintStringAt( 8, 8, "YEET", rend);
-    //Menus_draw( rend, enum state );
+    Menus_draw( rend, state );
 }
 
 
