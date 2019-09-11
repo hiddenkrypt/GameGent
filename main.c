@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include "main.h"
 #include "gamegent_state.h"
-#include "src\gui\gui.h"
-#include "src\gui\window.h"
+#include "gui.h"
+#include "window.h"
 
 
 
