@@ -33,7 +33,7 @@ void tiles_paintStringAt(int x, int y, char* message, SDL_Renderer* renderer );
  * @param character character to display
  * @param renderer SDL_Renderer to draw on
  */
-void tiles_paintCharAt(int x, int y, char character, SDL_Renderer* renderer );
+void tiles_paintCharAt(int x, int y, unsigned char character, SDL_Renderer* renderer );
 
 /*!
  * @brief Frees tile memory
