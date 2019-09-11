@@ -45,6 +45,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/gui.h" />
+		<Unit filename="src/gui/menu_item.h" />
 		<Unit filename="src/gui/menus.c">
 			<Option compilerVar="CC" />
 		</Unit>
