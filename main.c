@@ -8,7 +8,7 @@
 #include "window.h"
 
 
-
+const int FPS = 1;
 
 int main ( int argn, char* args[] ) {
 
@@ -28,7 +28,7 @@ int main ( int argn, char* args[] ) {
                 Gui_handleEvent( e );
             }
         }
-        SDL_Delay(1000);
+        SDL_Delay(1000/FPS);
         Gui_draw( rend,  currentState );
         SDL_RenderPresent( rend );
     }
