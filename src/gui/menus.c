@@ -4,9 +4,10 @@
 #include "tilemap.h"
 #include "menus.h"
 #include "main.h"
+#include "mainMenu.h"
 
 static int menuIndex = 0;
-void drawMenu( SDL_Renderer*  renderer );
+
 void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
     char menuTitle[4][11] = {
         { 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
@@ -18,28 +19,14 @@ void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
     tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
     tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
     tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
+
     switch( currentState ){
         case state_main_menu:
-            drawMenu( renderer );
+            MainMenu_draw( renderer, menuIndex );
             break;
         default: break; //noop
     }
-}
-const char mainMenuItemStrings[7][20]= {
-    "Continue",
-    "Load ROM...",
-    "Load State",
-    "Save State",
-    "State Number:",
-    "Options...",
-    "EXIT"
-};
-void drawMenu( SDL_Renderer*  renderer ){
-    for(int i = 0; i < 7; i++){
-        tiles_paintStringAt(1, 10+i, mainMenuItemStrings[i], renderer );
-    }
-    //paint background of selected menuitem
-    //draw each item in a row
+    if (menuIndex < 5) menuIndex++; // dirty index scrolling hack to show/test effects
 }
 
 
