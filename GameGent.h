@@ -9,6 +9,7 @@ typedef struct {
     gamegent_state currentState;
     int FPS;
     bool quit;
+    SDL_Renderer* renderer;
     struct {
         struct {
             bool FORCE_INTEGER_SCALE;
@@ -27,6 +28,3 @@ typedef struct {
     } settings;
 } GameGent_State;
 
-extern GameGent_State GameGent;
-
-void GameGent_Shutdown();

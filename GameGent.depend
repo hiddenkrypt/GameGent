@@ -364,11 +364,12 @@
 	<stdio.h>
 	"window.h"
 
-1568098800 c:\dev\c\gamegent\src\gui\gui.h
+1568353743 c:\dev\c\gamegent\src\gui\gui.h
 
-1568309999 source:c:\dev\c\gamegent\src\gui\gui.c
+1568354466 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
+	"GameGent.h"
 	"window.h"
 	"tilemap.h"
 	"gamegent_state.h"
@@ -389,7 +390,7 @@
 
 1568181669 c:\dev\c\gamegent\src\gui\menus.h
 
-1568227797 source:c:\dev\c\gamegent\src\gui\menus.c
+1568353149 source:c:\dev\c\gamegent\src\gui\menus.c
 	<SDL.h>
 	<stdio.h>
 	"gamegent_state.h"
@@ -411,18 +412,17 @@
 
 1568349225 c:\dev\c\gamegent\settings.h
 
-1568353043 source:c:\dev\c\gamegent\gamegent.c
+1568354700 source:c:\dev\c\gamegent\gamegent.c
 	"GameGent.h"
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
-	"main.h"
 	"gamegent_state.h"
 	"gui.h"
 	"window.h"
 	"GameGent.h"
 
-1568352945 c:\dev\c\gamegent\gamegent.h
+1568354543 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
 	<SDL.h>
 	"gamegent_state.h"
