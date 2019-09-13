@@ -9,6 +9,13 @@
 const int LCD_WIDTH = 160;
 const int LCD_HEIGHT = 144;
 
+/*!
+ * @brief Intializes Gui system
+ *
+ * Initializes all Gui subsystems, creating an SDL window and associated renderer.
+ * @todo breakout window and SDL init
+ * @see Window_init()  about breaking out window and SDL init
+ */
 SDL_Renderer* Gui_init () {
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		printf( "SDL init video failed: %s\n", SDL_GetError() );
@@ -30,7 +37,12 @@ SDL_Renderer* Gui_init () {
     return renderer;
 }
 
-
+/*!
+ * @brief Draws the gui
+ *
+ * draws the next frame of the program based on program state
+ * @param GameGent the current state of the gamegent
+ */
 void Gui_draw ( GameGent_State GameGent ) {
     SDL_SetRenderDrawColor( GameGent.renderer, 0x00, 0x00, 0x00, 0xff );
     SDL_RenderClear( GameGent.renderer );
@@ -44,12 +56,21 @@ void Gui_draw ( GameGent_State GameGent ) {
     SDL_RenderPresent( GameGent.renderer );
 }
 
-
+/*!
+ * @brief Cleanup gui subsystems
+ *
+ * Calls all gui subsystem cleanup/shutdown functions.
+ */
 void Gui_shutdown () {
     Window_shutdown();
 	SDL_Quit();
 }
 
+/*!
+ * @brief Handles user input events
+ *
+ * @todo EVERYTHING! handle any events
+ */
 void Gui_handleEvent( SDL_Event e, GameGent_State GameGent ){
     if (e.type == SDL_KEYDOWN){
         printf( "Keydown- Scancode: %s,  KeyName: %s\n",
