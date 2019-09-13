@@ -13,6 +13,22 @@ typedef enum {
     //state_emulating /**< Menu is hidden, emulation is proceeding */
 } gamegent_state;
 
+/** \brief a single set of program bindings
+ *
+ * A single set of SDL_Keycodes "mapped to various basic GameGent inputs
+ */
+
+typedef struct {
+    SDL_Keycode a;
+    SDL_Keycode b;
+    SDL_Keycode up;
+    SDL_Keycode down;
+    SDL_Keycode left;
+    SDL_Keycode right;
+    SDL_Keycode start;
+    SDL_Keycode select;
+    SDL_Keycode menu;
+} keyBindings;
 /** \brief monolithic program state variable
  *
  * Everything about what's going on in the program right now, from settings to graphics options and more, anything that might need to be shared between systems
@@ -28,17 +44,7 @@ typedef struct {
         struct {
             bool FORCE_INTEGER_SCALE;
         } graphics;
-        struct {
-            SDL_Keycode a;
-            SDL_Keycode b;
-            SDL_Keycode up;
-            SDL_Keycode down;
-            SDL_Keycode left;
-            SDL_Keycode right;
-            SDL_Keycode start;
-            SDL_Keycode select;
-            SDL_Keycode menu;
-        } keybinds;
+        keyBindings keybinds;
     } settings;
 } GameGent_State;
 

@@ -8,14 +8,14 @@
 #include "GameGent.h"
 
 
-GameGent_State GameGent;
 
 /*!
  * @brief Intitialize Everything!
  * Initializes the GameGent state, and calls all subsystem init functions.
  * @todo: breakout settings to be intialized in another function, with default values and file stored user options
  */
-void GameGent_Init(){
+GameGent_State Init(){
+    GameGent_State GameGent;
     GameGent.quit = false;
     GameGent.FPS = 2;
     GameGent.currentState = state_main_menu;
@@ -25,6 +25,7 @@ void GameGent_Init(){
         printf("Window Initialization Failure!");
         GameGent.quit = true;
     }
+    return GameGent;
 }
 
 
@@ -33,7 +34,7 @@ void GameGent_Init(){
  *
  * Calls all subsystem cleanup/shutdown functions.
  */
-void GameGent_Shutdown(){
+void Shutdown(){
     Gui_shutdown();
 };
 
@@ -43,7 +44,7 @@ void GameGent_Shutdown(){
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
 int main ( int argn, char* args[] ) {
-    GameGent_Init();
+    GameGent_State GameGent = Init();
     SDL_Event e;
     while( !GameGent.quit ) {
         while( SDL_PollEvent( &e ) != 0 ) {
@@ -54,6 +55,6 @@ int main ( int argn, char* args[] ) {
         }
         Gui_draw( GameGent );
     }
-    GameGent_Shutdown();
+    Shutdown();
     return 0;
 }

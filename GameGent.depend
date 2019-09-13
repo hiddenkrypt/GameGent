@@ -364,15 +364,14 @@
 	<stdio.h>
 	"window.h"
 
-1568355005 c:\dev\c\gamegent\src\gui\gui.h
+1568355846 c:\dev\c\gamegent\src\gui\gui.h
 
-1568354992 source:c:\dev\c\gamegent\src\gui\gui.c
+1568355851 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
 	"GameGent.h"
 	"window.h"
 	"tilemap.h"
-	"gamegent_state.h"
 	"menus.h"
 	"gui.h"
 
