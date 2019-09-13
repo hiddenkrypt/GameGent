@@ -29,4 +29,4 @@ void Gui_shutdown();
  *
  * @todo EVERYTHING! handle any events
  */
-void Gui_handleEvent( SDL_Event e );
+void Gui_handleEvent( SDL_Event e, GameGent_State GameGent );

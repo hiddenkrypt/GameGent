@@ -32,7 +32,7 @@ SDL_Renderer* Gui_init () {
 }
 
 
-void Gui_draw (GameGent_State GameGent ) {
+void Gui_draw ( GameGent_State GameGent ) {
     SDL_SetRenderDrawColor( GameGent.renderer, 0x00, 0x00, 0x00, 0xff );
     SDL_RenderClear( GameGent.renderer );
     SDL_Rect LCDRect = { 0, 0, 160, 144 };
@@ -51,7 +51,11 @@ void Gui_shutdown () {
 	SDL_Quit();
 }
 
-void Gui_handleEvent( SDL_Event e ){
-
+void Gui_handleEvent( SDL_Event e, GameGent_State GameGent ){
+    if (e.type == SDL_KEYDOWN){
+        printf( "Keydown- Scancode: %s,  KeyName: %s\n",
+            SDL_GetScancodeName(e.key.keysym.scancode),
+            SDL_GetKeyName(e.key.keysym.sym));
+    }
 
 }

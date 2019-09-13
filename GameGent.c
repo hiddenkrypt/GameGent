@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdbool.h>
-#include "gamegent_state.h"
 #include "gui.h"
 #include "window.h"
 #include "GameGent.h"
@@ -14,6 +13,7 @@ GameGent_State GameGent;
 /*!
  * @brief Intitialize Everything!
  * Initializes the GameGent state, and calls all subsystem init functions.
+ * @todo: breakout settings to be intialized in another function, with default values and file stored user options
  */
 void GameGent_Init(){
     GameGent.quit = false;
@@ -26,6 +26,8 @@ void GameGent_Init(){
         GameGent.quit = true;
     }
 }
+
+
 /*!
  * @brief top level program cleanup
  *
@@ -34,6 +36,7 @@ void GameGent_Init(){
 void GameGent_Shutdown(){
     Gui_shutdown();
 };
+
 /*!
  * @brief program entry, main loop
  *
@@ -47,14 +50,9 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            Gui_handleEvent( e );
-            if (e.type == SDL_KEYDOWN){
-                printf( "Keydown- Scancode: %s,  KeyName: %s\n",
-                    SDL_GetScancodeName(e.key.keysym.scancode),
-                    SDL_GetKeyName(e.key.keysym.sym));
-            }
+            Gui_handleEvent( e, GameGent );
         }
-        Gui_draw(GameGent);
+        Gui_draw( GameGent );
     }
     GameGent_Shutdown();
     return 0;
