@@ -50,6 +50,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/menus.h" />
+		<Unit filename="src/gui/menus/mainMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/menus/mainMenu.h" />
 		<Unit filename="src/gui/tilemap.c">
 			<Option compilerVar="CC" />
 		</Unit>
