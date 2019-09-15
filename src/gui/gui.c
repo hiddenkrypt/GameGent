@@ -69,13 +69,33 @@ void Gui_shutdown () {
 /*!
  * @brief Handles user input events
  *
- * @todo EVERYTHING! handle any events
+ * @todo
  */
-void Gui_handleEvent( SDL_Event e, GameGent_State GameGent ){
-    if (e.type == SDL_KEYDOWN){
-        printf( "Keydown- Scancode: %s,  KeyName: %s\n",
-            SDL_GetScancodeName(e.key.keysym.scancode),
-            SDL_GetKeyName(e.key.keysym.sym));
+void Gui_handleEvent( SDL_Event e, gamegent_state currentState, keyBindings keyBinds ){
+    if ( e.type == SDL_KEYDOWN ){
+        if ( e.key.keysym.sym == keyBinds.a ) {
+            printf("a");
+        } else if ( e.key.keysym.sym == keyBinds.b ){
+            printf("b");
+        } else if ( e.key.keysym.sym == keyBinds.up ){
+            printf("up");
+            Menus_DecrementMenuIndex();
+        } else if ( e.key.keysym.sym == keyBinds.down ){
+            printf("down/**<  */");
+            Menus_IncrementMenuIndex();
+        } else if ( e.key.keysym.sym == keyBinds.left ){
+            printf("left");
+        } else if ( e.key.keysym.sym == keyBinds.right ){
+            printf("right");
+        } else if ( e.key.keysym.sym == keyBinds.select ){
+            printf("select");
+        } else if ( e.key.keysym.sym == keyBinds.start ){
+            printf("start");
+        } else if ( e.key.keysym.sym == keyBinds.menu ){
+            printf("menu");
+        }
     }
 
 }
+
+

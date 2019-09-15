@@ -36,16 +36,14 @@
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add directory="C:/dev/libs/SDL2-2.0.10/i686-w64-mingw32/lib" />
 		</Linker>
-		<Unit filename="lib/gamegent_state.h" />
-		<Unit filename="main.c">
+		<Unit filename="GameGent.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main.h" />
+		<Unit filename="GameGent.h" />
 		<Unit filename="src/gui/gui.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/gui.h" />
-		<Unit filename="src/gui/menu_item.h" />
 		<Unit filename="src/gui/menus.c">
 			<Option compilerVar="CC" />
 		</Unit>

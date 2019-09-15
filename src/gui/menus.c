@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <stdio.h>
-#include "gamegent_state.h"
+#include "GameGent.h"
 #include "tilemap.h"
 #include "menus.h"
 #include "mainMenu.h"
@@ -25,5 +25,12 @@ void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
             break;
         default: break; //noop
     }
-    if (menuIndex < 5) menuIndex++; // dirty index scrolling hack to show/test effects
+}
+
+void Menus_IncrementMenuIndex(){
+    menuIndex++;
+}
+
+void Menus_DecrementMenuIndex(){
+    menuIndex--;
 }

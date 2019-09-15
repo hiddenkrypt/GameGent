@@ -10,14 +10,14 @@
 
 
 /*!
- * @brief Intitialize Everything!
+ * @brief Initialize Everything!
  * Initializes the GameGent state, and calls all subsystem init functions.
- * @todo: breakout settings to be intialized in another function, with default values and file stored user options
+ * @todo: breakout settings to be initialized in another function, with default values and file stored user options
  */
 GameGent_State Init(){
     GameGent_State GameGent;
     GameGent.quit = false;
-    GameGent.FPS = 2;
+    GameGent.FPS = 30;
     GameGent.currentState = state_main_menu;
 
     GameGent.renderer = Gui_init();
@@ -25,6 +25,17 @@ GameGent_State Init(){
         printf("Window Initialization Failure!");
         GameGent.quit = true;
     }
+    keyBindings defaultBinds;
+    defaultBinds.a = SDLK_x;
+    defaultBinds.b = SDLK_z;
+    defaultBinds.up = SDLK_UP;
+    defaultBinds.down = SDLK_DOWN;
+    defaultBinds.left = SDLK_LEFT;
+    defaultBinds.right = SDLK_RIGHT;
+    defaultBinds.start = SDLK_LCTRL;
+    defaultBinds.select = SDLK_LSHIFT;
+    defaultBinds.menu = SDLK_ESCAPE;
+    GameGent.settings.keybinds = defaultBinds;
     return GameGent;
 }
 
@@ -51,7 +62,7 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            Gui_handleEvent( e, GameGent );
+            Gui_handleEvent( e, GameGent.currentState, GameGent.settings.keybinds );
         }
         Gui_draw( GameGent );
     }
