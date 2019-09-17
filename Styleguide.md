@@ -1,12 +1,12 @@
-#SGameGent Code Standards and Styleguide:
+# GameGent Code Standards and Styleguide:
 
-##Capitalization
+## Capitalization
 * constants are **ALL_CAPS**
 * structure typedefs are **CapitalCase**
 * structure members, local variables, local functions are **camelCase**
 * Filenames are always **camelCase**
 
-##Files
+## Files
 
 Files should be self-contained translation units. Do not \#include \*.c files. Do not put variable or function definitions in \*.h files
 
@@ -26,7 +26,7 @@ ALL HEADER FILES ALWAYS START WITH `#pragma once`
 
 `#include` pragmas
 
-##Functions
+## Functions
 Non-shared functions must / should be `static`
 
 Static global variables must be defined at the top of the file after includes
@@ -38,7 +38,7 @@ Shared (header defined) functions are always prefixed with the name of the trans
 
 *Define* local functions before shared functions, so that shared functions are the last items in a file.
 
-##Variables
+## Variables
 Avoid extern
 
 Globals must be static
@@ -47,7 +47,7 @@ Avoid globals unless persistent state is necessary for the module
 
 Variable names should avoid initialisms, truncation, unless the result is a common and widely understood shortening, such as `i` for a loop index, or `FPS` for frames per second.
 
-##Specific Syntax Notes
+## Specific Syntax Notes
 Function return value, name, and parameter list all in the same line.
 
 Open parens on the same line as whatever their associated with.
@@ -68,7 +68,7 @@ void myFunction ( int index ) {
 ```
 Functions separated by one empty line. Function bodies should avoid blank lines unless they help organize code in some way, though that usually means you should break up the function into multiple sub-functions.
 
-##Documentation
+## Documentation
 Each function in a .c file should have a doxygen comment block before it.
 
 Strucs and enums should include Doxy comments for each member / entry.
