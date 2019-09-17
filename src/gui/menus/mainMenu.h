@@ -1,3 +1,4 @@
 
-#pragma once
-void MainMenu_draw( SDL_Renderer* renderer, int menuCursorIndex );
+#pragma once.
+#include "Menu.h"
+Menu MainMenu_getMenu( );

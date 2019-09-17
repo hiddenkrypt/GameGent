@@ -34,6 +34,7 @@ SDL_Renderer* Gui_init () {
         printf( "Warning, blendmode failed to set." );
     }
     tiles_init( renderer );
+    Menus_init();
     return renderer;
 }
 

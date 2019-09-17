@@ -4,9 +4,15 @@
 #include "tilemap.h"
 #include "menus.h"
 #include "mainMenu.h"
+#include "menu.h"
 
 static int menuIndex = 0;
 
+Menu currentMenu;
+
+void Menus_init(){
+    currentMenu = MainMenu_getMenu();
+}
 /** \brief draw the current menu
  *
  * draws a menu based on the current state variable.
@@ -26,7 +32,7 @@ void Menus_draw(SDL_Renderer*  renderer){
     tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
     tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
-    MainMenu_draw( renderer, menuIndex );
+    currentMenu.draw( renderer, menuIndex );
 }
 
 
@@ -36,7 +42,10 @@ void Menus_draw(SDL_Renderer*  renderer){
  *
  */
 void Menus_IncrementMenuIndex(){
-    menuIndex++;
+    if (menuIndex < currentMenu.itemCount-1){
+        menuIndex++;
+    }
+    printf("index: %d,  count: %d", menuIndex, currentMenu.itemCount);
 }
 /** \brief menu item cursor go up
  *
@@ -44,5 +53,7 @@ void Menus_IncrementMenuIndex(){
  *
  */
 void Menus_DecrementMenuIndex(){
-    menuIndex--;
+    if ( menuIndex > 0){
+        menuIndex--;
+    }
 }

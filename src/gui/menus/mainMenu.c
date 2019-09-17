@@ -2,10 +2,11 @@
 #include <string.h>
 #include "tilemap.h"
 #include "mainMenu.h"
+#include "menu.h"
 
 
-
-const char mainMenuStrings[7][20]= {
+const static int mainMenuItems = 7;
+const static char mainMenuStrings[7][20]= {
     "Continue",
     "Load ROM...",
     "Load State",
@@ -15,7 +16,11 @@ const char mainMenuStrings[7][20]= {
     "EXIT"
 };
 
-void MainMenu_draw( SDL_Renderer* renderer, int menuCursorIndex ){
+void static activateItem(int itemIndex){
+
+};
+
+void static draw( SDL_Renderer* renderer, int menuCursorIndex ){
 
     SDL_Rect cursorRect = { 0, (10+menuCursorIndex)*8, (strlen(mainMenuStrings[menuCursorIndex])*8)+8, 8 };
     SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
@@ -24,4 +29,13 @@ void MainMenu_draw( SDL_Renderer* renderer, int menuCursorIndex ){
     for(int i = 0; i < 7; i++){
         tiles_paintStringAt(1, 10+i, mainMenuStrings[i], renderer );
     }
+}
+
+Menu MainMenu_getMenu(){
+    Menu mainMenu;
+    mainMenu.itemCount = 7;
+    mainMenu.activate = &activateItem;
+    mainMenu.draw = &draw;
+
+    return mainMenu;
 }
