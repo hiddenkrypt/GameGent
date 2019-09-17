@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "GameGent.h"
 #include "tilemap.h"
-#include "menus.h"
+#include "menuManager.h"
 #include "mainMenu.h"
 #include "menu.h"
 

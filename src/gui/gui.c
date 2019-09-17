@@ -3,7 +3,7 @@
 #include "GameGent.h"
 #include "window.h"
 #include "tilemap.h"
-#include "menus.h"
+#include "menuManager.h"
 #include "gui.h"
 
 const int LCD_WIDTH = 160;
