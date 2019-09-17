@@ -14,7 +14,7 @@ static int menuIndex = 0;
  * @param the current state of the program
  *
  */
-void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
+void Menus_draw(SDL_Renderer*  renderer){
     char menuTitle[4][11] = {
         { 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
         { 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },
@@ -26,12 +26,7 @@ void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
     tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
     tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
-    switch( currentState ){
-        case state_main_menu:
-            MainMenu_draw( renderer, menuIndex );
-            break;
-        default: break; //noop
-    }
+    MainMenu_draw( renderer, menuIndex );
 }
 
 

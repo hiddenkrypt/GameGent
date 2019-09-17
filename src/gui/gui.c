@@ -50,7 +50,7 @@ void Gui_draw ( GameGent_State GameGent ) {
     SDL_SetRenderDrawColor( GameGent.renderer, 0x00, 0x81, 0x41, 0xef );
     SDL_RenderFillRect( GameGent.renderer, &LCDRect );
 
-    Menus_draw( GameGent.renderer, GameGent.currentState );
+    Menus_draw( GameGent.renderer );
 
     SDL_Delay(1000/GameGent.FPS);
     SDL_RenderPresent( GameGent.renderer );
@@ -69,9 +69,14 @@ void Gui_shutdown () {
 /*!
  * @brief Handles user input events
  *
- * @todo
+ * @todo so many things
+ * @todo create input interpreter to generify multiple types of input to virtual system inputs
+ * @todo figure out a more elegant way to handle menu state
+ * @param e SDL event to handle
+ * \param currentState what state the program is in
+ * @param keyBinds Current binding of key symbols to virtual program commands (a,b,up down left right, select, start, menu)
  */
-void Gui_handleEvent( SDL_Event e, gamegent_state currentState, keyBindings keyBinds ){
+void Gui_handleEvent( SDL_Event e, keyBindings keyBinds ){
     if ( e.type == SDL_KEYDOWN ){
         if ( e.key.keysym.sym == keyBinds.a ) {
             printf("a");
@@ -81,7 +86,7 @@ void Gui_handleEvent( SDL_Event e, gamegent_state currentState, keyBindings keyB
             printf("up");
             Menus_DecrementMenuIndex();
         } else if ( e.key.keysym.sym == keyBinds.down ){
-            printf("down/**<  */");
+            printf("down");
             Menus_IncrementMenuIndex();
         } else if ( e.key.keysym.sym == keyBinds.left ){
             printf("left");
@@ -94,6 +99,8 @@ void Gui_handleEvent( SDL_Event e, gamegent_state currentState, keyBindings keyB
         } else if ( e.key.keysym.sym == keyBinds.menu ){
             printf("menu");
         }
+        printf("\n");
+
     }
 
 }
