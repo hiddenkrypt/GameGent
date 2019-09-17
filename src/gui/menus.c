@@ -7,6 +7,13 @@
 
 static int menuIndex = 0;
 
+/** \brief draw the current menu
+ *
+ * draws a menu based on the current state variable.
+ * @param renderer the renderer tied to the window we want to put the menu on
+ * @param the current state of the program
+ *
+ */
 void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
     char menuTitle[4][11] = {
         { 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
@@ -27,10 +34,20 @@ void Menus_draw(SDL_Renderer*  renderer, gamegent_state currentState){
     }
 }
 
+
+/** \brief menu item cursor go down
+ *
+ * increments the menu index, selecting the "next" menu item
+ *
+ */
 void Menus_IncrementMenuIndex(){
     menuIndex++;
 }
-
+/** \brief menu item cursor go up
+ *
+ * decrements the menu index, selecting the "previous" menu item
+ *
+ */
 void Menus_DecrementMenuIndex(){
     menuIndex--;
 }
