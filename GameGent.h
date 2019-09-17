@@ -3,16 +3,6 @@
 #include <stdbool.h>
 #include <SDL.h>
 
-/**
- * \brief current state of the overall program
- *
- * a selection of states the overall program can be in. Different subsystems may change the program state
- */
-typedef enum {
-    state_main_menu /**< Program is currently in the main menu. Emulation is paused. (starting condition)*/
-    //state_emulating /**< Menu is hidden, emulation is proceeding */
-} gamegent_state;
-
 /** \brief a single set of program bindings
  *
  * A single set of SDL_Keycodes "mapped to various basic GameGent inputs
@@ -36,7 +26,8 @@ typedef struct {
  *
  */
 typedef struct {
-    gamegent_state currentState;
+    bool emulating;
+    bool inMenu;
     int FPS;
     bool quit;
     SDL_Renderer* renderer;

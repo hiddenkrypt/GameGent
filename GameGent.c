@@ -18,7 +18,8 @@ GameGent_State Init(){
     GameGent_State GameGent;
     GameGent.quit = false;
     GameGent.FPS = 30;
-    GameGent.currentState = state_main_menu;
+    GameGent.emulating = false;
+    GameGent.inMenu = false;
 
     GameGent.renderer = Gui_init();
     if ( GameGent.renderer == NULL ) {
@@ -62,7 +63,7 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            Gui_handleEvent( e, GameGent.currentState, GameGent.settings.keybinds );
+            Gui_handleEvent( e, GameGent.settings.keybinds );
         }
         Gui_draw( GameGent );
     }
