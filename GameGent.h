@@ -1,5 +1,5 @@
 #pragma once
-
+/**@todo: nuke this thing from orbit, break it off into various places, get it out of the project root, something!*/
 #include <stdbool.h>
 #include <SDL.h>
 
@@ -33,9 +33,9 @@ typedef struct {
     SDL_Renderer* renderer;
     struct {
         struct {
-            bool FORCE_INTEGER_SCALE;
+            bool forceIntegerScale;
         } graphics;
-        keyBindings keybinds;
+        keyBindings keyBinds;
     } settings;
-} GameGent_State;
+} GameGentState;
 

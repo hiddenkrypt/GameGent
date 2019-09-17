@@ -33,7 +33,7 @@ SDL_Renderer* Gui_init () {
     if ( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND != 0 ) ) {
         printf( "Warning, blendmode failed to set." );
     }
-    tiles_init( renderer );
+    Tiles_init( renderer );
     Menus_init();
     return renderer;
 }
@@ -42,19 +42,19 @@ SDL_Renderer* Gui_init () {
  * @brief Draws the gui
  *
  * draws the next frame of the program based on program state
- * @param GameGent the current state of the gamegent
+ * @param gameGent the current state of the gamegent
  */
-void Gui_draw ( GameGent_State GameGent ) {
-    SDL_SetRenderDrawColor( GameGent.renderer, 0x00, 0x00, 0x00, 0xff );
-    SDL_RenderClear( GameGent.renderer );
+void Gui_draw ( GameGentState gameGent ) {
+    SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x00, 0x00, 0xff );
+    SDL_RenderClear( gameGent.renderer );
     SDL_Rect LCDRect = { 0, 0, 160, 144 };
-    SDL_SetRenderDrawColor( GameGent.renderer, 0x00, 0x81, 0x41, 0xef );
-    SDL_RenderFillRect( GameGent.renderer, &LCDRect );
+    SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x81, 0x41, 0xef );
+    SDL_RenderFillRect( gameGent.renderer, &LCDRect );
 
-    Menus_draw( GameGent.renderer );
+    Menus_draw( gameGent.renderer );
 
-    SDL_Delay(1000/GameGent.FPS);
-    SDL_RenderPresent( GameGent.renderer );
+    SDL_Delay(1000/gameGent.FPS);
+    SDL_RenderPresent( gameGent.renderer );
 }
 
 /*!
@@ -77,27 +77,27 @@ void Gui_shutdown () {
  * \param currentState what state the program is in
  * @param keyBinds Current binding of key symbols to virtual program commands (a,b,up down left right, select, start, menu)
  */
-void Gui_handleEvent( SDL_Event e, keyBindings keyBinds ){
-    if ( e.type == SDL_KEYDOWN ){
-        if ( e.key.keysym.sym == keyBinds.a ) {
+void Gui_handleEvent( SDL_Event event, keyBindings keyBinds ){
+    if ( event.type == SDL_KEYDOWN ){
+        if ( event.key.keysym.sym == keyBinds.a ) {
             printf("a");
-        } else if ( e.key.keysym.sym == keyBinds.b ){
+        } else if ( event.key.keysym.sym == keyBinds.b ){
             printf("b");
-        } else if ( e.key.keysym.sym == keyBinds.up ){
+        } else if ( event.key.keysym.sym == keyBinds.up ){
             printf("up");
-            Menus_DecrementMenuIndex();
-        } else if ( e.key.keysym.sym == keyBinds.down ){
+            Menus_decrementMenuIndex();
+        } else if ( event.key.keysym.sym == keyBinds.down ){
             printf("down");
-            Menus_IncrementMenuIndex();
-        } else if ( e.key.keysym.sym == keyBinds.left ){
+            Menus_incrementMenuIndex();
+        } else if ( event.key.keysym.sym == keyBinds.left ){
             printf("left");
-        } else if ( e.key.keysym.sym == keyBinds.right ){
+        } else if ( event.key.keysym.sym == keyBinds.right ){
             printf("right");
-        } else if ( e.key.keysym.sym == keyBinds.select ){
+        } else if ( event.key.keysym.sym == keyBinds.select ){
             printf("select");
-        } else if ( e.key.keysym.sym == keyBinds.start ){
+        } else if ( event.key.keysym.sym == keyBinds.start ){
             printf("start");
-        } else if ( e.key.keysym.sym == keyBinds.menu ){
+        } else if ( event.key.keysym.sym == keyBinds.menu ){
             printf("menu");
         }
         printf("\n");

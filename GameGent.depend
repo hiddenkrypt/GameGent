@@ -357,34 +357,34 @@
 
 1568232392 c:\dev\c\gamegent\main.h
 
-1568309965 c:\dev\c\gamegent\src\gui\window.h
+1568746894 c:\dev\c\gamegent\src\gui\window.h
 
-1568309971 source:c:\dev\c\gamegent\src\gui\window.c
+1568746877 source:c:\dev\c\gamegent\src\gui\window.c
 	<SDL.h>
 	<stdio.h>
 	"window.h"
 
-1568691880 c:\dev\c\gamegent\src\gui\gui.h
+1568746151 c:\dev\c\gamegent\src\gui\gui.h
 
-1568695607 source:c:\dev\c\gamegent\src\gui\gui.c
+1568746679 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
 	"GameGent.h"
 	"window.h"
 	"tilemap.h"
-	"menus.h"
+	"menuManager.h"
 	"gui.h"
 
 1568091113 c:\dev\c\gamegent\src\gui\gui_state.h
 
-1568181205 source:c:\dev\c\gamegent\src\gui\tilemap.c
+1568746455 source:c:\dev\c\gamegent\src\gui\tilemap.c
 	<stdio.h>
 	<string.h>
 	<stdint.h>
 	<SDL.h>
 	"tilemap.h"
 
-1568181213 c:\dev\c\gamegent\src\gui\tilemap.h
+1568746469 c:\dev\c\gamegent\src\gui\tilemap.h
 	<stdbool.h>
 
 1568695205 c:\dev\c\gamegent\src\gui\menus.h
@@ -400,21 +400,21 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1568696892 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1568747032 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	"tilemap.h"
 	"mainMenu.h"
 	"menu.h"
 
-1568695549 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
+1568746970 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
 
 1568349239 source:c:\dev\c\gamegent\settings.c
 
 1568349225 c:\dev\c\gamegent\settings.h
 
-1568691923 source:c:\dev\c\gamegent\gamegent.c
+1568746200 source:c:\dev\c\gamegent\gamegent.c
 	"GameGent.h"
 	<stdio.h>
 	<SDL.h>
@@ -423,9 +423,20 @@
 	"window.h"
 	"GameGent.h"
 
-1568691818 c:\dev\c\gamegent\gamegent.h
+1568746140 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
 	<SDL.h>
 
-1568695828 c:\dev\c\gamegent\src\gui\menus\menu.h
+1568747084 c:\dev\c\gamegent\src\gui\menus\menu.h
+
+1568746696 c:\dev\c\gamegent\src\gui\menumanager.h
+
+1568746709 source:c:\dev\c\gamegent\src\gui\menumanager.c
+	<SDL.h>
+	<stdio.h>
+	"GameGent.h"
+	"tilemap.h"
+	"menuManager.h"
+	"mainMenu.h"
+	"menu.h"
 

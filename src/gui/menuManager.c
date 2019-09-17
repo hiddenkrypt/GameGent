@@ -7,11 +7,11 @@
 #include "menu.h"
 
 static int menuIndex = 0;
-
-Menu currentMenu;
+static Menu currentMenu;
 
 void Menus_init(){
     currentMenu = MainMenu_getMenu();
+    menuIndex = 0;
 }
 /** \brief draw the current menu
  *
@@ -27,10 +27,10 @@ void Menus_draw(SDL_Renderer*  renderer){
         { 158, 152, 153, 'e', 'n', 't',  32, 154, 155, 158, '\0' },
         { 156, 159, 159, 159, 159, 159, 159, 159, 159, 157, 0 }
     };
-    tiles_paintStringAt(10-5, 0, menuTitle[0],  renderer );
-    tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
-    tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
-    tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
+    Tiles_paintStringAt(10-5, 0, menuTitle[0],  renderer );
+    Tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
+    Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
+    Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
     currentMenu.draw( renderer, menuIndex );
 }
@@ -41,7 +41,7 @@ void Menus_draw(SDL_Renderer*  renderer){
  * increments the menu index, selecting the "next" menu item
  *
  */
-void Menus_IncrementMenuIndex(){
+void Menus_incrementMenuIndex(){
     if (menuIndex < currentMenu.itemCount-1){
         menuIndex++;
     }
@@ -52,7 +52,7 @@ void Menus_IncrementMenuIndex(){
  * decrements the menu index, selecting the "previous" menu item
  *
  */
-void Menus_DecrementMenuIndex(){
+void Menus_decrementMenuIndex(){
     if ( menuIndex > 0){
         menuIndex--;
     }

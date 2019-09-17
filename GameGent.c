@@ -14,8 +14,8 @@
  * Initializes the GameGent state, and calls all subsystem init functions.
  * @todo: breakout settings to be initialized in another function, with default values and file stored user options
  */
-GameGent_State Init(){
-    GameGent_State GameGent;
+GameGentState init(){
+    GameGentState GameGent;
     GameGent.quit = false;
     GameGent.FPS = 30;
     GameGent.emulating = false;
@@ -36,7 +36,7 @@ GameGent_State Init(){
     defaultBinds.start = SDLK_LCTRL;
     defaultBinds.select = SDLK_LSHIFT;
     defaultBinds.menu = SDLK_ESCAPE;
-    GameGent.settings.keybinds = defaultBinds;
+    GameGent.settings.keyBinds = defaultBinds;
     return GameGent;
 }
 
@@ -46,7 +46,7 @@ GameGent_State Init(){
  *
  * Calls all subsystem cleanup/shutdown functions.
  */
-void Shutdown(){
+void shutdown(){
     Gui_shutdown();
 };
 
@@ -56,17 +56,17 @@ void Shutdown(){
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
 int main ( int argn, char* args[] ) {
-    GameGent_State GameGent = Init();
+    GameGentState GameGent = init();
     SDL_Event e;
     while( !GameGent.quit ) {
         while( SDL_PollEvent( &e ) != 0 ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            Gui_handleEvent( e, GameGent.settings.keybinds );
+            Gui_handleEvent( e, GameGent.settings.keyBinds );
         }
         Gui_draw( GameGent );
     }
-    Shutdown();
+    shutdown();
     return 0;
 }
