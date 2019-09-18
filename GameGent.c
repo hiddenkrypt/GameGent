@@ -7,7 +7,7 @@
 #include "window.h"
 #include "GameGent.h"
 
-
+GameGentState GameGent;
 
 /*!
  * @brief Initialize Everything!
@@ -56,7 +56,7 @@ void shutdown(){
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
 int main ( int argn, char* args[] ) {
-    GameGentState GameGent = init();
+    GameGent = init();
     SDL_Event e;
     while( !GameGent.quit ) {
         while( SDL_PollEvent( &e ) != 0 ) {
@@ -70,3 +70,12 @@ int main ( int argn, char* args[] ) {
     shutdown();
     return 0;
 }
+
+/*!
+ * @brief causes the program to shutdown.
+ *
+ * Calls all subsystem cleanup/shutdown functions.
+ */
+void GameGent_shutdown(){
+    GameGent.quit = true;
+};

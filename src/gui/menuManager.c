@@ -45,7 +45,6 @@ void Menus_incrementMenuIndex(){
     if (menuIndex < currentMenu.itemCount-1){
         menuIndex++;
     }
-    printf("index: %d,  count: %d", menuIndex, currentMenu.itemCount);
 }
 /** \brief menu item cursor go up
  *
@@ -56,4 +55,8 @@ void Menus_decrementMenuIndex(){
     if ( menuIndex > 0){
         menuIndex--;
     }
+}
+
+void Menus_activateCurrentMenuItem(){
+    currentMenu.activate(menuIndex);
 }

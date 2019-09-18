@@ -39,3 +39,4 @@ typedef struct {
     } settings;
 } GameGentState;
 
+void GameGent_shutdown();

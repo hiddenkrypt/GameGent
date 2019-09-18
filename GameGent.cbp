@@ -44,18 +44,19 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/gui.h" />
-		<Unit filename="src/gui/menus.c">
+		<Unit filename="src/gui/menuManager.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/gui/menus.h" />
+		<Unit filename="src/gui/menuManager.h" />
 		<Unit filename="src/gui/menus/mainMenu.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/menus/mainMenu.h" />
-		<Unit filename="src/gui/tilemap.c">
+		<Unit filename="src/gui/menus/menu.h" />
+		<Unit filename="src/gui/tileMap.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/gui/tilemap.h" />
+		<Unit filename="src/gui/tileMap.h" />
 		<Unit filename="src/gui/window.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -80,6 +80,7 @@ void Gui_shutdown () {
 void Gui_handleEvent( SDL_Event event, keyBindings keyBinds ){
     if ( event.type == SDL_KEYDOWN ){
         if ( event.key.keysym.sym == keyBinds.a ) {
+            Menus_activateCurrentMenuItem();
             printf("a");
         } else if ( event.key.keysym.sym == keyBinds.b ){
             printf("b");

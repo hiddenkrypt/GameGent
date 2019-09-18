@@ -17,7 +17,23 @@ const static char mainMenuStrings[7][20]= {
 };
 
 void static activateItem(int itemIndex){
-
+    switch ( itemIndex ){
+    case 0: // Continue
+        break;
+    case 1: // Load Rom
+        break;
+    case 2: // Load State
+        break;
+    case 3: // Save State
+        break;
+    case 4: // State Number
+        break;
+    case 5: // Options Menu
+        break;
+    case 6: // exit
+        GameGent_shutdown();
+        break;
+    }
 };
 
 void static draw( SDL_Renderer* renderer, int menuCursorIndex ){
