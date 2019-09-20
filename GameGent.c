@@ -7,6 +7,7 @@
 #include "window.h"
 #include "GameGent.h"
 
+#include "registers.h"
 GameGentState GameGent;
 
 /*!
@@ -14,14 +15,14 @@ GameGentState GameGent;
  * Initializes the GameGent state, and calls all subsystem init functions.
  * @todo: breakout settings to be initialized in another function, with default values and file stored user options
  */
-GameGentState init(){
+GameGentState static init(){
     GameGentState GameGent;
     GameGent.quit = false;
     GameGent.FPS = 30;
     GameGent.emulating = false;
     GameGent.inMenu = false;
 
-    GameGent.renderer = Gui_init();
+    GameGent.renderer = GUI_init();
     if ( GameGent.renderer == NULL ) {
         printf("Window Initialization Failure!");
         GameGent.quit = true;
@@ -46,8 +47,8 @@ GameGentState init(){
  *
  * Calls all subsystem cleanup/shutdown functions.
  */
-void shutdown(){
-    Gui_shutdown();
+void static shutdown(){
+    GUI_shutdown();
 };
 
 /*!
@@ -63,9 +64,9 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            Gui_handleEvent( e, GameGent.settings.keyBinds );
+            GUI_handleEvent( e, GameGent.settings.keyBinds );
         }
-        Gui_draw( GameGent );
+        GUI_draw( GameGent );
     }
     shutdown();
     return 0;

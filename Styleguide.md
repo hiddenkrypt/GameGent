@@ -27,7 +27,7 @@ ALL HEADER FILES ALWAYS START WITH `#pragma once`
 `#include` pragmas
 
 ## Functions
-Non-shared functions must / should be `static`
+Non-shared functions must / should be `static`, the only exception being main() which needs to be non-static for SDL. The return type of the function always goes first.
 
 Static global variables must be defined at the top of the file after includes
 
@@ -54,11 +54,11 @@ Open parens on the same line as whatever their associated with.
 
 `else {` on the same line as the related close paren.
 
-spaces on the inside of parens unless parens are empty.
+Spaces on the inside of parens unless parens are empty.
 
 Example:
 ```c
-void myFunction ( int index ) {
+void static myFunction ( int index ) {
   if ( index > 3 ){
     doThing();
   } else if ( index == 2 ) {
