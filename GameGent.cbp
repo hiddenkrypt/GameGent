@@ -40,6 +40,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="GameGent.h" />
+		<Unit filename="src/dmg/cpu/cpu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dmg/cpu/cpu.h" />
+		<Unit filename="src/dmg/cpu/registers.h" />
 		<Unit filename="src/gui/gui.c">
 			<Option compilerVar="CC" />
 		</Unit>

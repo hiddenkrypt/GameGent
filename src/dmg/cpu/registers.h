@@ -47,5 +47,3 @@ typedef struct {
     uint16_t SP;
     uint16_t PC;
 } DmgRegisters;
-
-void Registers_test();
