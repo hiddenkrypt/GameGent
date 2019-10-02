@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "GameGent.h"
 #include "gui.h"
+#include "dmg.h"
 
 GameGentState GameGent;
 

@@ -445,12 +445,19 @@
 	"registers.h"
 	<stdio.h>
 
-1568999256 c:\dev\c\gamegent\src\dmg\cpu\registers.h
+1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1568999357 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1570059572 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	"registers.h"
 	"cpu.h"
 
 1568998886 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
+
+1570059856 source:c:\dev\c\gamegent\src\dmg\dmg.c
+	<stdbool.h>
+	"dmg.h"
+	"cpu.h"
+
+1570059844 c:\dev\c\gamegent\src\dmg\dmg.h
 

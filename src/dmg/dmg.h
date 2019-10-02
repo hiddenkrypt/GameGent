@@ -1,0 +1,7 @@
+#pragma once
+
+void DMG_init();
+void DMG_LoadRom(char* path);
+void DMG_startEmulation();
+void DMG_haltEmulation();
+bool DMG_isEmulating();
