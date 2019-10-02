@@ -414,15 +414,13 @@
 
 1568349225 c:\dev\c\gamegent\settings.h
 
-1568999496 source:c:\dev\c\gamegent\gamegent.c
-	"GameGent.h"
+1570059998 source:c:\dev\c\gamegent\gamegent.c
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
-	"gui.h"
-	"window.h"
 	"GameGent.h"
-	"registers.h"
+	"gui.h"
+	"dmg.h"
 
 1568777642 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
@@ -448,7 +446,7 @@
 1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1570059572 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1570060966 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	"registers.h"
 	"cpu.h"
 
