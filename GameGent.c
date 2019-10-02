@@ -4,10 +4,8 @@
 #include <SDL.h>
 #include <stdbool.h>
 #include "gui.h"
-#include "window.h"
 #include "GameGent.h"
 
-#include "registers.h"
 GameGentState GameGent;
 
 /*!
