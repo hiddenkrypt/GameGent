@@ -1,10 +1,9 @@
 
-#include "GameGent.h"
 #include <stdio.h>
 #include <SDL.h>
 #include <stdbool.h>
-#include "gui.h"
 #include "GameGent.h"
+#include "gui.h"
 
 GameGentState GameGent;
 
