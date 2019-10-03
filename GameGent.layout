@@ -2,14 +2,54 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\dmg\cpu\registers.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="src\dmg\cpu\cpu.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="900" topLine="26" />
+			<Cursor1 position="252" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\dmg\cpu\cpu.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\gui\tileMap.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="18" topLine="0" />
+			<Cursor1 position="1551" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\gui\window.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="285" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="GameGent.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="360" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\gui\window.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\dmg\cpu\registers.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="900" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="src\gui\menuManager.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="49" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\gui\gui.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="487" topLine="81" />
+		</Cursor>
+	</File>
+	<File name="src\gui\menus\mainMenu.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="12" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1222" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="src\dmg\dmg.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="32" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\gui\gui.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
@@ -22,39 +62,9 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\gui\tileMap.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="src\gui\menuManager.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="987" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\gui\gui.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="487" topLine="81" />
-		</Cursor>
-	</File>
-	<File name="GameGent.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1875" topLine="42" />
-		</Cursor>
-	</File>
-	<File name="src\dmg\cpu\cpu.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="111" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\gui\window.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\gui\window.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="285" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="GameGent.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="472" topLine="18" />
+			<Cursor1 position="1158" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\gui\menus\menu.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="20" zoom_2="0">
@@ -62,24 +72,24 @@
 			<Cursor1 position="127" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\gui\menuManager.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+	<File name="src\gui\tileMap.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="49" topLine="0" />
+			<Cursor1 position="987" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\gui\menuManager.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="src\dmg\dmg.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1158" topLine="0" />
+			<Cursor1 position="1384" topLine="11" />
 		</Cursor>
 	</File>
-	<File name="src\gui\menus\mainMenu.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="12" zoom_2="0">
+	<File name="GameGent.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1222" topLine="39" />
+			<Cursor1 position="119" topLine="45" />
 		</Cursor>
 	</File>
-	<File name="src\gui\tileMap.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="src\dmg\cpu\cpu.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1551" topLine="0" />
+			<Cursor1 position="18" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
