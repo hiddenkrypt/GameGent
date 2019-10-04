@@ -14,6 +14,7 @@ GameGentState GameGent;
  * @todo: breakout settings to be initialized in another function, with default values and file stored user options
  */
 GameGentState static init(){
+    DMG_init();
     GameGentState GameGent;
     GameGent.quit = false;
     GameGent.FPS = 30;

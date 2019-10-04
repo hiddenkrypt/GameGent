@@ -19,7 +19,8 @@ typedef struct {
     SDL_Keycode select;
     SDL_Keycode menu;
 } keyBindings;
-/** \brief monolithic program state variable
+
+/** \brief probably bad monolithic program state variable
  *
  * Everything about what's going on in the program right now, from settings to graphics options and more, anything that might need to be shared between systems
  * \note Always be aware of what might not need to be in here, and consider passing constituent values instead when possible. Pass this struct by value, and create functions for and modules to modify it's values after initialization.
