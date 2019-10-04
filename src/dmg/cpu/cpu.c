@@ -4,6 +4,7 @@
 #include "opcodes.h"
 #include "MMU.h"
 #include "cpu.h"
+#include <stdio.h>
 
 DmgRegisters registers;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
@@ -29,6 +30,15 @@ void CPU_init(){ //serves as a restart
  */
 void CPU_tick(){
     instruction currentInstruction = fetchDecode();
+    if( currentInstruction.ticks == 0){
+        printf("Instruction %#x at PC:%#x not found in code table! State dump:\n", MMU_readByte( registers.PC ), registers.PC );
+        printf("AF: %#x\n", registers.af);
+        printf("BC: %#x\n", registers.bc);
+        printf("DE: %#x\n", registers.de);
+        printf("HL: %#x\n", registers.hl);
+        printf("PC: %#x\n", registers.PC);
+        printf("SP: %#x\n", registers.SP);
+    }
     //executeInstruction( currentInstruction );
     registers.PC++;
 }
