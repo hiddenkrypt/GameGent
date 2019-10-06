@@ -3,13 +3,31 @@
 #include "registers.h"
 #include "opcodes.h"
 #include "MMU.h"
+#include "dmg.h"
 #include "cpu.h"
+
 #include <stdio.h>
 
 DmgRegisters registers;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
-static instruction fetchDecode();
+/** \brief return the current instruction
+ * The fetch and decode steps of the fetch-decode-execute cycle. Finds the current instruction
+ * opcode in DMG memory, and returns the appropriate instruction object.
+ * Will increment the CPU PC register if a prefix codepoint is found.
+ * \return instruction the instruction struct representing the current instruction.
+ */
+static instruction fetchDecode(){
+    printf("fetch %#x\n",registers.PC);
+    uint8_t opcode = MMU_readByte( registers.PC );
+    if ( opcode != PREFIX_INDICATOR ){
+        return codeTable[ opcode ];
+    } else {
+        registers.PC++;
+        opcode = MMU_readByte( registers.PC );
+        return prefixCodeTable[ opcode ];
+    }
+}
 
 
 /** \brief sets up CPU initial state
@@ -23,7 +41,11 @@ void CPU_init(){ //serves as a restart
     registers.hl = 0x0000;
     registers.PC = 0x0000;
     registers.SP = 0xFFFE;
+
+    CPU_tick();CPU_tick();//test CPU_crash
 }
+
+
 
 /** \brief CPU fetch-decode-execute step
  * Sends the CPU through one instruction cycle. Fetch is handed off to the Opcodes module.
@@ -31,31 +53,26 @@ void CPU_init(){ //serves as a restart
 void CPU_tick(){
     instruction currentInstruction = fetchDecode();
     if( currentInstruction.ticks == 0){
-        printf("Instruction %#x at PC:%#x not found in code table! State dump:\n", MMU_readByte( registers.PC ), registers.PC );
-        printf("AF: %#x\n", registers.af);
-        printf("BC: %#x\n", registers.bc);
-        printf("DE: %#x\n", registers.de);
-        printf("HL: %#x\n", registers.hl);
-        printf("PC: %#x\n", registers.PC);
-        printf("SP: %#x\n", registers.SP);
+        char errorMessage[100];
+        sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
+        CPU_crash(errorMessage);
     }
-    //executeInstruction( currentInstruction );
+    /** \todo: executeInstruction( currentInstruction );*/
     registers.PC++;
 }
 
-/** \brief return the current instruction
- * The fetch and decode steps of the fetch-decode-execute cycle. Finds the current instruction
- * opcode in DMG memory, and returns the appropriate instruction object.
- * Will increment the CPU PC register if a prefix codepoint is found.
- * \return instruction the instruction struct representing the current instruction.
- */
-static instruction fetchDecode(){
-    uint8_t opcode = MMU_readByte( registers.PC );
-    if ( opcode != PREFIX_INDICATOR ){
-        return codeTable[ opcode ];
-    } else {
-        registers.PC++;
-        opcode = MMU_readByte( registers.PC );
-        return prefixCodeTable[ opcode ];
-    }
+void CPU_crash(char* reason){
+    DMG_haltEmulation();
+    printf(reason);
+    printf("\n\n   register dump \n");
+    printf("   -------------\n");
+    printf(" A |  %#x  |  %#x  | F\n", registers.a, registers.f);
+    printf(" B |  %#x  |  %#x  | C\n", registers.bc);
+    printf(" D |  %#x  |  %#x  | E\n", registers.de);
+    printf(" H |  %#x  |  %#x  | L\n", registers.hl);
+    printf("   -------------\n");
+    printf("PC |   %#06x  |\n", registers.PC);
+    printf("   -------------\n");
+    printf("SP |   %#06x  |\n", registers.SP);
+    printf("   -------------\n");
 }

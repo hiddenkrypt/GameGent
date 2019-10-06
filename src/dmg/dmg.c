@@ -9,6 +9,7 @@ static bool emulating = false;
  * initializes DMG sub components and prepares emulation
  */
 void DMG_init(){
+    MMU_init();
     CPU_init();
 }
 
