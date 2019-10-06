@@ -44,11 +44,16 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/cpu/cpu.h" />
+		<Unit filename="src/dmg/cpu/opcodes.h" />
 		<Unit filename="src/dmg/cpu/registers.h" />
 		<Unit filename="src/dmg/dmg.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/dmg.h" />
+		<Unit filename="src/dmg/mmu/mmu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dmg/mmu/mmu.h" />
 		<Unit filename="src/gui/gui.c">
 			<Option compilerVar="CC" />
 		</Unit>
