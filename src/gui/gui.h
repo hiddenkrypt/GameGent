@@ -1,6 +1,6 @@
 
 #pragma once
-
+#include "settings.h"
 SDL_Renderer* GUI_init();
 void GUI_draw (GameGentState GameGent) ;
 void GUI_shutdown();

@@ -1,7 +1,8 @@
 
 #include <stdbool.h>
-#include "dmg.h"
 #include "cpu.h"
+#include "mmu.h"
+#include "dmg.h"
 
 static bool emulating = false;
 

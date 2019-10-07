@@ -22,6 +22,5 @@ void MMU_init(){
  * \return value of the byte in ram at address
  */
 uint8_t MMU_readByte( uint16_t address ){
-    printf("READ; value %#x @ %#x\n", ram[address], address);
     return ram[address];
 }

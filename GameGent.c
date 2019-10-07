@@ -8,6 +8,8 @@
 
 GameGentState GameGent;
 
+keyBindings defaultBinds;
+
 /*!
  * @brief Initialize Everything!
  * Initializes the GameGent state, and calls all subsystem init functions.
@@ -17,8 +19,6 @@ GameGentState static init(){
     DMG_init();
     GameGentState GameGent;
     GameGent.quit = false;
-    GameGent.FPS = 30;
-    GameGent.emulating = false;
     GameGent.inMenu = false;
 
     GameGent.renderer = GUI_init();
@@ -26,7 +26,6 @@ GameGentState static init(){
         printf("Window Initialization Failure!");
         GameGent.quit = true;
     }
-    keyBindings defaultBinds;
     defaultBinds.a = SDLK_x;
     defaultBinds.b = SDLK_z;
     defaultBinds.up = SDLK_UP;
@@ -36,7 +35,6 @@ GameGentState static init(){
     defaultBinds.start = SDLK_LCTRL;
     defaultBinds.select = SDLK_LSHIFT;
     defaultBinds.menu = SDLK_ESCAPE;
-    GameGent.settings.keyBinds = defaultBinds;
     return GameGent;
 }
 
@@ -63,9 +61,10 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            GUI_handleEvent( e, GameGent.settings.keyBinds );
+            GUI_handleEvent( e, defaultBinds );
         }
         GUI_draw( GameGent );
+        DMG_tick();
     }
     shutdown();
     return 0;
