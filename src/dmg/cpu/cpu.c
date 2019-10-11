@@ -40,7 +40,7 @@ void CPU_init(){ //serves as a restart
     registers.de = 0x0000;
     registers.hl = 0x0000;
     registers.PC = 0x0000;
-    registers.SP = 0xFFFE;
+    registers.SP = 0x0000;
 }
 
 
