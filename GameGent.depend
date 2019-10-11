@@ -452,7 +452,7 @@
 1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1570832839 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1570834689 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	<stdint.h>
 	<stdbool.h>
 	"registers.h"
@@ -464,7 +464,7 @@
 
 1570394200 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1570832940 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1570834691 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
 	<stdio.h>
 	"settings.h"
@@ -482,10 +482,11 @@
 	<stdint.h>
 	<stdbool.h>
 
-1570417123 source:c:\dev\c\gamegent\src\dmg\mmu\mmu.c
+1570834020 source:c:\dev\c\gamegent\src\dmg\mmu\mmu.c
 	<stdint.h>
+	<stdbool.h>
 	"mmu.h"
 
-1570417115 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
+1570834047 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
 	<stdint.h>
 
