@@ -367,7 +367,7 @@
 1570830018 c:\dev\c\gamegent\src\gui\gui.h
 	"settings.h"
 
-1570830160 source:c:\dev\c\gamegent\src\gui\gui.c
+1570830401 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
 	"settings.h"
@@ -436,7 +436,7 @@
 
 1570830340 c:\dev\c\gamegent\src\gui\menumanager.h
 
-1570830364 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1570830554 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
 	"GameGent.h"

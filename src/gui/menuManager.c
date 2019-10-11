@@ -42,7 +42,9 @@ void MenuManager_draw(SDL_Renderer*  renderer){
  *
  */
 void MenuManager_incrementMenuIndex(){
-    if (menuIndex < currentMenu.itemCount-1){
+    if (menuIndex >= currentMenu.itemCount-1){
+        menuIndex = 0;
+    } else {
         menuIndex++;
     }
 }
@@ -52,9 +54,10 @@ void MenuManager_incrementMenuIndex(){
  *
  */
 void MenuManager_decrementMenuIndex(){
-    if ( menuIndex > 0){
-        menuIndex--;
+    if ( menuIndex <= 0){
+        menuIndex = currentMenu.itemCount;
     }
+    menuIndex--;
 }
 
 void MenuManager_activateCurrentMenuItem(){
