@@ -8,7 +8,6 @@
 
 GameGentState GameGent;
 
-keyBindings defaultBinds;
 
 /*!
  * @brief Initialize Everything!
@@ -17,6 +16,7 @@ keyBindings defaultBinds;
  */
 GameGentState static init(){
     DMG_init();
+    Settings_init();
     GameGentState GameGent;
     GameGent.quit = false;
     GameGent.inMenu = false;
@@ -26,15 +26,6 @@ GameGentState static init(){
         printf("Window Initialization Failure!");
         GameGent.quit = true;
     }
-    defaultBinds.a = SDLK_x;
-    defaultBinds.b = SDLK_z;
-    defaultBinds.up = SDLK_UP;
-    defaultBinds.down = SDLK_DOWN;
-    defaultBinds.left = SDLK_LEFT;
-    defaultBinds.right = SDLK_RIGHT;
-    defaultBinds.start = SDLK_LCTRL;
-    defaultBinds.select = SDLK_LSHIFT;
-    defaultBinds.menu = SDLK_ESCAPE;
     return GameGent;
 }
 
@@ -61,7 +52,7 @@ int main ( int argn, char* args[] ) {
             if( e.type == SDL_QUIT ) {
                 GameGent.quit = true;
             }
-            GUI_handleEvent( e, defaultBinds );
+            GUI_handleEvent( e );
         }
         GUI_draw( GameGent );
         DMG_tick();

@@ -78,28 +78,28 @@ void GUI_shutdown () {
  * \param currentState what state the program is in
  * @param keyBinds Current binding of key symbols to virtual program commands (a,b,up down left right, select, start, menu)
  */
-void GUI_handleEvent( SDL_Event event, keyBindings keyBinds ){
+void GUI_handleEvent( SDL_Event event ){
     if ( event.type == SDL_KEYDOWN ){
-        if ( event.key.keysym.sym == keyBinds.a ) {
+        if ( event.key.keysym.sym == Settings_defaultBinds.a ) {
             Menus_activateCurrentMenuItem();
             printf("a");
-        } else if ( event.key.keysym.sym == keyBinds.b ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.b ){
             printf("b");
-        } else if ( event.key.keysym.sym == keyBinds.up ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.up ){
             printf("up");
             Menus_decrementMenuIndex();
-        } else if ( event.key.keysym.sym == keyBinds.down ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.down ){
             printf("down");
             Menus_incrementMenuIndex();
-        } else if ( event.key.keysym.sym == keyBinds.left ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.left ){
             printf("left");
-        } else if ( event.key.keysym.sym == keyBinds.right ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.right ){
             printf("right");
-        } else if ( event.key.keysym.sym == keyBinds.select ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.select ){
             printf("select");
-        } else if ( event.key.keysym.sym == keyBinds.start ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.start ){
             printf("start");
-        } else if ( event.key.keysym.sym == keyBinds.menu ){
+        } else if ( event.key.keysym.sym == Settings_defaultBinds.menu ){
             printf("menu");
         }
         printf("\n");

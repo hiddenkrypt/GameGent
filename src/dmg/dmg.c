@@ -1,5 +1,6 @@
 
 #include <stdbool.h>
+#include "settings.h"
 #include "cpu.h"
 #include "mmu.h"
 #include "dmg.h"
