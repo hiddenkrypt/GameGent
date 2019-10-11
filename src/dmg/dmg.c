@@ -16,16 +16,9 @@ void loadBootRom(char* path){
         /**\todo reset registers as they should be post-bootup*/
         return;
     }
-    uint8_t bootRomData[256];
-    fread(bootRomData, 1, 256, bootRom);
-    for( int j = 0; j < 32; j++){
-        for(int i=0; i < 8; i++){
-            printf("%#04x ", bootRomData[i+(j*8)]);
-        }
-        printf("\n");
-    }
-
-
+    uint8_t bootRomData[0xff];
+    fread(bootRomData, 1, 0xff, bootRom);
+    bool success = MMU_loadRange( 0x0000, 0xff, bootRomData );
     fclose( bootRom );
 }
 
@@ -39,7 +32,6 @@ void DMG_init(){
     if( Settings_get_runBootRom() ){
         loadBootRom( Settings_get_bootRomPath() );
     }
-
     CPU_tick();CPU_tick();//test CPU_crash
 }
 
