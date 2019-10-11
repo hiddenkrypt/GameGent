@@ -1,5 +1,6 @@
 
 #include <stdbool.h>
+#include <stdio.h>
 #include "settings.h"
 #include "cpu.h"
 #include "mmu.h"
@@ -7,12 +8,39 @@
 
 static bool emulating = false;
 
+void loadBootRom(char* path){
+    printf("loading bootrom\n");
+    FILE* bootRom = fopen(path, "r");
+    if( bootRom == NULL ){
+        printf("Failed to open");
+        /**\todo reset registers as they should be post-bootup*/
+        return;
+    }
+    uint8_t bootRomData[256];
+    fread(bootRomData, 1, 256, bootRom);
+    for( int j = 0; j < 32; j++){
+        for(int i=0; i < 8; i++){
+            printf("%#04x ", bootRomData[i+(j*8)]);
+        }
+        printf("\n");
+    }
+
+
+    fclose( bootRom );
+}
+
+
 /** \brief startup emulation core
  * initializes DMG sub components and prepares emulation
  */
 void DMG_init(){
     MMU_init();
     CPU_init();
+    if( Settings_get_runBootRom() ){
+        loadBootRom( Settings_get_bootRomPath() );
+    }
+
+    CPU_tick();CPU_tick();//test CPU_crash
 }
 
 /** \brief loads a game cartridge into the DMG

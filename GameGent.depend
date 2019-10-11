@@ -412,7 +412,7 @@
 1568746970 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
 
-1570831876 source:c:\dev\c\gamegent\settings.c
+1570832090 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
@@ -421,7 +421,7 @@
 	<stdbool.h>
 	<SDL.h>
 
-1570830040 source:c:\dev\c\gamegent\gamegent.c
+1570832819 source:c:\dev\c\gamegent\gamegent.c
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
@@ -452,7 +452,7 @@
 1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1570402957 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1570832839 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	<stdint.h>
 	<stdbool.h>
 	"registers.h"
@@ -464,8 +464,9 @@
 
 1570394200 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1570829656 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1570832940 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
+	<stdio.h>
 	"settings.h"
 	"cpu.h"
 	"mmu.h"
