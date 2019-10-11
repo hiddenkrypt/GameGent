@@ -32,7 +32,6 @@ void DMG_init(){
     if( Settings_get_runBootRom() ){
         loadBootRom( Settings_get_bootRomPath() );
     }
-    CPU_tick();CPU_tick();//test CPU_crash
 }
 
 /** \brief loads a game cartridge into the DMG

@@ -18,7 +18,6 @@ static const uint8_t PREFIX_INDICATOR = 0xCB;
  * \return instruction the instruction struct representing the current instruction.
  */
 static instruction fetchDecode(){
-    printf("fetch %#x\n",registers.PC);
     uint8_t opcode = MMU_readByte( registers.PC );
     if ( opcode != PREFIX_INDICATOR ){
         return codeTable[ opcode ];
