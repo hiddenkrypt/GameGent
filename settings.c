@@ -24,7 +24,7 @@ void Settings_init(){
     bootRomPath = "DMG_ROM.bin";
 }
 
-bool Settings_get_runRomLoader(){
+bool Settings_get_runBootRom(){
     return runBootRom;
 }
 char* Settings_get_bootRomPath(){
