@@ -1,6 +1,7 @@
 #pragma once
 
-void Menus_draw(SDL_Renderer*  renderer);
-void Menus_init();
-void Menus_incrementMenuIndex();
-void Menus_decrementMenuIndex();
+void MenuManager_draw(SDL_Renderer*  renderer);
+void MenuManager_init();
+void MenuManager_incrementMenuIndex();
+void MenuManager_decrementMenuIndex();
+void MenuManager_activateCurrentMenuItem();

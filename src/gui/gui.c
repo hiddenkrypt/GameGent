@@ -35,7 +35,7 @@ SDL_Renderer* GUI_init () {
         printf( "Warning, blendmode failed to set." );
     }
     Tiles_init( renderer );
-    Menus_init();
+    MenuManager_init();
     return renderer;
 }
 
@@ -52,7 +52,7 @@ void GUI_draw ( GameGentState gameGent ) {
     SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x81, 0x41, 0xef );
     SDL_RenderFillRect( gameGent.renderer, &LCDRect );
 
-    Menus_draw( gameGent.renderer );
+    MenuManager_draw( gameGent.renderer );
 
     SDL_Delay(1000/gameGent.FPS);
     SDL_RenderPresent( gameGent.renderer );
@@ -81,16 +81,16 @@ void GUI_shutdown () {
 void GUI_handleEvent( SDL_Event event ){
     if ( event.type == SDL_KEYDOWN ){
         if ( event.key.keysym.sym == Settings_defaultBinds.a ) {
-            Menus_activateCurrentMenuItem();
+            MenuManager_activateCurrentMenuItem();
             printf("a");
         } else if ( event.key.keysym.sym == Settings_defaultBinds.b ){
             printf("b");
         } else if ( event.key.keysym.sym == Settings_defaultBinds.up ){
             printf("up");
-            Menus_decrementMenuIndex();
+            MenuManager_decrementMenuIndex();
         } else if ( event.key.keysym.sym == Settings_defaultBinds.down ){
             printf("down");
-            Menus_incrementMenuIndex();
+            MenuManager_incrementMenuIndex();
         } else if ( event.key.keysym.sym == Settings_defaultBinds.left ){
             printf("left");
         } else if ( event.key.keysym.sym == Settings_defaultBinds.right ){

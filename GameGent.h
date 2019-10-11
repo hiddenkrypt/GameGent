@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdbool.h>
 
 void GameGent_shutdown();
 

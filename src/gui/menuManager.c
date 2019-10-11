@@ -9,7 +9,7 @@
 static int menuIndex = 0;
 static Menu currentMenu;
 
-void Menus_init(){
+void MenuManager_init(){
     currentMenu = MainMenu_getMenu();
     menuIndex = 0;
 }
@@ -20,7 +20,7 @@ void Menus_init(){
  * @param the current state of the program
  *
  */
-void Menus_draw(SDL_Renderer*  renderer){
+void MenuManager_draw(SDL_Renderer*  renderer){
     char menuTitle[4][11] = {
         { 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
         { 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },
@@ -41,7 +41,7 @@ void Menus_draw(SDL_Renderer*  renderer){
  * increments the menu index, selecting the "next" menu item
  *
  */
-void Menus_incrementMenuIndex(){
+void MenuManager_incrementMenuIndex(){
     if (menuIndex < currentMenu.itemCount-1){
         menuIndex++;
     }
@@ -51,12 +51,12 @@ void Menus_incrementMenuIndex(){
  * decrements the menu index, selecting the "previous" menu item
  *
  */
-void Menus_decrementMenuIndex(){
+void MenuManager_decrementMenuIndex(){
     if ( menuIndex > 0){
         menuIndex--;
     }
 }
 
-void Menus_activateCurrentMenuItem(){
+void MenuManager_activateCurrentMenuItem(){
     currentMenu.activate(menuIndex);
 }
