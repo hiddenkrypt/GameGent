@@ -41,8 +41,6 @@ void CPU_init(){ //serves as a restart
     registers.hl = 0x0000;
     registers.PC = 0x0000;
     registers.SP = 0xFFFE;
-
-    CPU_tick();CPU_tick();//test CPU_crash
 }
 
 
