@@ -3,6 +3,8 @@
 #include <stdint.h>
 
 
+static char* bootRomPath;
+static bool runBootRom;
 keyBindSet Settings_defaultBinds;
 
 void Settings_init(){
@@ -17,4 +19,14 @@ void Settings_init(){
     Settings_defaultBinds.start = SDLK_LCTRL;
     Settings_defaultBinds.select = SDLK_LSHIFT;
     Settings_defaultBinds.menu = SDLK_ESCAPE;
+
+    runBootRom = true;
+    bootRomPath = "DMG_ROM.bin";
+}
+
+bool Settings_get_runRomLoader(){
+    return runBootRom;
+}
+char* Settings_get_bootRomPath(){
+    return bootRomPath;
 }

@@ -21,5 +21,8 @@ typedef struct {
 } keyBindSet;
 
 void Settings_init();
+bool Settings_get_runBootRom();
+char* Settings_get_bootRomPath();
 
 extern keyBindSet Settings_defaultBinds;
+

@@ -412,12 +412,12 @@
 1568746970 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
 
-1570830192 source:c:\dev\c\gamegent\settings.c
+1570831876 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
 
-1570830314 c:\dev\c\gamegent\settings.h
+1570831887 c:\dev\c\gamegent\settings.h
 	<stdbool.h>
 	<SDL.h>
 
