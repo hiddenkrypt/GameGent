@@ -44,6 +44,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="settings.h" />
+		<Unit filename="src/dmg/cpu/codeTables.h" />
 		<Unit filename="src/dmg/cpu/cpu.c">
 			<Option compilerVar="CC" />
 		</Unit>
