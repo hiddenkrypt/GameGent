@@ -1,5 +1,6 @@
 #pragma once
 
 
-SDL_Renderer* Window_init();
+void Window_init();
 void Window_shutdown();
+SDL_Renderer* Window_getNewRenderer();

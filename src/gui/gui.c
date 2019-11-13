@@ -25,18 +25,18 @@ SDL_Renderer* GUI_init () {
     if ( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" ) ) {
         printf( "Failed to set render scale quality." );
     }
-
-    SDL_Renderer* renderer = Window_init();
-    if ( SDL_RenderSetLogicalSize(renderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
+    Window_init();
+    SDL_Renderer* mainRenderer = Window_getNewRenderer();
+    if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
         printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
         return NULL;
     }
-    if ( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND != 0 ) ) {
+    if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
         printf( "Warning, blendmode failed to set." );
     }
-    Tiles_init( renderer );
+    Tiles_init( mainRenderer );
     MenuManager_init();
-    return renderer;
+    return mainRenderer;
 }
 
 /*!
