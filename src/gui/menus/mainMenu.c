@@ -3,7 +3,7 @@
 #include "tilemap.h"
 #include "mainMenu.h"
 #include "menu.h"
-
+#include "GameGent.h"
 
 const static int MAIN_MENU_ITEMS = 7;
 const static char mainMenuStrings[7][20]= {

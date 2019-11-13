@@ -402,12 +402,13 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1568774309 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1573625377 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	"tilemap.h"
 	"mainMenu.h"
 	"menu.h"
+	"GameGent.h"
 
 1568743370 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
