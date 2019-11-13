@@ -49,7 +49,7 @@ void CPU_init(){ //serves as a restart
  */
 void CPU_tick(){
     instruction currentInstruction = fetchDecode();
-    if( currentInstruction.ticks == 0){
+    if( currentInstruction.cycles == 0){
         char errorMessage[100];
         sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
         CPU_crash(errorMessage);

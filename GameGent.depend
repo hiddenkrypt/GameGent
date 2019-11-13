@@ -4,7 +4,7 @@
 	<stdio.h>
 	"window.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_assert.h"
@@ -37,12 +37,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_main.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -71,27 +71,27 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_config.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_config.h
 	"SDL_platform.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_platform.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_platform.h
 	"AvailabilityMacros.h"
 	"TargetConditionals.h"
 	<winapifamily.h>
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\begin_code.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\begin_code.h
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\close_code.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\close_code.h
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_assert.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_assert.h
 	"SDL_config.h"
 	"begin_code.h"
 	<signal.h>
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_atomic.h
 	"SDL_stdinc.h"
 	"SDL_platform.h"
 	"begin_code.h"
@@ -99,7 +99,7 @@
 	<mbarrier.h>
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_audio.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -109,24 +109,24 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_error.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_endian.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_endian.h
 	"SDL_stdinc.h"
 	<endian.h>
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_thread.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_atomic.h"
@@ -137,18 +137,18 @@
 	<stdlib.h>
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<intrin.h>
@@ -167,7 +167,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_events.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -181,7 +181,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_video.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -189,13 +189,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_pixels.h
 	"SDL_stdinc.h"
 	"SDL_endian.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_rect.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_rect.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_pixels.h"
@@ -203,7 +203,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_surface.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_surface.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -212,11 +212,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keycode.h"
@@ -224,27 +224,27 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_keycode.h
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
@@ -252,11 +252,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_quit.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -264,66 +264,66 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_touch.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_touch.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_haptic.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_joystick.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_hints.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_hints.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_log.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_log.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
 	"SDL_stdinc.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_power.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_power.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_render.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_render.h
 	"SDL_stdinc.h"
 	"SDL_rect.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_sensor.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_sensor.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_shape.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_shape.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -332,7 +332,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_system.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_system.h
 	"SDL_stdinc.h"
 	"SDL_keyboard.h"
 	"SDL_render.h"
@@ -340,13 +340,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_timer.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_timer.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1564032877 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_version.h
+1564029277 c:\dev\libs\sdl2-2.0.10\i686-w64-mingw32\include\sdl2\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
@@ -357,17 +357,17 @@
 
 1568232392 c:\dev\c\gamegent\main.h
 
-1568746894 c:\dev\c\gamegent\src\gui\window.h
+1568743294 c:\dev\c\gamegent\src\gui\window.h
 
-1568746877 source:c:\dev\c\gamegent\src\gui\window.c
+1568743277 source:c:\dev\c\gamegent\src\gui\window.c
 	<SDL.h>
 	<stdio.h>
 	"window.h"
 
-1570830018 c:\dev\c\gamegent\src\gui\gui.h
+1570826418 c:\dev\c\gamegent\src\gui\gui.h
 	"settings.h"
 
-1570830401 source:c:\dev\c\gamegent\src\gui\gui.c
+1570826801 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
 	"settings.h"
@@ -379,14 +379,14 @@
 
 1568091113 c:\dev\c\gamegent\src\gui\gui_state.h
 
-1568746455 source:c:\dev\c\gamegent\src\gui\tilemap.c
+1568742855 source:c:\dev\c\gamegent\src\gui\tilemap.c
 	<stdio.h>
 	<string.h>
 	<stdint.h>
 	<SDL.h>
 	"tilemap.h"
 
-1568746469 c:\dev\c\gamegent\src\gui\tilemap.h
+1568742869 c:\dev\c\gamegent\src\gui\tilemap.h
 	<stdbool.h>
 
 1568695205 c:\dev\c\gamegent\src\gui\menus.h
@@ -402,26 +402,26 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1568777909 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1568774309 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	"tilemap.h"
 	"mainMenu.h"
 	"menu.h"
 
-1568746970 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
+1568743370 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
 
-1570832090 source:c:\dev\c\gamegent\settings.c
+1570828490 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
 
-1570831887 c:\dev\c\gamegent\settings.h
+1570828287 c:\dev\c\gamegent\settings.h
 	<stdbool.h>
 	<SDL.h>
 
-1570835242 source:c:\dev\c\gamegent\gamegent.c
+1570831642 source:c:\dev\c\gamegent\gamegent.c
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
@@ -429,14 +429,14 @@
 	"gui.h"
 	"dmg.h"
 
-1570830385 c:\dev\c\gamegent\gamegent.h
+1570826785 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
 
-1568747084 c:\dev\c\gamegent\src\gui\menus\menu.h
+1568743484 c:\dev\c\gamegent\src\gui\menus\menu.h
 
-1570830340 c:\dev\c\gamegent\src\gui\menumanager.h
+1570826740 c:\dev\c\gamegent\src\gui\menumanager.h
 
-1570830554 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1570826954 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
 	"GameGent.h"
@@ -449,10 +449,10 @@
 	"registers.h"
 	<stdio.h>
 
-1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
+1569034628 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1570835199 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1573616037 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	<stdint.h>
 	<stdbool.h>
 	"registers.h"
@@ -462,9 +462,9 @@
 	"cpu.h"
 	<stdio.h>
 
-1570394200 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
+1570390600 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1570835193 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1570831593 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
 	<stdio.h>
 	"settings.h"
@@ -472,21 +472,24 @@
 	"mmu.h"
 	"dmg.h"
 
-1570417054 c:\dev\c\gamegent\src\dmg\dmg.h
+1570413454 c:\dev\c\gamegent\src\dmg\dmg.h
 
 1570219904 source:c:\dev\c\gamegent\src\dmg\cpu\opcodes.c
 	<stdint.h>
 	"opcodes.h"
 
-1570837511 c:\dev\c\gamegent\src\dmg\cpu\opcodes.h
+1573615971 c:\dev\c\gamegent\src\dmg\cpu\opcodes.h
 	<stdint.h>
 	<stdbool.h>
+	"codeTables.h"
 
-1570834020 source:c:\dev\c\gamegent\src\dmg\mmu\mmu.c
+1570830420 source:c:\dev\c\gamegent\src\dmg\mmu\mmu.c
 	<stdint.h>
 	<stdbool.h>
 	"mmu.h"
 
-1570834047 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
+1570830447 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
 	<stdint.h>
+
+1573618996 c:\dev\c\gamegent\src\dmg\cpu\codetables.h
 

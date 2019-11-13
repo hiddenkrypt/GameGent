@@ -4,8 +4,8 @@ const fs = require('fs');
 const request  = require("request");
 const REMOTE_OPCODE_JSON_SOURCE = "https://raw.githubusercontent.com/lmmendes/game-boy-opcodes/master/opcodes.json"
 const OPCODE_OUTPUT_FILE = "codeTables.h";
-const CODETABLE_DECLARATION = "static instruction codeTable[ 0xFF ] = {\n";
-const PREFIXTABLE_DECLARATION = "static instruction prefixCodeTable[ 0xFF ] = {\n";
+const CODETABLE_DECLARATION = "static instruction codeTable[ 0x100 ] = {\n";
+const PREFIXTABLE_DECLARATION = "static instruction prefixCodeTable[ 0x100 ] = {\n";
 const FILE_HEADER = `#pragma once
 /** GENERATED OPCODE FILE
 * Created by convertOpcodes.js from data scraped from
