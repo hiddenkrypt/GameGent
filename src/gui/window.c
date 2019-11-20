@@ -3,25 +3,27 @@
 #include <stdio.h>
 #include "window.h"
 
-#define RENDERER_COLLECTION_SIZE 50
+#define RENDERER_COLLECTION_SIZE 50 // currently arbitrary
 static SDL_Window* mainWindow = NULL;
 static SDL_Renderer* rendererCollection[RENDERER_COLLECTION_SIZE];
+static int virtualScreenHeight = 18;
+static int virtualScreenWidth = 20;
+static int windowTileMultiplier = 4;
+static int windowHeight = 8*18*4;
+static int windowWidth = 8*20*4;
 
-static const int LCD_HEIGHT = 144;
-static const int LCD_WIDTH = 160;
-static int windowWidth = 160*3;
-static int windowHeight = 144*3;
+void bestFit();
+void resize();
 
 /*!
  * @brief Initializes and creates a window
  *
- * Currently initializes SDL for video, opens a window, and creates a renderer tied to the window
- * @todo auto-detect scree resolution and choose appropriate window size.
+ * Currently initializes SDL for video, tries to opens a window, and reports any error. Also initializes the renderer Collection to all NULL pointers.
+ * @todo auto-detect scree resolution and choose appropriate initial window size.
  * @todo choose window size from settings, including auto-detect
- * @todo add handling for window resize events
  */
 void Window_init(){
-    mainWindow = SDL_CreateWindow( "GameGent", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE  );
+    mainWindow = SDL_CreateWindow( "GameGent", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN );
     if ( mainWindow == NULL ) {
         printf( "Window could not be created. SDL Error: %s\n", SDL_GetError() );
         return;
@@ -29,9 +31,17 @@ void Window_init(){
     for(int i=0; i < RENDERER_COLLECTION_SIZE; i++){
         rendererCollection[i] = NULL;
     }
+    resize();
 }
 
-
+/*!
+ * @brief Get a new renderer tied to the window
+ *
+ * Checks the renderer collection to make sure that it isn't full, and in the process finds the first empty slot.
+ * Creates a renderer tied to the window and stores it in the collection for later cleanup.
+ * @return SDL_Renderer tied to the window if successful, NULL if any error occurred or the renderer collection is full.
+ *
+ */
 SDL_Renderer* Window_getNewRenderer(){
     int i = 0;
     while ( i < RENDERER_COLLECTION_SIZE && rendererCollection[i] != NULL ) {
@@ -58,5 +68,39 @@ void Window_shutdown(){
 	SDL_DestroyWindow( mainWindow );
     for(int i=0; i < RENDERER_COLLECTION_SIZE; i++){
         SDL_DestroyRenderer( rendererCollection[i] );
+    }
+}
+void resize(){
+    printf( "Resized %dx%d tiles to %dx%d pixels, multiplier:%d",virtualScreenWidth,virtualScreenHeight, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier,windowTileMultiplier);
+    SDL_SetWindowSize(mainWindow, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier);
+}
+
+/*!
+ * @brief makes the window as big as can reasonably work
+ *
+ * Resizes the window to take up as much space in the current screen resolution as possible while maintaining integer multiples of tile sizes
+ */
+void bestFit(){
+    SDL_DisplayMode current;
+    int windowDisplayIndex = SDL_GetWindowDisplayIndex(mainWindow);
+    int retval= SDL_GetCurrentDisplayMode(windowDisplayIndex, &current);
+    if(retval != 0){
+      SDL_Log("Could not get display mode for video display #%d: %s", retval, SDL_GetError());
+    } else{
+        int scaledWidth = current.w;
+        int scaledHeight = (scaledWidth*virtualScreenHeight)/virtualScreenWidth;
+        if(scaledHeight > current.h){
+            scaledHeight = current.h;
+            scaledWidth = (scaledHeight*virtualScreenWidth)/virtualScreenHeight;
+        }
+        windowTileMultiplier = scaledWidth/160;
+        resize();
+    }
+
+}
+
+void Window_handleEvent(const SDL_Event * event){
+    if( event->window.event == SDL_WINDOWEVENT_MOVED ){
+        bestFit();
     }
 }

@@ -104,6 +104,8 @@ void GUI_handleEvent( SDL_Event event ){
         }
         printf("\n");
 
+    } else if( event.type == SDL_WINDOWEVENT ){
+        Window_handleEvent(&event);
     }
 
 }
