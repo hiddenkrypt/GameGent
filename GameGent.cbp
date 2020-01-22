@@ -63,6 +63,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/gui.h" />
+		<Unit filename="src/gui/keyBinds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/keyBinds.h" />
+		<Unit filename="src/gui/keyCommands.h" />
 		<Unit filename="src/gui/menuManager.c">
 			<Option compilerVar="CC" />
 		</Unit>

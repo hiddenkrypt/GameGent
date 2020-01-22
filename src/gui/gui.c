@@ -5,6 +5,8 @@
 #include "window.h"
 #include "tilemap.h"
 #include "menuManager.h"
+#include "keyCommands.h"
+#include "keyBinds.h"
 #include "gui.h"
 
 const int LCD_WIDTH = 160;
@@ -35,6 +37,7 @@ SDL_Renderer* GUI_init () {
         printf( "Warning, blendmode failed to set." );
     }
     Tiles_init( mainRenderer );
+    KeyBinds_init();
     MenuManager_init();
     return mainRenderer;
 }
@@ -64,46 +67,30 @@ void GUI_draw ( GameGentState gameGent ) {
  * Calls all gui subsystem cleanup/shutdown functions.
  */
 void GUI_shutdown () {
+    KeyBinds_shutdown();
     Window_shutdown();
 	SDL_Quit();
 }
 
 /*!
- * @brief Handles user input events
- *
- * @todo so many things
- * @todo create input interpreter to generify multiple types of input to virtual system inputs
- * @todo figure out a more elegant way to handle menu state
- * @param e SDL event to handle
- * \param currentState what state the program is in
- * @param keyBinds Current binding of key symbols to virtual program commands (a,b,up down left right, select, start, menu)
+ * @brief interprets SDL events and delegates response
+ * takes an SDL even from the main GameGent loop and tries to figure out what to do with it,
+ * passing the interpretation to an appropriate subsystem. Currently woefully unfinished.
+ * @todo handle gamestate and delegate input response to the dmg core or menu system as needed
+ * @param event : SDL event to handle
  */
 void GUI_handleEvent( SDL_Event event ){
     if ( event.type == SDL_KEYDOWN ){
-        if ( event.key.keysym.sym == Settings_defaultBinds.a ) {
-            MenuManager_activateCurrentMenuItem();
-            printf("a");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.b ){
-            printf("b");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.up ){
-            printf("up");
+        keyCommand command = KeyBinds_parseKeyEvent( event );
+        if( command == UP ){
             MenuManager_decrementMenuIndex();
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.down ){
-            printf("down");
-            MenuManager_incrementMenuIndex();
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.left ){
-            printf("left");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.right ){
-            printf("right");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.select ){
-            printf("select");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.start ){
-            printf("start");
-        } else if ( event.key.keysym.sym == Settings_defaultBinds.menu ){
-            printf("menu");
         }
-        printf("\n");
-
+        if( command == DOWN ){
+            MenuManager_incrementMenuIndex();
+        }
+        if( command == A ){
+            MenuManager_activateCurrentMenuItem();
+        }
     } else if( event.type == SDL_WINDOWEVENT ){
         Window_handleEvent(&event);
     }

@@ -367,7 +367,7 @@
 1570826418 c:\dev\c\gamegent\src\gui\gui.h
 	"settings.h"
 
-1574269641 source:c:\dev\c\gamegent\src\gui\gui.c
+1579711050 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
 	"settings.h"
@@ -375,6 +375,8 @@
 	"window.h"
 	"tilemap.h"
 	"menuManager.h"
+	"keyCommands.h"
+	"keyBinds.h"
 	"gui.h"
 
 1568091113 c:\dev\c\gamegent\src\gui\gui_state.h
@@ -413,12 +415,12 @@
 1568743370 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
 
-1570828490 source:c:\dev\c\gamegent\settings.c
+1574275550 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
 
-1570828287 c:\dev\c\gamegent\settings.h
+1579711078 c:\dev\c\gamegent\settings.h
 	<stdbool.h>
 	<SDL.h>
 
@@ -493,4 +495,17 @@
 	<stdint.h>
 
 1573618996 c:\dev\c\gamegent\src\dmg\cpu\codetables.h
+
+1579667558 c:\dev\c\gamegent\src\gui\keycommands.h
+
+1579711035 source:c:\dev\c\gamegent\src\gui\keybinds.c
+	"keyBinds.h"
+	"keyCommands.h"
+	"settings.h"
+	<stdlib.h>
+	<stdio.h>
+
+1579710963 c:\dev\c\gamegent\src\gui\keybinds.h
+	"keyCommands.h"
+	<SDL.h>
 
