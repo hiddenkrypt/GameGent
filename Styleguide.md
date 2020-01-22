@@ -1,7 +1,7 @@
 # GameGent Code Standards and Styleguide:
 
 ## Capitalization
-* constants are **ALL_CAPS**
+* constants (including Enum members) are **ALL_CAPS**
 * structure typedefs are **CapitalCase**
 * structure members, local variables, local functions are **camelCase**
 * Filenames are always **camelCase**
