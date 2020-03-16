@@ -37,7 +37,7 @@ void MenuManager_draw(SDL_Renderer*  renderer){
     //void static draw( SDL_Renderer* renderer, int menuCursorIndex ) {
 
     int drawIndex = 0;
-    for( int i = currentMenu.itemCount-1; i>0; i-- ) {
+    for( int i = currentMenu.itemCount-1; i>=0; i-- ) {
         menuItem item = currentMenu.getItem(i);
         if( item.activeCondition() ) {
             if( drawIndex == menuCursorIndex ){
@@ -78,7 +78,7 @@ void MenuManager_decrementMenuIndex(){
 
 void MenuManager_activateCurrentMenuItem(){
     int itemIndex = 0;
-    for( int i = currentMenu.itemCount-1; i>0; i-- ) {
+    for( int i = currentMenu.itemCount-1; i>=0; i-- ) {
         menuItem item = currentMenu.getItem(i);
         if( item.activeCondition() ) {
             if(itemIndex == menuCursorIndex){
