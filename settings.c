@@ -1,6 +1,7 @@
 #include "settings.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "keyBinds.h"
 
 
 static char* bootRomPath;
@@ -11,6 +12,7 @@ void Settings_init(){
 
     runBootRom = true;
     bootRomPath = "DMG_ROM.bin";
+    KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
 
 bool Settings_get_runBootRom(){
@@ -18,4 +20,10 @@ bool Settings_get_runBootRom(){
 }
 char* Settings_get_bootRomPath(){
     return bootRomPath;
+}
+
+
+void Settings_save(){
+}
+void Settings_load(){
 }

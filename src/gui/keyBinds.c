@@ -26,7 +26,6 @@ static const keyBind defaultKeyBinds[] = {
  *  @todo check the config file for custom keybinds to load, fall back on defaults if none found.
  *  loads keybindsings from hardcoded defaults.
  */
-
 void KeyBinds_init(){
     //set up keybind collection based on the number of keybind entries found in config file
     //if the number is 0 or there are any errors in them, fall back to the default
@@ -53,7 +52,6 @@ keyCommand KeyBinds_parseKeyEvent( SDL_Event event ){
     for( int i = 0; i < keyBindCount; i++ ){
         if( keyBindCollection[i].key == event.key.keysym.sym ){
             return keyBindCollection[i].command;
-            break;
         }
     }
     return NO_COMMAND;
