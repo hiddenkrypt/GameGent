@@ -404,7 +404,7 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584388797 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584396080 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	"tilemap.h"
@@ -439,13 +439,15 @@
 1570830385 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
 
-1568747084 c:\dev\c\gamegent\src\gui\menus\menu.h
+1584395963 c:\dev\c\gamegent\src\gui\menus\menu.h
+	"menuItem.h"
 
 1570830340 c:\dev\c\gamegent\src\gui\menumanager.h
 
-1570830554 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1584396813 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
+	<string.h>
 	"GameGent.h"
 	"tilemap.h"
 	"menuManager.h"

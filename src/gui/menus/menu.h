@@ -1,6 +1,7 @@
 #pragma once
+#include "menuItem.h"
 typedef struct{
     int itemCount;
-    void (*activate)(int);
-    void (*draw)(SDL_Renderer*, int);
+    int (*activeItemCount) ();
+    menuItem (*getItem) (int);
 } Menu;

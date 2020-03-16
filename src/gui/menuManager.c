@@ -1,17 +1,18 @@
 #include <SDL.h>
 #include <stdio.h>
+#include <string.h>
 #include "GameGent.h"
 #include "tilemap.h"
 #include "menuManager.h"
 #include "mainMenu.h"
 #include "menu.h"
 
-static int menuIndex = 0;
+static int menuCursorIndex = 0;
 static Menu currentMenu;
 
 void MenuManager_init(){
     currentMenu = MainMenu_getMenu();
-    menuIndex = 0;
+    menuCursorIndex = 0;
 }
 /** \brief draw the current menu
  *
@@ -32,7 +33,22 @@ void MenuManager_draw(SDL_Renderer*  renderer){
     Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
     Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
-    currentMenu.draw( renderer, menuIndex );
+   // currentMenu.draw( renderer, menuIndex );
+    //void static draw( SDL_Renderer* renderer, int menuCursorIndex ) {
+
+    int drawIndex = 0;
+    for( int i = currentMenu.itemCount-1; i>0; i-- ) {
+        menuItem item = currentMenu.getItem(i);
+        if( item.activeCondition() ) {
+            if( drawIndex == menuCursorIndex ){
+                SDL_Rect cursorRect = { 0, (16-menuCursorIndex)*8, (strlen(item.getLabel())*8)+8, 8 };
+                SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
+                SDL_RenderFillRect( renderer, &cursorRect );
+                Tiles_paintCharAt(0, 16-menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
+            }
+            Tiles_paintStringAt(1, 16-drawIndex++, item.getLabel(), renderer );
+        }
+    }
 }
 
 
@@ -42,11 +58,10 @@ void MenuManager_draw(SDL_Renderer*  renderer){
  *
  */
 void MenuManager_incrementMenuIndex(){
-    if (menuIndex >= currentMenu.itemCount-1){
-        menuIndex = 0;
-    } else {
-        menuIndex++;
+    if ( menuCursorIndex <= 0){
+        menuCursorIndex = currentMenu.activeItemCount();
     }
+    menuCursorIndex--;
 }
 /** \brief menu item cursor go up
  *
@@ -54,12 +69,23 @@ void MenuManager_incrementMenuIndex(){
  *
  */
 void MenuManager_decrementMenuIndex(){
-    if ( menuIndex <= 0){
-        menuIndex = currentMenu.itemCount;
+    if (menuCursorIndex >= currentMenu.activeItemCount()-1){
+        menuCursorIndex = 0;
+    } else {
+        menuCursorIndex++;
     }
-    menuIndex--;
 }
 
 void MenuManager_activateCurrentMenuItem(){
-    currentMenu.activate(menuIndex);
+    int itemIndex = 0;
+    for( int i = currentMenu.itemCount-1; i>0; i-- ) {
+        menuItem item = currentMenu.getItem(i);
+        if( item.activeCondition() ) {
+            if(itemIndex == menuCursorIndex){
+                item.activate();
+                return;
+            }
+            itemIndex++;
+        }
+    }
 }

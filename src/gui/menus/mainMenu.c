@@ -7,16 +7,7 @@
 #include "GameGent.h"
 #include "dmg.h"
 
-const static int MAIN_MENU_ITEMS = 7;
-const static char mainMenuStrings[7][20]= {
-    "Continue",
-    "Load ROM...",
-    "Load State",
-    "Save State",
-    "State Number:",
-    "Options...",
-    "EXIT"
-};
+
 void noop(){}
 bool always(){return true;}
 bool continueCondition(){
@@ -52,52 +43,27 @@ static menuItem menuItems[7] = {
     {&noop,&always,&optionsLabel},
     {&GameGent_shutdown,&always,&exitLabel}
 };
-static int itemsCount = 7;
+static const int MAIN_MENU_ITEMS = 7;
 
+menuItem getItem(int i){
+    return menuItems[i];
+}
 
-void static activateItem(int itemIndex){
-    switch ( itemIndex ){
-    case 0: // Continue
-        break;
-    case 1: // Load Rom
-        break;
-    case 2: // Load State
-        break;
-    case 3: // Save State
-        break;
-    case 4: // State Number
-        break;
-    case 5: // Options Menu
-        break;
-    case 6: // exit
-        GameGent_shutdown();
-        break;
-    }
-};
-
-void static draw( SDL_Renderer* renderer, int menuCursorIndex ) {
-
-    SDL_Rect cursorRect = { 0, (10+menuCursorIndex)*8, (strlen(mainMenuStrings[menuCursorIndex])*8)+8, 8 };
-    SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
-    SDL_RenderFillRect( renderer, &cursorRect );
-    Tiles_paintCharAt(0, 10+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
-
-    for( int i = itemsCount-1; i>0; i-- ) {
-        if( menuItems[i].activeCondition() ) {
-            Tiles_paintStringAt(1, 17-i, menuItems[i].getLabel(), renderer );
+static int activeItems(){
+    int count = 0;
+    for( int i=0; i < MAIN_MENU_ITEMS; i++ ) {
+        if ( menuItems[i].activeCondition() ) {
+            count++;
         }
     }
-//    for(int i = 0; i < 7; i++){
-//        Tiles_paintStringAt(1, 10+i, mainMenuStrings[i], renderer );
-//    }
+    return count;
 }
 
 Menu MainMenu_getMenu(){
     Menu mainMenu;
     mainMenu.itemCount = MAIN_MENU_ITEMS;
-    mainMenu.activate = &activateItem;
-    mainMenu.draw = &draw;
-
+    mainMenu.activeItemCount = &activeItems;
+    mainMenu.getItem = &getItem;
     return mainMenu;
 }
 
