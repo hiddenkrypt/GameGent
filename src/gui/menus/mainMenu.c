@@ -8,30 +8,27 @@
 #include "dmg.h"
 
 
-void noop(){}
-bool always(){return true;}
-bool continueCondition(){
-    return DMG_isEmulating();
-}
-char* continueLabel(){
+static void noop(){}
+static bool always(){return true;}
+static char* continueLabel(){
     return "Continue";
 }
-char* loadRomLabel(){
+static char* loadRomLabel(){
     return "Load ROM";
 }
-char* loadStateLabel(){
+static char* loadStateLabel(){
     return "Load State";
 }
-char* saveStateLabel(){
+static char* saveStateLabel(){
     return "Save State";
 }
-char* stateNumberLabel(){
+static char* stateNumberLabel(){
     return "State Number:"; // append current state number
 }
-char* optionsLabel(){
+static char* optionsLabel(){
     return "Options...";
 }
-char* exitLabel(){
+static char* exitLabel(){
     return "EXIT";
 }
 static menuItem menuItems[7] = {
@@ -45,7 +42,7 @@ static menuItem menuItems[7] = {
 };
 static const int MAIN_MENU_ITEMS = 7;
 
-menuItem getItem(int i){
+static menuItem getItem(int i){
     return menuItems[i];
 }
 
