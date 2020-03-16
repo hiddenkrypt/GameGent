@@ -42,10 +42,19 @@ static menuItem menuItems[7] = {
 };
 static const int MAIN_MENU_ITEMS = 7;
 
+/** \brief get the numbered menuItem
+ * \return a copy of the menuItem struct for the numbered item
+ */
 static menuItem getItem(int i){
     return menuItems[i];
 }
 
+/** \brief gets the number of menu items that are active
+ *
+ * generates a count of the number of menu items that return
+ * true when their activeCondition is called
+ * \return the count of items that are active
+ */
 static int activeItems(){
     int count = 0;
     for( int i=0; i < MAIN_MENU_ITEMS; i++ ) {
@@ -56,6 +65,11 @@ static int activeItems(){
     return count;
 }
 
+/** \brief creates the Menu Struct for this menu
+ *
+ * \return a menu struct for the main Menu
+ *
+ */
 Menu MainMenu_getMenu(){
     Menu mainMenu;
     mainMenu.itemCount = MAIN_MENU_ITEMS;

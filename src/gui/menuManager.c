@@ -10,10 +10,19 @@
 static int menuCursorIndex = 0;
 static Menu currentMenu;
 
+
+/** \brief starts the MenuManager
+ *
+ * initializes the main menu and, currently, sets up the main menu on program start.
+ * @todo probably? like maybe? have the option to launch right into the emulator with a game loaded?
+ *
+ */
+
 void MenuManager_init(){
     currentMenu = MainMenu_getMenu();
     menuCursorIndex = 0;
 }
+
 /** \brief draw the current menu
  *
  * draws a menu based on the current state variable.
@@ -54,7 +63,7 @@ void MenuManager_draw(SDL_Renderer*  renderer){
 
 /** \brief menu item cursor go down
  *
- * increments the menu index, selecting the "next" menu item
+ * decrements the menu index, selecting the "next" menu item
  *
  */
 void MenuManager_incrementMenuIndex(){
@@ -65,7 +74,7 @@ void MenuManager_incrementMenuIndex(){
 }
 /** \brief menu item cursor go up
  *
- * decrements the menu index, selecting the "previous" menu item
+ * increments the menu index, selecting the "previous" menu item
  *
  */
 void MenuManager_decrementMenuIndex(){
@@ -76,6 +85,10 @@ void MenuManager_decrementMenuIndex(){
     }
 }
 
+/** \brief do the thing that the selected menu item does
+ *
+ * calls the "activate" function of the current menu item
+ */
 void MenuManager_activateCurrentMenuItem(){
     int itemIndex = 0;
     for( int i = currentMenu.itemCount-1; i>=0; i-- ) {
