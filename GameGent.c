@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <stdbool.h>
 #include "GameGent.h"
+#include "settings.h"
 #include "gui.h"
 #include "dmg.h"
 
