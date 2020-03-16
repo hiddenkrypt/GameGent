@@ -404,13 +404,15 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1573628977 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584388797 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	"tilemap.h"
 	"mainMenu.h"
 	"menu.h"
+	"menuItem.h"
 	"GameGent.h"
+	"dmg.h"
 
 1568746970 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"Menu.h"
@@ -510,4 +512,6 @@
 1579714563 c:\dev\c\gamegent\src\gui\keybinds.h
 	"keyCommands.h"
 	<SDL.h>
+
+1584388802 c:\dev\c\gamegent\src\gui\menus\menuitem.h
 

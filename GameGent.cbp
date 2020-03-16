@@ -77,6 +77,7 @@
 		</Unit>
 		<Unit filename="src/gui/menus/mainMenu.h" />
 		<Unit filename="src/gui/menus/menu.h" />
+		<Unit filename="src/gui/menus/menuItem.h" />
 		<Unit filename="src/gui/tileMap.c">
 			<Option compilerVar="CC" />
 		</Unit>
