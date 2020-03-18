@@ -72,6 +72,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/menuManager.h" />
+		<Unit filename="src/gui/menus/loadRomMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/menus/loadRomMenu.h" />
 		<Unit filename="src/gui/menus/mainMenu.c">
 			<Option compilerVar="CC" />
 		</Unit>
