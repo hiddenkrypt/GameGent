@@ -1,7 +1,7 @@
 #pragma once
 #include "menuItem.h"
 typedef struct{
-    int itemCount;
-    int (*activeItemCount) ();
-    menuItem (*getItem) (int);
+    int (*itemCount) ();
+    char* (*getLabel) (int);
+    void (*activateItem) (int);
 } Menu;

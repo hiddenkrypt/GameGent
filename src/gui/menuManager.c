@@ -42,63 +42,46 @@ void MenuManager_draw(SDL_Renderer*  renderer){
     Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
     Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
-   // currentMenu.draw( renderer, menuIndex );
-    //void static draw( SDL_Renderer* renderer, int menuCursorIndex ) {
-
-    int drawIndex = 0;
-    for( int i = currentMenu.itemCount-1; i>=0; i-- ) {
-        menuItem item = currentMenu.getItem(i);
-        if( item.activeCondition() ) {
-            if( drawIndex == menuCursorIndex ){
-                SDL_Rect cursorRect = { 0, (16-menuCursorIndex)*8, (strlen(item.getLabel())*8)+8, 8 };
-                SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
-                SDL_RenderFillRect( renderer, &cursorRect );
-                Tiles_paintCharAt(0, 16-menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
-            }
-            Tiles_paintStringAt(1, 16-drawIndex++, item.getLabel(), renderer );
+    for( int i = 0; i < currentMenu.itemCount(); i++ ) {
+        if( i == menuCursorIndex ){
+            SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(currentMenu.getLabel(i))*8)+8, 8 };
+            SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
+            SDL_RenderFillRect( renderer, &cursorRect );
+            Tiles_paintCharAt(0, 17-currentMenu.itemCount()+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
         }
+        Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, currentMenu.getLabel(i), renderer );
     }
 }
 
 
 /** \brief menu item cursor go down
  *
- * decrements the menu index, selecting the "next" menu item
+ * increments, with bounds looping, the menu index, selecting the "next" menu item
  *
  */
 void MenuManager_incrementMenuIndex(){
-    if ( menuCursorIndex <= 0){
-        menuCursorIndex = currentMenu.activeItemCount();
-    }
-    menuCursorIndex--;
-}
-/** \brief menu item cursor go up
- *
- * increments the menu index, selecting the "previous" menu item
- *
- */
-void MenuManager_decrementMenuIndex(){
-    if (menuCursorIndex >= currentMenu.activeItemCount()-1){
+    if (menuCursorIndex >= currentMenu.itemCount()-1){
         menuCursorIndex = 0;
     } else {
         menuCursorIndex++;
     }
 }
+/** \brief menu item cursor go up
+ *
+ * decrements, with bounds looping, the menu index, selecting the "previous" menu item
+ *
+ */
+void MenuManager_decrementMenuIndex(){
+    if ( menuCursorIndex <= 0){
+        menuCursorIndex = currentMenu.itemCount();
+    }
+    menuCursorIndex--;
+}
 
 /** \brief do the thing that the selected menu item does
  *
- * calls the "activate" function of the current menu item
+ * tells the current menu to activate the current menu item.
  */
 void MenuManager_activateCurrentMenuItem(){
-    int itemIndex = 0;
-    for( int i = currentMenu.itemCount-1; i>=0; i-- ) {
-        menuItem item = currentMenu.getItem(i);
-        if( item.activeCondition() ) {
-            if(itemIndex == menuCursorIndex){
-                item.activate();
-                return;
-            }
-            itemIndex++;
-        }
-    }
+    currentMenu.activateItem(menuCursorIndex);
 }
