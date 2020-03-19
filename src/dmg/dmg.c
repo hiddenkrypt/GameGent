@@ -1,9 +1,9 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include "settings.h"
-#include "cpu.h"
-#include "mmu.h"
+#include "../../settings.h"
+#include "cpu/cpu.h"
+#include "mmu/mmu.h"
 #include "dmg.h"
 
 static bool emulating = false;

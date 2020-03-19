@@ -1,7 +1,9 @@
 #pragma once
 #include <stdint.h>
 #include <stdbool.h>
+
 #define NO_FLAGS E_UNAFFECTED,E_UNAFFECTED,E_UNAFFECTED,E_UNAFFECTED
+
 typedef enum flagEffectEnum{
     E_UNAFFECTED = 0,
     E_CLEARED = 1,

@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include "registers.h"
 #include "opcodes.h"
-#include "MMU.h"
-#include "dmg.h"
+#include "../mmu/mmu.h"
+#include "../dmg.h"
 #include "cpu.h"
 
 #include <stdio.h>

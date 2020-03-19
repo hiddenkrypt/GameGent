@@ -364,14 +364,14 @@
 	<stdio.h>
 	"window.h"
 
-1570830018 c:\dev\c\gamegent\src\gui\gui.h
-	"settings.h"
+1584644905 c:\dev\c\gamegent\src\gui\gui.h
+	"../../settings.h"
 
-1579719782 source:c:\dev\c\gamegent\src\gui\gui.c
+1584644992 source:c:\dev\c\gamegent\src\gui\gui.c
 	<SDL.h>
 	<stdio.h>
-	"settings.h"
-	"GameGent.h"
+	"../../settings.h"
+	"../../GameGent.h"
 	"window.h"
 	"tilemap.h"
 	"menuManager.h"
@@ -404,25 +404,25 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584575048 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584644951 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	<SDL.h>
 	<string.h>
 	<stdio.h>
-	"tilemap.h"
-	"mainMenu.h"
+	"../../../GameGent.h"
+	"../../dmg/dmg.h"
+	"../tileMap.h"
 	"menu.h"
 	"menuItem.h"
-	"GameGent.h"
-	"dmg.h"
+	"mainMenu.h"
 
-1584575100 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
+1584645031 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"menu.h"
 
-1584568335 source:c:\dev\c\gamegent\settings.c
+1584646964 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
-	"keyBinds.h"
+	"src/gui/keyBinds.h"
 
 1579714678 c:\dev\c\gamegent\settings.h
 	<stdbool.h>
@@ -440,20 +440,19 @@
 1570830385 c:\dev\c\gamegent\gamegent.h
 	<stdbool.h>
 
-1584570435 c:\dev\c\gamegent\src\gui\menus\menu.h
-	"menuItem.h"
+1584644888 c:\dev\c\gamegent\src\gui\menus\menu.h
 
 1570830340 c:\dev\c\gamegent\src\gui\menumanager.h
 
-1584575122 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1584645080 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
 	<string.h>
-	"GameGent.h"
+	"../../GameGent.h"
 	"tilemap.h"
+	"menus/menu.h"
+	"menus/mainMenu.h"
 	"menuManager.h"
-	"mainMenu.h"
-	"menu.h"
 
 1568998222 source:c:\dev\c\gamegent\src\dmg\cpu\registers.c
 	"registers.h"
@@ -462,24 +461,24 @@
 1569038228 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1573619637 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1584646949 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	<stdint.h>
 	<stdbool.h>
 	"registers.h"
 	"opcodes.h"
-	"MMU.h"
-	"dmg.h"
+	"../mmu/mmu.h"
+	"../dmg.h"
 	"cpu.h"
 	<stdio.h>
 
-1570394200 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
+1584646903 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1584399221 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1584645192 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
 	<stdio.h>
-	"settings.h"
-	"cpu.h"
-	"mmu.h"
+	"../../settings.h"
+	"cpu/cpu.h"
+	"mmu/mmu.h"
 	"dmg.h"
 
 1570417054 c:\dev\c\gamegent\src\dmg\dmg.h
@@ -488,7 +487,7 @@
 	<stdint.h>
 	"opcodes.h"
 
-1573619571 c:\dev\c\gamegent\src\dmg\cpu\opcodes.h
+1584645209 c:\dev\c\gamegent\src\dmg\cpu\opcodes.h
 	<stdint.h>
 	<stdbool.h>
 	"codeTables.h"
@@ -498,27 +497,27 @@
 	<stdbool.h>
 	"mmu.h"
 
-1570834047 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
+1584646926 c:\dev\c\gamegent\src\dmg\mmu\mmu.h
 	<stdint.h>
 
 1573622596 c:\dev\c\gamegent\src\dmg\cpu\codetables.h
 
 1579671158 c:\dev\c\gamegent\src\gui\keycommands.h
 
-1584386280 source:c:\dev\c\gamegent\src\gui\keybinds.c
-	"keyBinds.h"
-	"keyCommands.h"
-	"settings.h"
+1584645018 source:c:\dev\c\gamegent\src\gui\keybinds.c
 	<stdlib.h>
 	<stdio.h>
-
-1579714563 c:\dev\c\gamegent\src\gui\keybinds.h
+	"../../settings.h"
 	"keyCommands.h"
+	"keyBinds.h"
+
+1584645000 c:\dev\c\gamegent\src\gui\keybinds.h
 	<SDL.h>
+	"keyCommands.h"
 
 1584575022 c:\dev\c\gamegent\src\gui\menus\menuitem.h
 
-1584575074 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+1584646971 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
 
 1584515410 c:\dev\c\gamegent\src\gui\menus\loadrommenu.h
 	"menu.h"

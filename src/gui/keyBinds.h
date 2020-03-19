@@ -1,6 +1,6 @@
 #pragma once
-#include "keyCommands.h"
 #include <SDL.h>
+#include "keyCommands.h"
 
 typedef struct _keyBind{
     SDL_Keycode key;

@@ -1,12 +1,12 @@
 #include <SDL.h>
 #include <string.h>
 #include <stdio.h>
-#include "tilemap.h"
-#include "mainMenu.h"
+#include "../../../GameGent.h"
+#include "../../dmg/dmg.h"
+#include "../tileMap.h"
 #include "menu.h"
 #include "menuItem.h"
-#include "GameGent.h"
-#include "dmg.h"
+#include "mainMenu.h"
 
 static menuItem menuItems[7] = {
     {&noop,&DMG_isEmulating,&continueLabel},

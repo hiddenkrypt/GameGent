@@ -1,8 +1,8 @@
-#include "keyBinds.h"
-#include "keyCommands.h"
-#include "settings.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../../settings.h"
+#include "keyCommands.h"
+#include "keyBinds.h"
 
 static keyBind* keyBindCollection;
 static int keyBindCount = 0;

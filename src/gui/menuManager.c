@@ -1,11 +1,11 @@
 #include <SDL.h>
 #include <stdio.h>
 #include <string.h>
-#include "GameGent.h"
+#include "../../GameGent.h"
 #include "tilemap.h"
+#include "menus/menu.h"
+#include "menus/mainMenu.h"
 #include "menuManager.h"
-#include "mainMenu.h"
-#include "menu.h"
 
 static int menuCursorIndex = 0;
 static Menu currentMenu;
