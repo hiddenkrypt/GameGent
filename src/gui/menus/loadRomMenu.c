@@ -1,5 +1,7 @@
 #include <string.h>
 #include "../../../settings.h"
+#include "../menuManager.h"
+#include "mainMenu.h"
 #include "menu.h"
 #include "menuItem.h"
 #include "recentRomStruct.h"
@@ -16,7 +18,11 @@ static char* getLabel( int i ){
     }
     return "";
 }
-static void activateItem( int i ){}
+static void activateItem( int i ){
+    if( i == recentRoms.number+1 ){
+        MenuManager_setMenu( MainMenu_getMenu() );
+    }
+}
 static int itemCount(){
     return recentRoms.number+2;
 }

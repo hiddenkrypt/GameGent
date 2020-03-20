@@ -405,9 +405,11 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584710648 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584710822 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	"../../../GameGent.h"
 	"../../dmg/dmg.h"
+	"../menuManager.h"
+	"loadRomMenu.h"
 	"menu.h"
 	"menuItem.h"
 	"mainMenu.h"
@@ -519,9 +521,11 @@
 1584699589 c:\dev\c\gamegent\src\gui\menus\menuitem.h
 	<stdbool.h>
 
-1584710760 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+1584712846 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
 	<string.h>
 	"../../../settings.h"
+	"../menuManager.h"
+	"mainMenu.h"
 	"menu.h"
 	"menuItem.h"
 	"recentRomStruct.h"
