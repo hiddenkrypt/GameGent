@@ -1,9 +1,5 @@
-#include <SDL.h>
-#include <string.h>
-#include <stdio.h>
 #include "../../../GameGent.h"
 #include "../../dmg/dmg.h"
-#include "../tileMap.h"
 #include "menu.h"
 #include "menuItem.h"
 #include "mainMenu.h"
@@ -45,7 +41,7 @@ static int itemCount(){
     return count;
 }
 
-void activateItem(int i){
+static void activateItem(int i){
     if(i > MAIN_MENU_ITEMS) {return;}
     for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
         if( menuItems[j].activeCondition(j) ){

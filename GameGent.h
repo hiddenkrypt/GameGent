@@ -1,4 +1,6 @@
 #pragma once
+
+#include <SDL.h>
 #include <stdbool.h>
 
 void GameGent_shutdown();

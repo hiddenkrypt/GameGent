@@ -388,7 +388,8 @@
 	<SDL.h>
 	"tilemap.h"
 
-1568746469 c:\dev\c\gamegent\src\gui\tilemap.h
+1584699326 c:\dev\c\gamegent\src\gui\tilemap.h
+	<SDL.h>
 	<stdbool.h>
 
 1568695205 c:\dev\c\gamegent\src\gui\menus.h
@@ -404,13 +405,9 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584644951 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
-	<SDL.h>
-	<string.h>
-	<stdio.h>
+1584699700 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	"../../../GameGent.h"
 	"../../dmg/dmg.h"
-	"../tileMap.h"
 	"menu.h"
 	"menuItem.h"
 	"mainMenu.h"
@@ -437,7 +434,8 @@
 	"gui.h"
 	"dmg.h"
 
-1570830385 c:\dev\c\gamegent\gamegent.h
+1584699329 c:\dev\c\gamegent\gamegent.h
+	<SDL.h>
 	<stdbool.h>
 
 1584644888 c:\dev\c\gamegent\src\gui\menus\menu.h
@@ -481,7 +479,8 @@
 	"mmu/mmu.h"
 	"dmg.h"
 
-1570417054 c:\dev\c\gamegent\src\dmg\dmg.h
+1584699446 c:\dev\c\gamegent\src\dmg\dmg.h
+	<stdbool.h>
 
 1570219904 source:c:\dev\c\gamegent\src\dmg\cpu\opcodes.c
 	<stdint.h>
@@ -515,9 +514,13 @@
 	<SDL.h>
 	"keyCommands.h"
 
-1584575022 c:\dev\c\gamegent\src\gui\menus\menuitem.h
+1584699589 c:\dev\c\gamegent\src\gui\menus\menuitem.h
+	<stdbool.h>
 
-1584646971 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+1584699571 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+	"menu.h"
+	"menuItem.h"
+	"loadRomMenu.h"
 
 1584515410 c:\dev\c\gamegent\src\gui\menus\loadrommenu.h
 	"menu.h"

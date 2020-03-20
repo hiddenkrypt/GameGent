@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 void DMG_init();
 void DMG_LoadRom(char* path);
 void DMG_startEmulation();
