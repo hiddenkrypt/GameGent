@@ -1,7 +1,7 @@
 #pragma once
 #include "menu.h"
 
-Menu MainMenu_getMenu( );
+menu MainMenu_getMenu( );
 
 static void noop();
 static bool always();

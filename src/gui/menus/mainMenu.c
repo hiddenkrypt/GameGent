@@ -1,12 +1,18 @@
 #include "../../../GameGent.h"
 #include "../../dmg/dmg.h"
+#include "../menuManager.h"
+#include "loadRomMenu.h"
 #include "menu.h"
 #include "menuItem.h"
 #include "mainMenu.h"
 
+void loadRom(){
+    MenuManager_setMenu( LoadRomMenu_getMenu() );
+}
+
 static menuItem menuItems[7] = {
     {&noop,&DMG_isEmulating,&continueLabel},
-    {&noop,&always,&loadRomLabel},
+    {&loadRom,&always,&loadRomLabel},
     {&noop,&DMG_isEmulating,&loadStateLabel},
     {&noop,&DMG_isEmulating,&saveStateLabel},
     {&noop,&DMG_isEmulating,&stateNumberLabel},
@@ -66,8 +72,8 @@ static char* exitLabel(){ return "EXIT"; }
  * \return a menu struct for the main Menu
  *
  */
-Menu MainMenu_getMenu(){
-    Menu mainMenu;
+menu MainMenu_getMenu(){
+    menu mainMenu;
     mainMenu.itemCount = &itemCount;
     mainMenu.getLabel = &getLabel;
     mainMenu.activateItem = &activateItem;

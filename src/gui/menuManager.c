@@ -8,7 +8,7 @@
 #include "menuManager.h"
 
 static int menuCursorIndex = 0;
-static Menu currentMenu;
+static menu currentMenu;
 
 
 /** \brief starts the MenuManager
@@ -84,4 +84,8 @@ void MenuManager_decrementMenuIndex(){
  */
 void MenuManager_activateCurrentMenuItem(){
     currentMenu.activateItem(menuCursorIndex);
+}
+void MenuManager_setMenu(menu newMenu){
+    currentMenu = newMenu;
+    menuCursorIndex = 0;
 }

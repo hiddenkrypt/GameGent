@@ -405,25 +405,26 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584699700 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584710648 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
 	"../../../GameGent.h"
 	"../../dmg/dmg.h"
 	"menu.h"
 	"menuItem.h"
 	"mainMenu.h"
 
-1584645031 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
+1584710771 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"menu.h"
 
-1584646964 source:c:\dev\c\gamegent\settings.c
+1584701403 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
 	"src/gui/keyBinds.h"
 
-1579714678 c:\dev\c\gamegent\settings.h
+1584700845 c:\dev\c\gamegent\settings.h
 	<stdbool.h>
 	<SDL.h>
+	"src/gui/menus/recentRomStruct.h"
 
 1584386086 source:c:\dev\c\gamegent\gamegent.c
 	<stdio.h>
@@ -438,11 +439,12 @@
 	<SDL.h>
 	<stdbool.h>
 
-1584644888 c:\dev\c\gamegent\src\gui\menus\menu.h
+1584710746 c:\dev\c\gamegent\src\gui\menus\menu.h
 
-1570830340 c:\dev\c\gamegent\src\gui\menumanager.h
+1584710729 c:\dev\c\gamegent\src\gui\menumanager.h
+	"menus/menu.h"
 
-1584645080 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1584710771 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
 	<string.h>
@@ -471,7 +473,7 @@
 
 1584646903 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1584645192 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1584700901 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
 	<stdio.h>
 	"../../settings.h"
@@ -517,11 +519,16 @@
 1584699589 c:\dev\c\gamegent\src\gui\menus\menuitem.h
 	<stdbool.h>
 
-1584699571 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+1584710760 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+	<string.h>
+	"../../../settings.h"
 	"menu.h"
 	"menuItem.h"
+	"recentRomStruct.h"
 	"loadRomMenu.h"
 
-1584515410 c:\dev\c\gamegent\src\gui\menus\loadrommenu.h
+1584710760 c:\dev\c\gamegent\src\gui\menus\loadrommenu.h
 	"menu.h"
+
+1584702809 c:\dev\c\gamegent\src\gui\menus\recentromstruct.h
 

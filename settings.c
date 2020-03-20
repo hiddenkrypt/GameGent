@@ -27,3 +27,8 @@ void Settings_save(){
 }
 void Settings_load(){
 }
+recentRomList Settings_get_recentRoms(){
+    recentRomList list;
+    list.number = 0;
+    return list;
+};

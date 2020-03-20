@@ -1,4 +1,4 @@
 #pragma once
 #include "menu.h"
 
-Menu loadRomMenu_getMenu( );
+menu LoadRomMenu_getMenu( );
