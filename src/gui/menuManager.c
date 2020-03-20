@@ -43,13 +43,15 @@ void MenuManager_draw(SDL_Renderer*  renderer){
     Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
     for( int i = 0; i < currentMenu.itemCount(); i++ ) {
+        char itemLabel[20];
+        currentMenu.getLabel(i, itemLabel);
         if( i == menuCursorIndex ){
-            SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(currentMenu.getLabel(i))*8)+8, 8 };
+            SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(itemLabel)*8)+8, 8 };
             SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
             SDL_RenderFillRect( renderer, &cursorRect );
             Tiles_paintCharAt(0, 17-currentMenu.itemCount()+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
         }
-        Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, currentMenu.getLabel(i), renderer );
+        Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, itemLabel, renderer );
     }
 }
 

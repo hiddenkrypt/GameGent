@@ -29,6 +29,10 @@ void Settings_load(){
 }
 recentRomList Settings_get_recentRoms(){
     recentRomList list;
-    list.number = 0;
+    list.number = 2;
+    recentRom test = {"ROMNAME","PATH"};
+    list.items[0] = test;
+    recentRom test2 = {"butts","PATH"};
+    list.items[1] = test2;
     return list;
 };

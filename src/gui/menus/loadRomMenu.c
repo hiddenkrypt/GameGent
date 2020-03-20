@@ -9,14 +9,18 @@
 
 recentRomList recentRoms = {0, {}};
 
-static char* getLabel( int i ){
+static void getLabel( int i, char* returnBuffer ){
     if( i == 0 ){
-        return "Load Rom File...";
+        strncpy( returnBuffer, "Load Rom File...", 18 );
+        return;
     }
     if( i == recentRoms.number+1 ){
-        return "Back";
+        strncpy( returnBuffer, "Back", 18 );
+        return;
     }
-    return "";
+    char prefix[2] = " \0";
+    strncpy( returnBuffer, prefix, 2 );
+    strncat( returnBuffer, recentRoms.items[i-1].name, 17 );
 }
 static void activateItem( int i ){
     if( i == recentRoms.number+1 ){

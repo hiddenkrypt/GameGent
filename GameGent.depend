@@ -405,7 +405,8 @@
 
 1568180512 source:c:\dev\c\gamegent\src\gui\menus\main_menu.c
 
-1584710822 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+1584714685 source:c:\dev\c\gamegent\src\gui\menus\mainmenu.c
+	<string.h>
 	"../../../GameGent.h"
 	"../../dmg/dmg.h"
 	"../menuManager.h"
@@ -414,10 +415,10 @@
 	"menuItem.h"
 	"mainMenu.h"
 
-1584710771 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
+1584713261 c:\dev\c\gamegent\src\gui\menus\mainmenu.h
 	"menu.h"
 
-1584701403 source:c:\dev\c\gamegent\settings.c
+1584713489 source:c:\dev\c\gamegent\settings.c
 	"settings.h"
 	<stdbool.h>
 	<stdint.h>
@@ -441,12 +442,12 @@
 	<SDL.h>
 	<stdbool.h>
 
-1584710746 c:\dev\c\gamegent\src\gui\menus\menu.h
+1584714426 c:\dev\c\gamegent\src\gui\menus\menu.h
 
 1584710729 c:\dev\c\gamegent\src\gui\menumanager.h
 	"menus/menu.h"
 
-1584710771 source:c:\dev\c\gamegent\src\gui\menumanager.c
+1584714567 source:c:\dev\c\gamegent\src\gui\menumanager.c
 	<SDL.h>
 	<stdio.h>
 	<string.h>
@@ -521,7 +522,7 @@
 1584699589 c:\dev\c\gamegent\src\gui\menus\menuitem.h
 	<stdbool.h>
 
-1584712846 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
+1584714380 source:c:\dev\c\gamegent\src\gui\menus\loadrommenu.c
 	<string.h>
 	"../../../settings.h"
 	"../menuManager.h"

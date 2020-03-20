@@ -2,6 +2,6 @@
 
 typedef struct{
     int (*itemCount) ();
-    char* (*getLabel) (int);
+    void (*getLabel) (int, char*);
     void (*activateItem) (int);
 } menu;

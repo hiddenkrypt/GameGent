@@ -1,3 +1,4 @@
+#include <string.h>
 #include "../../../GameGent.h"
 #include "../../dmg/dmg.h"
 #include "../menuManager.h"
@@ -10,6 +11,16 @@ void loadRom(){
     MenuManager_setMenu( LoadRomMenu_getMenu() );
 }
 
+static void noop();
+static bool always();
+static char* continueLabel();
+static char* loadRomLabel();
+static char* loadStateLabel();
+static char* saveStateLabel();
+static char* stateNumberLabel();
+static char* optionsLabel();
+static char* exitLabel();
+
 static menuItem menuItems[7] = {
     {&noop,&DMG_isEmulating,&continueLabel},
     {&loadRom,&always,&loadRomLabel},
@@ -21,14 +32,20 @@ static menuItem menuItems[7] = {
 };
 static const int MAIN_MENU_ITEMS = 7;
 
-static char* getLabel( int i ){
-    if(i > MAIN_MENU_ITEMS) {return "getLabel FAILURE!";}
+static void getLabel( int i, char* returnBuffer ){
+    if(i > MAIN_MENU_ITEMS) {
+        strncpy(returnBuffer, "getLabel FAILURE!",18);
+        return;
+    }
     for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
         if( menuItems[j].activeCondition(j) ){
-            if(i-- == 0){ return menuItems[j].getLabel(j); }
+            if(i-- == 0){
+                strncpy( returnBuffer, menuItems[j].getLabel(j), 18 );
+                return;
+            }
         }
     }
-    return "wat";
+    strncpy( returnBuffer, "wat", 18 );
 }
 
 /** \brief gets the number of menu items that are active
