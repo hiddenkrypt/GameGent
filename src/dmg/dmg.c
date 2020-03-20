@@ -19,6 +19,9 @@ void loadBootRom(char* path){
     uint8_t bootRomData[0xff];
     fread(bootRomData, 1, 0xff, bootRom);
     bool success = MMU_loadRange( 0x0000, 0xff, bootRomData );
+    if( !success ){
+        printf("MMU load bootrom failure.\n");
+    }
     fclose( bootRom );
 }
 
