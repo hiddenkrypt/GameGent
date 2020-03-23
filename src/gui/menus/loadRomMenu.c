@@ -1,4 +1,7 @@
 #include <string.h>
+#include <stdio.h>
+
+#include "../../../lib/tinyfiledialogs.h"
 #include "../../../settings.h"
 #include "../menuManager.h"
 #include "mainMenu.h"
@@ -23,9 +26,28 @@ static void getLabel( int i, char* returnBuffer ){
     strncat( returnBuffer, recentRoms.items[i-1].name, 17 );
 }
 static void activateItem( int i ){
+    if( i == 0 ){
+        char const * lFilterPatterns[2] = { "*.gb", "*.gbc" }; /** @todo add zip support? **/
+        char const * lTheOpenFileName;
+        lTheOpenFileName = tinyfd_openFileDialog(
+            "Open a Rom file",
+            "",
+            2,
+            lFilterPatterns,
+            NULL,
+            0);
+
+        if (! lTheOpenFileName){
+            printf("Error: File dialog returned NULL.");
+        }
+        printf("\nRom Load path: %s\n", lTheOpenFileName);
+        return;
+    }
     if( i == recentRoms.number+1 ){
         MenuManager_setMenu( MainMenu_getMenu() );
+        return;
     }
+    //load previous rom recentRoms.items[i-1].path
 }
 static int itemCount(){
     return recentRoms.number+2;

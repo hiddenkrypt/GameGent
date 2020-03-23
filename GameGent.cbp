@@ -40,6 +40,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="GameGent.h" />
+		<Unit filename="lib/tinyfiledialogs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib/tinyfiledialogs.h" />
 		<Unit filename="settings.c">
 			<Option compilerVar="CC" />
 		</Unit>
