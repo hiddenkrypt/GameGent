@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdbool.h>
-#include "GameGent.h"
+#include "src/gui/gui.h"
+#include "src/dmg/dmg.h"
 #include "settings.h"
-#include "gui.h"
-#include "dmg.h"
+#include "GameGent.h"
 
 GameGentState GameGent;
 
@@ -59,6 +59,7 @@ int main ( int argn, char* args[] ) {
         GUI_draw( GameGent );
         DMG_tick();
     }
+
     shutdown();
     return 0;
 }
