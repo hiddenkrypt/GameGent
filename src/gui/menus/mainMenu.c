@@ -1,5 +1,5 @@
 #include <string.h>
-#include "../../../GameGent.h"
+#include "../../GameGent.h"
 #include "../../dmg/dmg.h"
 #include "../menuManager.h"
 #include "loadRomMenu.h"

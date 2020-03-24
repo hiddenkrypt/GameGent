@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 #include <SDL.h>
-#include "src/gui/menus/recentRomStruct.h"
+#include "gui/menus/recentRomStruct.h"
 
 /** \brief a single set of program bindings
  *

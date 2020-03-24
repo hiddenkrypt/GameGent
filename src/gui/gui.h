@@ -1,6 +1,6 @@
 #pragma once
-#include "../../settings.h"
-#include "../../GameGent.h"
+#include "../settings.h"
+#include "../GameGent.h"
 
 SDL_Renderer* GUI_init();
 void GUI_draw (GameGentState GameGent) ;

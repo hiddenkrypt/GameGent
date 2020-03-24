@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "../../settings.h"
+#include "../settings.h"
 #include "keyCommands.h"
 #include "keyBinds.h"
 

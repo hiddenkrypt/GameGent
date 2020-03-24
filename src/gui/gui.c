@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <stdio.h>
-#include "../../settings.h"
-#include "../../GameGent.h"
+#include "../settings.h"
+#include "../GameGent.h"
 #include "window.h"
 #include "tilemap.h"
 #include "menuManager.h"

@@ -1,7 +1,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include "../../settings.h"
+#include "../settings.h"
 #include "cpu/cpu.h"
 #include "mmu/mmu.h"
 #include "dmg.h"

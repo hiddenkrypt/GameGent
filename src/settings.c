@@ -1,7 +1,7 @@
 #include "settings.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include "src/gui/keyBinds.h"
+#include "gui/keyBinds.h"
 
 
 static char* bootRomPath;

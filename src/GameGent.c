@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdbool.h>
-#include "src/gui/gui.h"
-#include "src/dmg/dmg.h"
+#include "gui/gui.h"
+#include "dmg/dmg.h"
 #include "settings.h"
 #include "GameGent.h"
 
