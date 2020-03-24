@@ -30,9 +30,9 @@ void Settings_load(){
 recentRomList Settings_get_recentRoms(){
 	recentRomList list;
 	list.number = 2;
-	recentRom test = {"LoZ-LinksAwakening-DE",'C:\dev\c\GameGent\tests\LoZ-LinksAwakening-DE.gb'};
+	recentRom test = { "LoZ-LinksAwakening", "C:\\dev\\c\\GameGent\\tests\\LoZ-LinksAwakening-DE.gb" };
 	list.items[0] = test;
-	recentRom test2 = {"Tetris (World) (Rev A)Tetris (World) (Rev A)","C:\dev\c\GameGent\tests\Tetris (World) (Rev A).gb"};
+	recentRom test2 = { "Tetris (World) (Re", "C:\\dev\\c\\GameGent\\tests\\Tetris (World) (Rev A).gb" };
 	list.items[1] = test2;
 	return list;
 };
