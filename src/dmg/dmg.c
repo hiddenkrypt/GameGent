@@ -9,20 +9,20 @@
 static bool emulating = false;
 
 void loadBootRom(char* path){
-    printf("loading bootrom\n");
-    FILE* bootRom = fopen(path, "r");
-    if( bootRom == NULL ){
-        printf("Failed to open");
-        /**\todo reset registers as they should be post-bootup*/
-        return;
-    }
-    uint8_t bootRomData[0xff];
-    fread(bootRomData, 1, 0xff, bootRom);
-    bool success = MMU_loadRange( 0x0000, 0xff, bootRomData );
-    if( !success ){
-        printf("MMU load bootrom failure.\n");
-    }
-    fclose( bootRom );
+	printf("loading bootrom\n");
+	FILE* bootRom = fopen(path, "r");
+	if( bootRom == NULL ){
+		printf("Failed to open");
+		/**\todo reset registers as they should be post-bootup*/
+		return;
+	}
+	uint8_t bootRomData[0xff];
+	fread(bootRomData, 1, 0xff, bootRom);
+	bool success = MMU_loadRange( 0x0000, 0xff, bootRomData );
+	if( !success ){
+		printf("MMU load bootrom failure.\n");
+	}
+	fclose( bootRom );
 }
 
 
@@ -30,11 +30,11 @@ void loadBootRom(char* path){
  * initializes DMG sub components and prepares emulation
  */
 void DMG_init(){
-    MMU_init();
-    CPU_init();
-    if( Settings_get_runBootRom() ){
-        loadBootRom( Settings_get_bootRomPath() );
-    }
+	MMU_init();
+	CPU_init();
+	if( Settings_get_runBootRom() ){
+		loadBootRom( Settings_get_bootRomPath() );
+	}
 }
 
 /** \brief loads a game cartridge into the DMG
@@ -59,20 +59,20 @@ void DMG_LoadRom( char const * path){
  */
 
 bool DMG_tick(){
-    if (!emulating){ return false; }
-    CPU_tick();
-    return true;
+	if (!emulating){ return false; }
+	CPU_tick();
+	return true;
 }
 
 /** sets emulating to true, causing the DMG to emulate a processor clock cycle when given program control in DMG_tick() */
 void DMG_startEmulation(){
-    emulating = true;
+	emulating = true;
 }
 /** sets emulating to false, causing the DMG to do nothing when given program control in DMG_tick() */
 void DMG_haltEmulation(){
-    emulating = false;
+	emulating = false;
 }
 /** \brief returns state of the emulating variable \return boolean value: emulating */
 bool DMG_isEmulating(){
-    return emulating;
+	return emulating;
 }

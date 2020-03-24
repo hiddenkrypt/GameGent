@@ -20,25 +20,25 @@ const int LCD_HEIGHT = 144;
  * @see Window_init()  about breaking out window and SDL init
  */
 SDL_Renderer* GUI_init () {
-    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		printf( "SDL init video failed: %s\n", SDL_GetError() );
 		return NULL;
 	}
-    if ( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" ) ) {
-        printf( "Failed to set render scale quality." );
-    }
-    Window_init();
-    SDL_Renderer* mainRenderer = Window_getNewRenderer();
-    if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
-        printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
-        return NULL;
-    }
-    if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
-        printf( "Warning, blendmode failed to set." );
-    }
-    Tiles_init( mainRenderer );
-    MenuManager_init();
-    return mainRenderer;
+	if ( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" ) ) {
+		printf( "Failed to set render scale quality." );
+	}
+	Window_init();
+	SDL_Renderer* mainRenderer = Window_getNewRenderer();
+	if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
+		printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
+		return NULL;
+	}
+	if ( SDL_SetRenderDrawBlendMode( mainRenderer, SDL_BLENDMODE_BLEND != 0 ) ) {
+		printf( "Warning, blendmode failed to set." );
+	}
+	Tiles_init( mainRenderer );
+	MenuManager_init();
+	return mainRenderer;
 }
 
 /*!
@@ -48,16 +48,16 @@ SDL_Renderer* GUI_init () {
  * @param gameGent the current state of the gamegent
  */
 void GUI_draw ( GameGentState gameGent ) {
-    SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x00, 0x00, 0xff );
-    SDL_RenderClear( gameGent.renderer );
-    SDL_Rect LCDRect = { 0, 0, 160, 144 };
-    SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x81, 0x41, 0xef );
-    SDL_RenderFillRect( gameGent.renderer, &LCDRect );
+	SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x00, 0x00, 0xff );
+	SDL_RenderClear( gameGent.renderer );
+	SDL_Rect LCDRect = { 0, 0, 160, 144 };
+	SDL_SetRenderDrawColor( gameGent.renderer, 0x00, 0x81, 0x41, 0xef );
+	SDL_RenderFillRect( gameGent.renderer, &LCDRect );
 
-    MenuManager_draw( gameGent.renderer );
+	MenuManager_draw( gameGent.renderer );
 
-    SDL_Delay(1000/gameGent.FPS);
-    SDL_RenderPresent( gameGent.renderer );
+	SDL_Delay(1000/gameGent.FPS);
+	SDL_RenderPresent( gameGent.renderer );
 }
 
 /*!
@@ -66,8 +66,8 @@ void GUI_draw ( GameGentState gameGent ) {
  * Calls all gui subsystem cleanup/shutdown functions.
  */
 void GUI_shutdown () {
-    KeyBinds_shutdown();
-    Window_shutdown();
+	KeyBinds_shutdown();
+	Window_shutdown();
 	SDL_Quit();
 }
 
@@ -79,20 +79,20 @@ void GUI_shutdown () {
  * @param event : SDL event to handle
  */
 void GUI_handleEvent( SDL_Event event ){
-    if ( event.type == SDL_KEYDOWN ){
-        keyCommand command = KeyBinds_parseKeyEvent( event );
-        if( command == UP ){
-            MenuManager_decrementMenuIndex();
-        }
-        if( command == DOWN ){
-            MenuManager_incrementMenuIndex();
-        }
-        if( command == A ){
-            MenuManager_activateCurrentMenuItem();
-        }
-    } else if( event.type == SDL_WINDOWEVENT ){
-        Window_handleEvent(&event);
-    }
+	if ( event.type == SDL_KEYDOWN ){
+		keyCommand command = KeyBinds_parseKeyEvent( event );
+		if( command == UP ){
+			MenuManager_decrementMenuIndex();
+		}
+		if( command == DOWN ){
+			MenuManager_incrementMenuIndex();
+		}
+		if( command == A ){
+			MenuManager_activateCurrentMenuItem();
+		}
+	} else if( event.type == SDL_WINDOWEVENT ){
+		Window_handleEvent(&event);
+	}
 
 }
 

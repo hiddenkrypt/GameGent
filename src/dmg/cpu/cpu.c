@@ -18,14 +18,14 @@ static const uint8_t PREFIX_INDICATOR = 0xCB;
  * \return instruction the instruction struct representing the current instruction.
  */
 static instruction fetchDecode(){
-    uint8_t opcode = MMU_readByte( registers.PC );
-    if ( opcode != PREFIX_INDICATOR ){
-        return codeTable[ opcode ];
-    } else {
-        registers.PC++;
-        opcode = MMU_readByte( registers.PC );
-        return prefixCodeTable[ opcode ];
-    }
+	uint8_t opcode = MMU_readByte( registers.PC );
+	if ( opcode != PREFIX_INDICATOR ){
+		return codeTable[ opcode ];
+	} else {
+		registers.PC++;
+		opcode = MMU_readByte( registers.PC );
+		return prefixCodeTable[ opcode ];
+	}
 }
 
 
@@ -34,12 +34,12 @@ static instruction fetchDecode(){
  * \todo pick state based on presence of bootloader rom.
  */
 void CPU_init(){ //serves as a restart
-    registers.af = 0x0000;
-    registers.bc = 0x0000;
-    registers.de = 0x0000;
-    registers.hl = 0x0000;
-    registers.PC = 0x0000;
-    registers.SP = 0x0000;
+	registers.af = 0x0000;
+	registers.bc = 0x0000;
+	registers.de = 0x0000;
+	registers.hl = 0x0000;
+	registers.PC = 0x0000;
+	registers.SP = 0x0000;
 }
 
 
@@ -48,28 +48,28 @@ void CPU_init(){ //serves as a restart
  * Sends the CPU through one instruction cycle. Fetch is handed off to the Opcodes module.
  */
 void CPU_tick(){
-    instruction currentInstruction = fetchDecode();
-    if( currentInstruction.cycles == 0){
-        char errorMessage[100];
-        sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
-        CPU_crash(errorMessage);
-    }
-    /** \todo: executeInstruction( currentInstruction );*/
-    registers.PC++;
+	instruction currentInstruction = fetchDecode();
+	if( currentInstruction.cycles == 0){
+		char errorMessage[100];
+		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
+		CPU_crash(errorMessage);
+	}
+	/** \todo: executeInstruction( currentInstruction );*/
+	registers.PC++;
 }
 
 void CPU_crash(char* reason){
-    DMG_haltEmulation();
-    printf(reason);
-    printf("\n\n   register dump \n");
-    printf("   -------------\n");
-    printf(" A |  %#x  |  %#x  | F\n", registers.a, registers.f);
-    printf(" B |  %#x  |  %#x  | C\n", registers.bc);
-    printf(" D |  %#x  |  %#x  | E\n", registers.de);
-    printf(" H |  %#x  |  %#x  | L\n", registers.hl);
-    printf("   -------------\n");
-    printf("PC |   %#06x  |\n", registers.PC);
-    printf("   -------------\n");
-    printf("SP |   %#06x  |\n", registers.SP);
-    printf("   -------------\n");
+	DMG_haltEmulation();
+	printf(reason);
+	printf("\n\n   register dump \n");
+	printf("   -------------\n");
+	printf(" A |  %#x  |  %#x  | F\n", registers.a, registers.f);
+	printf(" B |  %#x  |  %#x  | C\n", registers.bc);
+	printf(" D |  %#x  |  %#x  | E\n", registers.de);
+	printf(" H |  %#x  |  %#x  | L\n", registers.hl);
+	printf("   -------------\n");
+	printf("PC |   %#06x  |\n", registers.PC);
+	printf("   -------------\n");
+	printf("SP |   %#06x  |\n", registers.SP);
+	printf("   -------------\n");
 }

@@ -19,8 +19,8 @@ static menu currentMenu;
  */
 
 void MenuManager_init(){
-    currentMenu = MainMenu_getMenu();
-    menuCursorIndex = 0;
+	currentMenu = MainMenu_getMenu();
+	menuCursorIndex = 0;
 }
 
 /** \brief draw the current menu
@@ -31,28 +31,28 @@ void MenuManager_init(){
  *
  */
 void MenuManager_draw(SDL_Renderer*  renderer){
-    char menuTitle[4][11] = {
-        { 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
-        { 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },
-        { 158, 152, 153, 'e', 'n', 't',  32, 154, 155, 158, '\0' },
-        { 156, 159, 159, 159, 159, 159, 159, 159, 159, 157, 0 }
-    };
-    Tiles_paintStringAt(10-5, 0, menuTitle[0],  renderer );
-    Tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
-    Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
-    Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
+	char menuTitle[4][11] = {
+		{ 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
+		{ 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },
+		{ 158, 152, 153, 'e', 'n', 't',  32, 154, 155, 158, '\0' },
+		{ 156, 159, 159, 159, 159, 159, 159, 159, 159, 157, 0 }
+	};
+	Tiles_paintStringAt(10-5, 0, menuTitle[0],  renderer );
+	Tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
+	Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
+	Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
 
-    for( int i = 0; i < currentMenu.itemCount(); i++ ) {
-        char itemLabel[20];
-        currentMenu.getLabel(i, itemLabel);
-        if( i == menuCursorIndex ){
-            SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(itemLabel)*8)+8, 8 };
-            SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
-            SDL_RenderFillRect( renderer, &cursorRect );
-            Tiles_paintCharAt(0, 17-currentMenu.itemCount()+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
-        }
-        Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, itemLabel, renderer );
-    }
+	for( int i = 0; i < currentMenu.itemCount(); i++ ) {
+		char itemLabel[20];
+		currentMenu.getLabel(i, itemLabel);
+		if( i == menuCursorIndex ){
+			SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(itemLabel)*8)+8, 8 };
+			SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
+			SDL_RenderFillRect( renderer, &cursorRect );
+			Tiles_paintCharAt(0, 17-currentMenu.itemCount()+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
+		}
+		Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, itemLabel, renderer );
+	}
 }
 
 
@@ -62,11 +62,11 @@ void MenuManager_draw(SDL_Renderer*  renderer){
  *
  */
 void MenuManager_incrementMenuIndex(){
-    if (menuCursorIndex >= currentMenu.itemCount()-1){
-        menuCursorIndex = 0;
-    } else {
-        menuCursorIndex++;
-    }
+	if (menuCursorIndex >= currentMenu.itemCount()-1){
+		menuCursorIndex = 0;
+	} else {
+		menuCursorIndex++;
+	}
 }
 /** \brief menu item cursor go up
  *
@@ -74,10 +74,10 @@ void MenuManager_incrementMenuIndex(){
  *
  */
 void MenuManager_decrementMenuIndex(){
-    if ( menuCursorIndex <= 0){
-        menuCursorIndex = currentMenu.itemCount();
-    }
-    menuCursorIndex--;
+	if ( menuCursorIndex <= 0){
+		menuCursorIndex = currentMenu.itemCount();
+	}
+	menuCursorIndex--;
 }
 
 /** \brief do the thing that the selected menu item does
@@ -85,9 +85,9 @@ void MenuManager_decrementMenuIndex(){
  * tells the current menu to activate the current menu item.
  */
 void MenuManager_activateCurrentMenuItem(){
-    currentMenu.activateItem(menuCursorIndex);
+	currentMenu.activateItem(menuCursorIndex);
 }
 void MenuManager_setMenu(menu newMenu){
-    currentMenu = newMenu;
-    menuCursorIndex = 0;
+	currentMenu = newMenu;
+	menuCursorIndex = 0;
 }

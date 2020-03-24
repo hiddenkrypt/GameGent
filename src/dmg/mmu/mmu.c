@@ -10,10 +10,10 @@ static uint8_t ram[0xffff];
  *
  */
 void MMU_init(){
-    for(int i = 0; i < 0xFFFF; i++){
-        ram[i] = 0;
-    }
-    ram[1] = 0x7b;
+	for(int i = 0; i < 0xFFFF; i++){
+		ram[i] = 0;
+	}
+	ram[1] = 0x7b;
 }
 
 /** \brief read a byte from DMG ram
@@ -23,7 +23,7 @@ void MMU_init(){
  * \return value of the byte in ram at address
  */
 uint8_t MMU_readByte( uint16_t address ){
-    return ram[address];
+	return ram[address];
 }
 
 /** \brief load a byte into DMG ram
@@ -33,7 +33,7 @@ uint8_t MMU_readByte( uint16_t address ){
  * \param data 8 bit value to set into the memory cell
  */
 void MMU_loadByte( uint16_t address, uint8_t data ){
-    ram[address] = data;
+	ram[address] = data;
 }
 
 /** \brief load an array of bytes into DMG ram
@@ -45,9 +45,9 @@ void MMU_loadByte( uint16_t address, uint8_t data ){
  * \return bool true if write is successful, false if not.
  */
 bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t* data ){
-    if( ((uint32_t)startAddress + (uint32_t)countBytes) > 0xffff ) {
-        return false;
-    }
-    memcpy(ram+startAddress, data, countBytes);
-    return true;
+	if( ((uint32_t)startAddress + (uint32_t)countBytes) > 0xffff ) {
+		return false;
+	}
+	memcpy(ram+startAddress, data, countBytes);
+	return true;
 }

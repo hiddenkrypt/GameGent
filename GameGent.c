@@ -16,19 +16,19 @@ GameGentState GameGent;
  * @todo: breakout settings to be initialized in another function, with default values and file stored user options
  */
 GameGentState static init(){
-    Settings_init();
-    DMG_init();
-    DMG_startEmulation();
-    GameGentState GameGent;
-    GameGent.quit = false;
-    GameGent.inMenu = false;
+	Settings_init();
+	DMG_init();
+	DMG_startEmulation();
+	GameGentState GameGent;
+	GameGent.quit = false;
+	GameGent.inMenu = false;
 
-    GameGent.renderer = GUI_init();
-    if ( GameGent.renderer == NULL ) {
-        printf("Window Initialization Failure!");
-        GameGent.quit = true;
-    }
-    return GameGent;
+	GameGent.renderer = GUI_init();
+	if ( GameGent.renderer == NULL ) {
+		printf("Window Initialization Failure!");
+		GameGent.quit = true;
+	}
+	return GameGent;
 }
 
 
@@ -38,7 +38,7 @@ GameGentState static init(){
  * Calls all subsystem cleanup/shutdown functions.
  */
 void static shutdown(){
-    GUI_shutdown();
+	GUI_shutdown();
 };
 
 /*!
@@ -47,21 +47,21 @@ void static shutdown(){
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
 int main ( int argn, char* args[] ) {
-    GameGent = init();
-    SDL_Event e;
-    while( !GameGent.quit ) {
-        while( SDL_PollEvent( &e ) != 0 ) {
-            if( e.type == SDL_QUIT ) {
-                GameGent.quit = true;
-            }
-            GUI_handleEvent( e );
-        }
-        GUI_draw( GameGent );
-        DMG_tick();
-    }
+	GameGent = init();
+	SDL_Event e;
+	while( !GameGent.quit ) {
+		while( SDL_PollEvent( &e ) != 0 ) {
+			if( e.type == SDL_QUIT ) {
+				GameGent.quit = true;
+			}
+			GUI_handleEvent( e );
+		}
+		GUI_draw( GameGent );
+		DMG_tick();
+	}
 
-    shutdown();
-    return 0;
+	shutdown();
+	return 0;
 }
 
 /*!
@@ -70,5 +70,5 @@ int main ( int argn, char* args[] ) {
  * Calls all subsystem cleanup/shutdown functions.
  */
 void GameGent_shutdown(){
-    GameGent.quit = true;
+	GameGent.quit = true;
 };

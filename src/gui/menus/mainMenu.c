@@ -8,7 +8,7 @@
 #include "mainMenu.h"
 
 void loadRom(){
-    MenuManager_setMenu( LoadRomMenu_getMenu() );
+	MenuManager_setMenu( LoadRomMenu_getMenu() );
 }
 
 static void noop();
@@ -22,30 +22,30 @@ static char* optionsLabel();
 static char* exitLabel();
 
 static menuItem menuItems[7] = {
-    {&noop,&DMG_isEmulating,&continueLabel},
-    {&loadRom,&always,&loadRomLabel},
-    {&noop,&DMG_isEmulating,&loadStateLabel},
-    {&noop,&DMG_isEmulating,&saveStateLabel},
-    {&noop,&DMG_isEmulating,&stateNumberLabel},
-    {&noop,&always,&optionsLabel},
-    {&GameGent_shutdown,&always,&exitLabel}
+	{&noop,&DMG_isEmulating,&continueLabel},
+	{&loadRom,&always,&loadRomLabel},
+	{&noop,&DMG_isEmulating,&loadStateLabel},
+	{&noop,&DMG_isEmulating,&saveStateLabel},
+	{&noop,&DMG_isEmulating,&stateNumberLabel},
+	{&noop,&always,&optionsLabel},
+	{&GameGent_shutdown,&always,&exitLabel}
 };
 static const int MAIN_MENU_ITEMS = 7;
 
 static void getLabel( int i, char* returnBuffer ){
-    if(i > MAIN_MENU_ITEMS) {
-        strncpy(returnBuffer, "getLabel FAILURE!",18);
-        return;
-    }
-    for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
-        if( menuItems[j].activeCondition(j) ){
-            if(i-- == 0){
-                strncpy( returnBuffer, menuItems[j].getLabel(j), 18 );
-                return;
-            }
-        }
-    }
-    strncpy( returnBuffer, "wat", 18 );
+	if(i > MAIN_MENU_ITEMS) {
+		strncpy(returnBuffer, "getLabel FAILURE!",18);
+		return;
+	}
+	for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
+		if( menuItems[j].activeCondition(j) ){
+			if(i-- == 0){
+				strncpy( returnBuffer, menuItems[j].getLabel(j), 18 );
+				return;
+			}
+		}
+	}
+	strncpy( returnBuffer, "wat", 18 );
 }
 
 /** \brief gets the number of menu items that are active
@@ -55,22 +55,22 @@ static void getLabel( int i, char* returnBuffer ){
  * \return the count of items that are active
  */
 static int itemCount(){
-    int count = 0;
-    for( int i=0; i < MAIN_MENU_ITEMS; i++ ) {
-        if ( menuItems[i].activeCondition(i) ) {
-            count++;
-        }
-    }
-    return count;
+	int count = 0;
+	for( int i=0; i < MAIN_MENU_ITEMS; i++ ) {
+		if ( menuItems[i].activeCondition(i) ) {
+			count++;
+		}
+	}
+	return count;
 }
 
 static void activateItem(int i){
-    if(i > MAIN_MENU_ITEMS) {return;}
-    for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
-        if( menuItems[j].activeCondition(j) ){
-            if(i-- == 0){ menuItems[j].activate(j); }
-        }
-    }
+	if(i > MAIN_MENU_ITEMS) {return;}
+	for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
+		if( menuItems[j].activeCondition(j) ){
+			if(i-- == 0){ menuItems[j].activate(j); }
+		}
+	}
 }
 
 static void noop(){}
@@ -90,11 +90,11 @@ static char* exitLabel(){ return "EXIT"; }
  *
  */
 menu MainMenu_getMenu(){
-    menu mainMenu;
-    mainMenu.itemCount = &itemCount;
-    mainMenu.getLabel = &getLabel;
-    mainMenu.activateItem = &activateItem;
-    return mainMenu;
+	menu mainMenu;
+	mainMenu.itemCount = &itemCount;
+	mainMenu.getLabel = &getLabel;
+	mainMenu.activateItem = &activateItem;
+	return mainMenu;
 }
 
 

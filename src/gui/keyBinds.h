@@ -3,8 +3,8 @@
 #include "keyCommands.h"
 
 typedef struct _keyBind{
-    SDL_Keycode key;
-    keyCommand command;
+	SDL_Keycode key;
+	keyCommand command;
 } keyBind;
 
 void KeyBinds_init();

@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 typedef struct{
-    void  (*activate) ();
-    bool  (*activeCondition) ();
-    char* (*getLabel) ();
+	void  (*activate) ();
+	bool  (*activeCondition) ();
+	char* (*getLabel) ();
 } menuItem;
