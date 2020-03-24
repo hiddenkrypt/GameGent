@@ -41,7 +41,7 @@ void DMG_init(){
  * fetches rom information, parses rom metadata, and configures DMG appropriately.
  * \param path filepath to find the game rom.
  */
-void DMG_LoadRom(char* path){
+void DMG_LoadRom( char const * path){
 
 }
 
