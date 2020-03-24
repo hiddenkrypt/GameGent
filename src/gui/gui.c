@@ -29,7 +29,7 @@ SDL_Renderer* GUI_init () {
 	}
 	Window_init();
 	SDL_Renderer* mainRenderer = Window_getNewRenderer();
-	if ( SDL_RenderSetLogicalSize(mainRenderer, LCD_WIDTH, LCD_HEIGHT) != 0 ) {
+	if ( SDL_RenderSetLogicalSize( mainRenderer, LCD_WIDTH, LCD_HEIGHT ) != 0 ) {
 		printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
 		return NULL;
 	}
@@ -56,7 +56,7 @@ void GUI_draw ( GameGentState gameGent ) {
 
 	MenuManager_draw( gameGent.renderer );
 
-	SDL_Delay(1000/gameGent.FPS);
+	SDL_Delay( 1000 / gameGent.FPS );
 	SDL_RenderPresent( gameGent.renderer );
 }
 
@@ -81,17 +81,9 @@ void GUI_shutdown () {
 void GUI_handleEvent( SDL_Event event ){
 	if ( event.type == SDL_KEYDOWN ){
 		keyCommand command = KeyBinds_parseKeyEvent( event );
-		if( command == UP ){
-			MenuManager_decrementMenuIndex();
-		}
-		if( command == DOWN ){
-			MenuManager_incrementMenuIndex();
-		}
-		if( command == A ){
-			MenuManager_activateCurrentMenuItem();
-		}
+		MenuManager_handleCommand( command ); /** @todo maybe only call this when the menu is active? **/
 	} else if( event.type == SDL_WINDOWEVENT ){
-		Window_handleEvent(&event);
+		Window_handleEvent( &event );
 	}
 
 }

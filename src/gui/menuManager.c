@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../../GameGent.h"
+#include "keyCommands.h"
 #include "tilemap.h"
 #include "menus/menu.h"
 #include "menus/mainMenu.h"
@@ -30,28 +31,33 @@ void MenuManager_init(){
  * @param the current state of the program
  *
  */
-void MenuManager_draw(SDL_Renderer*  renderer){
+void MenuManager_draw( SDL_Renderer*  renderer ){
 	char menuTitle[4][11] = {
 		{ 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
 		{ 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },
 		{ 158, 152, 153, 'e', 'n', 't',  32, 154, 155, 158, '\0' },
 		{ 156, 159, 159, 159, 159, 159, 159, 159, 159, 157, 0 }
 	};
-	Tiles_paintStringAt(10-5, 0, menuTitle[0],  renderer );
-	Tiles_paintStringAt(10-5, 1, menuTitle[1],  renderer );
-	Tiles_paintStringAt(10-5, 2, menuTitle[2],  renderer );
-	Tiles_paintStringAt(10-5, 3, menuTitle[3],  renderer );
+	Tiles_paintStringAt( 10 - 5, 0, menuTitle[0],  renderer );
+	Tiles_paintStringAt( 10 - 5, 1, menuTitle[1],  renderer );
+	Tiles_paintStringAt( 10 - 5, 2, menuTitle[2],  renderer );
+	Tiles_paintStringAt( 10 - 5, 3, menuTitle[3],  renderer );
 
 	for( int i = 0; i < currentMenu.itemCount(); i++ ) {
 		char itemLabel[20];
 		currentMenu.getLabel(i, itemLabel);
 		if( i == menuCursorIndex ){
-			SDL_Rect cursorRect = { 0, (17-currentMenu.itemCount()+menuCursorIndex)*8, (strlen(itemLabel)*8)+8, 8 };
+			SDL_Rect cursorRect = {
+				0,
+				( 17 - currentMenu.itemCount( ) + menuCursorIndex ) * 8,
+				( strlen( itemLabel ) * 8 ) + 8,
+				8
+			};
 			SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0xaf );
 			SDL_RenderFillRect( renderer, &cursorRect );
-			Tiles_paintCharAt(0, 17-currentMenu.itemCount()+menuCursorIndex, 138 + (menuCursorIndex%4), renderer );
+			Tiles_paintCharAt( 0, 17 - currentMenu.itemCount()+menuCursorIndex, 138 + ( menuCursorIndex % 4 ), renderer );
 		}
-		Tiles_paintStringAt(1, 17-currentMenu.itemCount()+i, itemLabel, renderer );
+		Tiles_paintStringAt( 1, 17 - currentMenu.itemCount() + i, itemLabel, renderer );
 	}
 }
 
@@ -85,9 +91,20 @@ void MenuManager_decrementMenuIndex(){
  * tells the current menu to activate the current menu item.
  */
 void MenuManager_activateCurrentMenuItem(){
-	currentMenu.activateItem(menuCursorIndex);
+	currentMenu.activateItem( menuCursorIndex );
 }
-void MenuManager_setMenu(menu newMenu){
+void MenuManager_setMenu( menu newMenu ){
 	currentMenu = newMenu;
 	menuCursorIndex = 0;
+}
+void MenuManager_handleCommand( keyCommand command ){
+	if( command == UP ){
+		MenuManager_decrementMenuIndex();
+	}
+	if( command == DOWN ){
+		MenuManager_incrementMenuIndex();
+	}
+	if( command == A ){
+		MenuManager_activateCurrentMenuItem();
+	}
 }
