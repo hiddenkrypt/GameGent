@@ -6,7 +6,7 @@
 #include "mmu/mmu.h"
 #include "dmg.h"
 
-static bool emulating = false;
+dmgCoreState state = STOPPED;
 
 void loadBootRom(char* path){
 	printf("loading bootrom\n");
@@ -35,6 +35,7 @@ void DMG_init(){
 	if( Settings_get_runBootRom() ){
 		loadBootRom( Settings_get_bootRomPath() );
 	}
+	state = RUNNING;
 }
 
 /** \brief loads a game cartridge into the DMG
@@ -59,20 +60,31 @@ void DMG_LoadRom( char const * path){
  */
 
 bool DMG_tick(){
-	if (!emulating){ return false; }
-	CPU_tick();
-	return true;
+	if ( state == RUNNING ){
+		CPU_tick();
+		return true;
+	}
+	return false;
 }
-
+void DMG_stopEmulation(){
+	state = STOPPED;
+}
 /** sets emulating to true, causing the DMG to emulate a processor clock cycle when given program control in DMG_tick() */
-void DMG_startEmulation(){
-	emulating = true;
+void DMG_pauseEmulation(){
+	if( state == RUNNING ){
+		state = PAUSED;
+	}
 }
 /** sets emulating to false, causing the DMG to do nothing when given program control in DMG_tick() */
-void DMG_haltEmulation(){
-	emulating = false;
+void DMG_resumeEmulation(){
+	if( state == PAUSED ){
+		state = RUNNING;
+	}
 }
 /** \brief returns state of the emulating variable \return boolean value: emulating */
 bool DMG_isEmulating(){
-	return emulating;
+	return state == RUNNING || state == PAUSED;
+}
+dmgCoreState DMG_getCoreState(){
+	return state;
 }

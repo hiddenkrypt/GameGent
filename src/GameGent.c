@@ -18,7 +18,6 @@ GameGentState GameGent;
 GameGentState static init(){
 	Settings_init();
 	DMG_init();
-	DMG_startEmulation();
 	GameGentState GameGent;
 	GameGent.quit = false;
 	GameGent.inMenu = false;

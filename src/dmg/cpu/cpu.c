@@ -59,7 +59,7 @@ void CPU_tick(){
 }
 
 void CPU_crash(char* reason){
-	DMG_haltEmulation();
+	DMG_stopEmulation();
 	printf(reason);
 	printf("\n\n   register dump \n");
 	printf("   -------------\n");

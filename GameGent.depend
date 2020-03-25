@@ -467,7 +467,7 @@
 1585094629 c:\dev\c\gamegent\src\dmg\cpu\registers.h
 	<stdint.h>
 
-1585094366 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
+1585114682 source:c:\dev\c\gamegent\src\dmg\cpu\cpu.c
 	<stdint.h>
 	<stdbool.h>
 	"registers.h"
@@ -479,7 +479,7 @@
 
 1584646903 c:\dev\c\gamegent\src\dmg\cpu\cpu.h
 
-1585095701 source:c:\dev\c\gamegent\src\dmg\dmg.c
+1585114675 source:c:\dev\c\gamegent\src\dmg\dmg.c
 	<stdbool.h>
 	<stdio.h>
 	"../settings.h"
@@ -487,7 +487,7 @@
 	"mmu/mmu.h"
 	"dmg.h"
 
-1585093845 c:\dev\c\gamegent\src\dmg\dmg.h
+1585114700 c:\dev\c\gamegent\src\dmg\dmg.h
 	<stdbool.h>
 
 1570219904 source:c:\dev\c\gamegent\src\dmg\cpu\opcodes.c
@@ -579,7 +579,7 @@
 	<stdint.h>
 	"gui/keyBinds.h"
 
-1585095588 source:c:\dev\c\gamegent\src\gamegent.c
+1585114719 source:c:\dev\c\gamegent\src\gamegent.c
 	<stdio.h>
 	<SDL.h>
 	<stdbool.h>
