@@ -71,7 +71,7 @@ void Window_shutdown(){
 	}
 }
 void resize(){
-	printf( "Resized %dx%d tiles to %dx%d pixels, multiplier:%d",virtualScreenWidth,virtualScreenHeight, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier,windowTileMultiplier);
+	printf( "Resized %dx%d tiles to %dx%d pixels, multiplier:%d\n",virtualScreenWidth,virtualScreenHeight, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier,windowTileMultiplier);
 	SDL_SetWindowSize(mainWindow, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier);
 }
 
