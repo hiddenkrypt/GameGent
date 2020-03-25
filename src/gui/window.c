@@ -15,7 +15,7 @@ static int windowWidth = 8*20*4;
 void bestFit();
 void resize();
 
-/*!
+/**
  * @brief Initializes and creates a window
  *
  * Currently initializes SDL for video, tries to opens a window, and reports any error. Also initializes the renderer Collection to all NULL pointers.
@@ -34,7 +34,7 @@ void Window_init(){
 	resize();
 }
 
-/*!
+/**
  * @brief Get a new renderer tied to the window
  *
  * Checks the renderer collection to make sure that it isn't full, and in the process finds the first empty slot.
@@ -59,7 +59,7 @@ SDL_Renderer* Window_getNewRenderer(){
 	rendererCollection[i] = newRenderer;
 	return newRenderer;
 }
-/*!
+/**
  * @brief cleans up memory objects related to the window
  *
  * Closes and frees the window, and it's tied renderer
@@ -75,7 +75,7 @@ void resize(){
 	SDL_SetWindowSize(mainWindow, virtualScreenWidth*8*windowTileMultiplier, virtualScreenHeight*8*windowTileMultiplier);
 }
 
-/*!
+/**
  * @brief makes the window as big as can reasonably work
  *
  * Resizes the window to take up as much space in the current screen resolution as possible while maintaining integer multiples of tile sizes
@@ -99,6 +99,9 @@ void bestFit(){
 
 }
 
+/** \brief react to passed events
+ * currently just makes sure to bestFit the screen when the window is moved.
+ */
 void Window_handleEvent(const SDL_Event * event){
 	if( event->window.event == SDL_WINDOWEVENT_MOVED ){
 		bestFit();

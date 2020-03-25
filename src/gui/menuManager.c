@@ -18,7 +18,6 @@ static menu currentMenu;
  * @todo probably? like maybe? have the option to launch right into the emulator with a game loaded?
  *
  */
-
 void MenuManager_init(){
 	currentMenu = MainMenu_getMenu();
 	menuCursorIndex = 0;
@@ -93,10 +92,21 @@ void MenuManager_decrementMenuIndex(){
 void MenuManager_activateCurrentMenuItem(){
 	currentMenu.activateItem( menuCursorIndex );
 }
+
+/** \brief change the current menu
+ * sets the current menu to a different menu, resets the cursor to 0;
+ */
 void MenuManager_setMenu( menu newMenu ){
 	currentMenu = newMenu;
 	menuCursorIndex = 0;
 }
+
+/** \brief manages user commands
+ *
+ * determines a course of action based on the command given.
+ *
+ *	\param the command passed in from the gui
+ */
 void MenuManager_handleCommand( keyCommand command ){
 	if( command == UP ){
 		MenuManager_decrementMenuIndex();

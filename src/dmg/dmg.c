@@ -58,7 +58,6 @@ void DMG_LoadRom( char const * path){
  * \todo pause for DMG clock rate management.
  * \return bool for whether the DMG is currently emulating
  */
-
 bool DMG_tick(){
 	if ( state == RUNNING ){
 		CPU_tick();
@@ -66,25 +65,53 @@ bool DMG_tick(){
 	}
 	return false;
 }
+
+/** \brief shuts the emulator coredown
+ *
+ * changes emulator core to STOPPED. This has no effect on the CPU or MMU,
+ * so those may be in an undefined state. a new rom must be loaded to get
+ * the core running again, which will clear out those values.
+ *
+ */
 void DMG_stopEmulation(){
 	state = STOPPED;
 }
-/** sets emulating to true, causing the DMG to emulate a processor clock cycle when given program control in DMG_tick() */
+
+/** \brief pauses the emulator core
+ * a core pause can be resumed, and may allow for step debugging later.
+ * This is called when a menu is brought up. Has no effect on a STOPPED
+ * core.
+ */
 void DMG_pauseEmulation(){
 	if( state == RUNNING ){
 		state = PAUSED;
 	}
 }
-/** sets emulating to false, causing the DMG to do nothing when given program control in DMG_tick() */
+
+/** \brief allows the emulator core to resume
+ * If the core has been paused by a menu or user action, it can be
+ * resumed. If the core is STOPPED, this has no effect.
+ */
 void DMG_resumeEmulation(){
 	if( state == PAUSED ){
 		state = RUNNING;
 	}
 }
-/** \brief returns state of the emulating variable \return boolean value: emulating */
+
+/** \brief is the core is currently running something, paused or not
+ * If the core has a rom loaded and has been executing it's code,
+ * this returns true. The core may be paused and need resuming, but
+ * it is ready at least to resume.
+ *
+ * \return true if the core is currently ready to continue execution, false if STOPPED.
+ */
 bool DMG_isEmulating(){
 	return state == RUNNING || state == PAUSED;
 }
+
+/** \brief read the current core state
+ * STOPPED, PAUSED, or RUNNING, this returns the current state of the core
+ */
 dmgCoreState DMG_getCoreState(){
 	return state;
 }

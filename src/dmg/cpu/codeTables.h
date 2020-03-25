@@ -1,8 +1,13 @@
 #pragma once
-/** GENERATED OPCODE FILE
-* Created by convertOpcodes.js from data scraped from
-* https://github.com/gb-archive/game-boy-opcodes
-**/
+// GENERATED OPCODE FILE
+// Created by convertOpcodes.js from data scraped from
+// https://github.com/gb-archive/game-boy-opcodes
+
+
+/** \brief instruction metadata for the main codeTable
+ *
+ * an array of instruction metadata for the non-prefix codetable. Each array idem has an index matching it's opcode. see ::instruction
+ */
 
 static instruction codeTable[ 0x100 ] = {
 	{ 0x0, 1, 4, 4, {NO_FLAGS}, "NOP", "", "" },
@@ -263,6 +268,10 @@ static instruction codeTable[ 0x100 ] = {
 	{ 0xff, 1, 16, 16, {NO_FLAGS}, "RST", "38H", "" }
 };
 
+/** \brief instruction metadata for the prefix codeTable
+ *
+ * an array of instruction metadata. Each array idem has an index matching it's opcode, barring the prefix. see ::instruction
+ */
 static instruction prefixCodeTable[ 0x100 ] = {
 	{ 0x0, 2, 8, 8, {E_APPLIED, E_CLEARED, E_CLEARED, E_APPLIED}, "RLC", "B", "" },
 	{ 0x1, 2, 8, 8, {E_APPLIED, E_CLEARED, E_CLEARED, E_APPLIED}, "RLC", "C", "" },

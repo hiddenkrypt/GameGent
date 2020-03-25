@@ -13,7 +13,7 @@ GameGentState GameGent;
 /*!
  * @brief Initialize Everything!
  * Initializes the GameGent state, and calls all subsystem init functions.
- * @todo: breakout settings to be initialized in another function, with default values and file stored user options
+ * @todo breakout settings to be initialized in another function, with default values and file stored user options
  */
 GameGentState static init(){
 	Settings_init();

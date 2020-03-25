@@ -31,7 +31,7 @@ static instruction fetchDecode(){
 
 /** \brief sets up CPU initial state
  * configures internal registers to initial state, serving as a CPU restart option
- * \todo pick state based on presence of bootloader rom.
+ * \todo pick state based on presence or absence of bootloader rom.
  */
 void CPU_init(){ //serves as a restart
 	registers.af = 0x0000;
@@ -58,6 +58,17 @@ void CPU_tick(){
 	registers.PC++;
 }
 
+/** \brief stop the cpu and print out some debug information
+ *
+ * Called whenever something goes wrong and is caught by checking code,
+ * this function stops the emulation core and prints out debug info
+ * info includes a reason given by the calling code, and a dump of current
+ * cpu register values.
+ *
+ * @todo include a disassembled set of recent instructions
+ *
+ * \param reason - an explanation of the crash, if possible, to be printed with the debug info
+ */
 void CPU_crash(char* reason){
 	DMG_stopEmulation();
 	printf(reason);

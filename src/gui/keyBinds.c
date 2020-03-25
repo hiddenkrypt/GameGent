@@ -57,6 +57,9 @@ keyCommand KeyBinds_parseKeyEvent( SDL_Event event ){
 	return NO_COMMAND;
 }
 
+/** \brief cleanup the KeyBinds module
+ * frees up memory used by the keybind collection before shutdown.
+ */
 void KeyBinds_shutdown(){
 	free( keyBindCollection );
 	printf( "Keybinds shutdown." );
