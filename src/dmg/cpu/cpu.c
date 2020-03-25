@@ -1,12 +1,12 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "registers.h"
 #include "opcodes.h"
 #include "../mmu/mmu.h"
 #include "../dmg.h"
 #include "cpu.h"
-
-#include <stdio.h>
+#include "instructions.h"
 
 DmgRegisters registers;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
@@ -54,7 +54,7 @@ void CPU_tick(){
 		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
 		CPU_crash(errorMessage);
 	}
-	/** \todo: executeInstruction( currentInstruction );*/
+	CPU_executeInstruction( currentInstruction );
 	registers.PC++;
 }
 
