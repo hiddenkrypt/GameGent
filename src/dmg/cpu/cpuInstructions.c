@@ -2,18 +2,18 @@
 #include "registers.h"
 #include "opcodes.h"
 #include "../mmu/mmu.h"
-#include "instructions.h"
+#include "cpuInstructions.h"
 
 
-inline void CPU_executeInstruction( instruction opcode ){
+inline void executeInstruction( instruction opcode ){
 	switch( opcode.codePoint ){
 		case 0x00: break;
-		case 0x01: break;
-		case 0x02: break;
-		case 0x03: break;
-		case 0x04: break;
-		case 0x05: break;
-		case 0x06: break;
+		case 0x01: load16Direct( BC ); break;
+		case 0x02: load8Indirect( BC, A ); break;
+		case 0x03: increment16( BC ); break;
+		case 0x04: increment8( B ); break;
+		case 0x05: decrement8( B ); break;
+		case 0x06: load8Direct( B ); break;
 		case 0x07: break;
 		case 0x08: break;
 		case 0x09: break;
@@ -23,13 +23,13 @@ inline void CPU_executeInstruction( instruction opcode ){
 		case 0x0d: break;
 		case 0x0e: break;
 		case 0x0f: break;
-		case 0x10: break;
-		case 0x11: break;
-		case 0x12: break;
-		case 0x13: break;
-		case 0x14: break;
-		case 0x15: break;
-		case 0x16: break;
+		case 0x10: stop(); break;
+		case 0x11: load16Direct( DE ); break;
+		case 0x12: load8Indirect( DE, A ); break;
+		case 0x13: increment16( DE ); break;
+		case 0x14: increment8( D ); break;
+		case 0x15: decrement8( D ); break;
+		case 0x16: load8Direct( D ); break;
 		case 0x17: break;
 		case 0x18: break;
 		case 0x19: break;
@@ -265,3 +265,12 @@ inline void CPU_executeInstruction( instruction opcode ){
 		case 0xff: break;
 	}
 }
+
+void load16Direct( register16 targetRegister ){}
+void load8Direct( register8 targetRegister ){}
+void load8Indirect( register16 address, register8 targetRegister ){}
+void increment16( register16 targetRegister ){}
+void increment8( register8 targetRegister ){}
+void decrement8( register8 targetRegister ){}
+void rotateRegister( register8 targetRegister, bool left, bool carry ){}
+void stop(){}
