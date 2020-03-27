@@ -3,42 +3,55 @@
 #include "opcodes.h"
 #include "../mmu/mmu.h"
 #include "cpuInstructions.h"
+void cpu_noop(){}
+void cpu_stop(){}
+void load_16bitRegister_DirectWord( register16 targetRegister ){}
+void load_8bitRegister_DirectByte( register8 targetRegister ){}
+void load_8bitRegister_MemoryAtRegisterValue( register8 target, register16 address ){}
+void load_memoryAtRegisterValue_8bitRegisterData( register16 address, register8 targetRegister ){}
+void load_memoryAtDirectWord_16bitRegisterData( register16 address ){}
+void increment_16bitRegister( register16 targetRegister ){}
+void decrement_16bitRegister( register16 targetRegister ){}
+void increment_8bitRegister( register8 targetRegister ){}
+void decrement_8bitRegister( register8 targetRegister ){}
+void rotate_8bitRegister( register8 targetRegister, bool left, bool throughCarry ){}
+void add_16bitRegister_16bitRegister( register16 valueRegisterA, register16 valueRegisterB ){}
 
 
 inline void executeInstruction( instruction opcode ){
 	switch( opcode.codePoint ){
-		case 0x00: break;
-		case 0x01: load16Direct( BC ); break;
-		case 0x02: load8Indirect( BC, A ); break;
-		case 0x03: increment16( BC ); break;
-		case 0x04: increment8( B ); break;
-		case 0x05: decrement8( B ); break;
-		case 0x06: load8Direct( B ); break;
-		case 0x07: break;
-		case 0x08: break;
-		case 0x09: break;
-		case 0x0a: break;
-		case 0x0b: break;
-		case 0x0c: break;
-		case 0x0d: break;
-		case 0x0e: break;
-		case 0x0f: break;
-		case 0x10: stop(); break;
-		case 0x11: load16Direct( DE ); break;
-		case 0x12: load8Indirect( DE, A ); break;
-		case 0x13: increment16( DE ); break;
-		case 0x14: increment8( D ); break;
-		case 0x15: decrement8( D ); break;
-		case 0x16: load8Direct( D ); break;
-		case 0x17: break;
-		case 0x18: break;
-		case 0x19: break;
-		case 0x1a: break;
-		case 0x1b: break;
-		case 0x1c: break;
-		case 0x1d: break;
-		case 0x1e: break;
-		case 0x1f: break;
+		case 0x00: cpu_noop(); break;
+		case 0x01: load_16bitRegister_DirectWord( BC ); break;
+		case 0x02: load_memoryAtRegisterValue_8bitRegisterData( BC, A ); break;
+		case 0x03: increment_16bitRegister( BC ); break;
+		case 0x04: increment_8bitRegister( B ); break;
+		case 0x05: decrement_8bitRegister( B ); break;
+		case 0x06: load_8bitRegister_DirectByte( B ); break;
+		case 0x07: rotate_8bitRegister( A, true, false); break;
+		case 0x08: load_memoryAtDirectWord_16bitRegisterData( SP ); break;
+		case 0x09: add_16bitRegister_16bitRegister( HL, BC ); break;
+		case 0x0a: load_8bitRegister_MemoryAtRegisterValue( A, BC ); break;
+		case 0x0b: decrement_16bitRegister( BC ); break;
+		case 0x0c: increment_8bitRegister( C ); break;
+		case 0x0d: decrement_8bitRegister( C ); break;
+		case 0x0e: load_8bitRegister_DirectByte( C ); break;
+		case 0x0f: rotate_8bitRegister( A, false, false); break;
+		case 0x10: cpu_stop(); break;
+		case 0x11: load_16bitRegister_DirectWord( DE ); break;
+		case 0x12: load_memoryAtRegisterValue_8bitRegisterData( DE, A ); break;
+		case 0x13: increment_16bitRegister( DE ); break;
+		case 0x14: increment_8bitRegister( D ); break;
+		case 0x15: decrement_8bitRegister( D ); break;
+		case 0x16: load_8bitRegister_DirectByte( D ); break;
+		case 0x17: rotate_8bitRegister( A, true, true ); break;
+		case 0x18: /** @todo jump relative 8 bit data **/ break;
+		case 0x19: add_16bitRegister_16bitRegister( HL, DE ); break;
+		case 0x1a: load_8bitRegister_MemoryAtRegisterValue( A, DE ); break;
+		case 0x1b: decrement_16bitRegister( DE ); break;
+		case 0x1c: increment_8bitRegister( E ); break;
+		case 0x1d: decrement_8bitRegister( E ); break;
+		case 0x1e: load_8bitRegister_DirectByte( E ); break;
+		case 0x1f: rotate_8bitRegister( A, false, true ); break;
 		case 0x20: break;
 		case 0x21: break;
 		case 0x22: break;
@@ -266,11 +279,3 @@ inline void executeInstruction( instruction opcode ){
 	}
 }
 
-void load16Direct( register16 targetRegister ){}
-void load8Direct( register8 targetRegister ){}
-void load8Indirect( register16 address, register8 targetRegister ){}
-void increment16( register16 targetRegister ){}
-void increment8( register8 targetRegister ){}
-void decrement8( register8 targetRegister ){}
-void rotateRegister( register8 targetRegister, bool left, bool carry ){}
-void stop(){}

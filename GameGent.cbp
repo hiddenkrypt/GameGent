@@ -49,10 +49,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/cpu/cpu.h" />
-		<Unit filename="src/dmg/cpu/instructions.c">
+		<Unit filename="src/dmg/cpu/cpuInstructions.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/dmg/cpu/instructions.h" />
+		<Unit filename="src/dmg/cpu/cpuInstructions.h" />
 		<Unit filename="src/dmg/cpu/opcodes.h" />
 		<Unit filename="src/dmg/cpu/registers.h" />
 		<Unit filename="src/dmg/dmg.c">
