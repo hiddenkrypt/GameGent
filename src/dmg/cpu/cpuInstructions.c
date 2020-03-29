@@ -1,8 +1,14 @@
-
 #include "registers.h"
 #include "opcodes.h"
 #include "../mmu/mmu.h"
 #include "cpuInstructions.h"
+
+#define NO_CARRY false
+#define WITH_CARRY true
+#define THROUGH_CARRY true
+#define LEFT true
+#define RIGHT false
+
 void cpu_noop(){}
 void cpu_stop(){}
 void cpu_halt(){}
@@ -22,11 +28,28 @@ void decrement_8bitRegister( register8 targetRegister ){}
 void increment_memoryValue(){} //inc(HL)
 void decrement_memoryValue(){} //dec(HL)
 void rotate_8bitRegister( register8 targetRegister, bool left, bool throughCarry ){}
-void add_16bitRegister( register16 valueRegister ){}
-void add_8bitRegister( register8 valueRegister, bool carry ){}
-void add_memoryValue( bool carry ){} //a+=(HL)
+void accumulator_add_16bitRegister( register16 valueRegister ){}
+void accumulator_add_8bitRegister( register8 valueRegister, bool carry ){}
+void accumulator_add_memoryValue( bool carry ){} //a+=(HL)
+void accumulator_add_directByte( bool carry ){}
 void accumulator_decimalAdjustment(){}
 void accumulator_complement(){}
+void accumulator_sub_memoryValue( bool carry ){}
+void accumulator_sub_8bitRegister( register8 valueRegister, bool carry ){}
+void accumulator_sub_directByte(){}
+void accumulator_and_8bitRegister( register8 valueRegister ){}
+void accumulator_and_memoryValue(){}
+void accumulator_and_directByte(){}
+void accumulator_xor_8bitRegister( register8 valueRegister ){}
+void accumulator_xor_memoryValue(){}
+void accumulator_or_8bitRegister( register8 valueRegister ){}
+void accumulator_or_memoryValue(){}
+void accumulator_or_directByte(){}
+void accumulator_cp_8bitRegister( register8 valueRegister ){}
+void accumulator_cp_memoryValue(){}
+void stack_pop( register16 targetRegister ){}
+void stack_push( register16 valueRegister ){}
+void stack_reset( uint8_t offset ){}
 
 inline void executeInstruction( instruction opcode ){
 	switch( opcode.codePoint ){
@@ -52,13 +75,13 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( B );
 			break;
 		case 0x07:
-			rotate_8bitRegister( A, true, false);
+			rotate_8bitRegister( A, LEFT, NO_CARRY);
 			break;
 		case 0x08:
 			load_memoryAtDirectWord_16bitRegister(); //add sp
 			break;
 		case 0x09:
-			add_16bitRegister( BC );
+			accumulator_add_16bitRegister( BC );
 			break;
 		case 0x0a:
 			load_8bitRegister_MemoryAtRegisterValue( A, BC );
@@ -76,7 +99,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( C );
 			break;
 		case 0x0f:
-			rotate_8bitRegister( A, false, false);
+			rotate_8bitRegister( A, RIGHT, NO_CARRY );
 			break;
 		case 0x10:
 			cpu_stop();
@@ -100,12 +123,12 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( D );
 			break;
 		case 0x17:
-			rotate_8bitRegister( A, true, true );
+			rotate_8bitRegister( A, LEFT, THROUGH_CARRY );
 			break;
 		case 0x18:
 			/** @todo jump relative 8 bit data **/ break;
 		case 0x19:
-			add_16bitRegister( DE );
+			accumulator_add_16bitRegister( DE );
 			break;
 		case 0x1a:
 			load_8bitRegister_MemoryAtRegisterValue( A, DE );
@@ -123,7 +146,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( E );
 			break;
 		case 0x1f:
-			rotate_8bitRegister( A, false, true );
+			rotate_8bitRegister( A, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
 			/** @todo jump NZ relative 8 bit data **/break;
@@ -153,7 +176,7 @@ inline void executeInstruction( instruction opcode ){
 			/** @todo jump zero, relative 8 **/
 			break;
 		case 0x29:
-			add_16bitRegister( HL );
+			accumulator_add_16bitRegister( HL );
 			break;
 		case 0x2a:
 			load_8bitRegister_MemoryAtRegisterValue( A, HL );
@@ -203,7 +226,7 @@ inline void executeInstruction( instruction opcode ){
 			/** @todo jump carry relative 8 **/
 			break;
 		case 0x39:
-			add_16bitRegister( SP );
+			accumulator_add_16bitRegister( SP );
 			break;
 		case 0x3a:
 			load_8bitRegister_MemoryAtRegisterValue( A, HL );
@@ -417,244 +440,244 @@ inline void executeInstruction( instruction opcode ){
 			cpu_noop();
 			break;
 		case 0x80:
-			add_8bitRegister( B, false );
+			accumulator_add_8bitRegister( B, NO_CARRY );
 			break;
 		case 0x81:
-			add_8bitRegister( C, false );
+			accumulator_add_8bitRegister( C, NO_CARRY );
 			break;
 		case 0x82:
-			add_8bitRegister( D, false );
+			accumulator_add_8bitRegister( D, NO_CARRY );
 			break;
 		case 0x83:
-			add_8bitRegister( E, false );
+			accumulator_add_8bitRegister( E, NO_CARRY );
 			break;
 		case 0x84:
-			add_8bitRegister( H, false );
+			accumulator_add_8bitRegister( H, NO_CARRY );
 			break;
 		case 0x85:
-			add_8bitRegister( L, false );
+			accumulator_add_8bitRegister( L, NO_CARRY );
 			break;
 		case 0x86:
-			add_memoryValue( false );
+			accumulator_add_memoryValue( NO_CARRY );
 			break;
 		case 0x87:
-			add_8bitRegister( A, false );
+			accumulator_add_8bitRegister( A, NO_CARRY );
 			break;
 		case 0x88:
-			add_8bitRegister( B, true );
+			accumulator_add_8bitRegister( B, WITH_CARRY );
 			break;
 		case 0x89:
-			add_8bitRegister( C, true );
+			accumulator_add_8bitRegister( C, WITH_CARRY );
 			break;
 		case 0x8a:
-			add_8bitRegister( D, true );
+			accumulator_add_8bitRegister( D, WITH_CARRY );
 			break;
 		case 0x8b:
-			add_8bitRegister( E, true );
+			accumulator_add_8bitRegister( E, WITH_CARRY );
 			break;
 		case 0x8c:
-			add_8bitRegister( H, true );
+			accumulator_add_8bitRegister( H, WITH_CARRY );
 			break;
 		case 0x8d:
-			add_8bitRegister( L, true );
+			accumulator_add_8bitRegister( L, WITH_CARRY );
 			break;
 		case 0x8e:
-			add_memoryValue( true );
+			accumulator_add_memoryValue( WITH_CARRY );
 			break;
 		case 0x8f:
-			add_8bitRegister( A, true );
+			accumulator_add_8bitRegister( A, WITH_CARRY );
 			break;
 		case 0x90:
-
+			accumulator_sub_8bitRegister( B, NO_CARRY );
 			break;
 		case 0x91:
-
+			accumulator_sub_8bitRegister( C, NO_CARRY );
 			break;
 		case 0x92:
-
+			accumulator_sub_8bitRegister( D, NO_CARRY );
 			break;
 		case 0x93:
-
+			accumulator_sub_8bitRegister( E, NO_CARRY );
 			break;
 		case 0x94:
-
+			accumulator_sub_8bitRegister( H, NO_CARRY );
 			break;
 		case 0x95:
-
+			accumulator_sub_8bitRegister( L, NO_CARRY );
 			break;
 		case 0x96:
-
+			accumulator_sub_memoryValue( NO_CARRY );
 			break;
 		case 0x97:
-
+			accumulator_sub_8bitRegister( A, NO_CARRY );
 			break;
 		case 0x98:
-
+			accumulator_sub_8bitRegister( B, WITH_CARRY );
 			break;
 		case 0x99:
-
+			accumulator_sub_8bitRegister( C, WITH_CARRY );
 			break;
 		case 0x9a:
-
+			accumulator_sub_8bitRegister( D, WITH_CARRY );
 			break;
 		case 0x9b:
-
+			accumulator_sub_8bitRegister( E, WITH_CARRY );
 			break;
 		case 0x9c:
-
+			accumulator_sub_8bitRegister( H, WITH_CARRY );
 			break;
 		case 0x9d:
-
+			accumulator_sub_8bitRegister( L, WITH_CARRY );
 			break;
 		case 0x9e:
-
+			accumulator_sub_memoryValue( WITH_CARRY );
 			break;
 		case 0x9f:
-
+			accumulator_sub_8bitRegister( A, WITH_CARRY );
 			break;
 		case 0xa0:
-
+			accumulator_and_8bitRegister( B );
 			break;
 		case 0xa1:
-
+			accumulator_and_8bitRegister( C );
 			break;
 		case 0xa2:
-
+			accumulator_and_8bitRegister( D );
 			break;
 		case 0xa3:
-
+			accumulator_and_8bitRegister( E );
 			break;
 		case 0xa4:
-
+			accumulator_and_8bitRegister( H );
 			break;
 		case 0xa5:
-
+			accumulator_and_8bitRegister( L );
 			break;
 		case 0xa6:
-
+			accumulator_and_memoryValue();
 			break;
 		case 0xa7:
-
+			accumulator_and_8bitRegister( A );
 			break;
 		case 0xa8:
-
+			accumulator_xor_8bitRegister( B );
 			break;
 		case 0xa9:
-
+			accumulator_xor_8bitRegister( C );
 			break;
 		case 0xaa:
-
+			accumulator_xor_8bitRegister( D );
 			break;
 		case 0xab:
-
+			accumulator_xor_8bitRegister( E );
 			break;
 		case 0xac:
-
+			accumulator_xor_8bitRegister( H );
 			break;
 		case 0xad:
-
+			accumulator_xor_8bitRegister( L );
 			break;
 		case 0xae:
-
+			accumulator_xor_memoryValue();
 			break;
 		case 0xaf:
-
+			accumulator_xor_8bitRegister( A );
 			break;
 		case 0xb0:
-
+			accumulator_or_8bitRegister( B );
 			break;
 		case 0xb1:
-
+			accumulator_or_8bitRegister( C );
 			break;
 		case 0xb2:
-
+			accumulator_or_8bitRegister( D );
 			break;
 		case 0xb3:
-
+			accumulator_or_8bitRegister( E );
 			break;
 		case 0xb4:
-
+			accumulator_or_8bitRegister( H );
 			break;
 		case 0xb5:
-
+			accumulator_or_8bitRegister( L );
 			break;
 		case 0xb6:
-
+			accumulator_or_memoryValue();
 			break;
 		case 0xb7:
-
+			accumulator_or_8bitRegister( A );
 			break;
 		case 0xb8:
-
+			accumulator_cp_8bitRegister( B );
 			break;
 		case 0xb9:
-
+			accumulator_cp_8bitRegister( C );
 			break;
 		case 0xba:
-
+			accumulator_cp_8bitRegister( D );
 			break;
 		case 0xbb:
-
+			accumulator_cp_8bitRegister( E );
 			break;
 		case 0xbc:
-
+			accumulator_cp_8bitRegister( H );
 			break;
 		case 0xbd:
-
+			accumulator_cp_8bitRegister( L );
 			break;
 		case 0xbe:
-
+			accumulator_cp_memoryValue();
 			break;
 		case 0xbf:
-
+			accumulator_cp_8bitRegister( A );
 			break;
 		case 0xc0:
-
+			/** @todo RET NZ*/
 			break;
 		case 0xc1:
-
+			stack_pop( BC );
 			break;
 		case 0xc2:
-
+			/** @todo JUMP NZ, ADDR*/
 			break;
 		case 0xc3:
-
+			/** @todo JP ADDR*/
 			break;
 		case 0xc4:
-
+			/** @todo CALL NZ ADDR*/
 			break;
 		case 0xc5:
-
+			stack_push( BC );
 			break;
 		case 0xc6:
-
+			accumulator_add_directByte( NO_CARRY );
 			break;
 		case 0xc7:
-
+			stack_reset( 0x00 );
 			break;
 		case 0xc8:
-
+			/** @todo RET Z*/
 			break;
 		case 0xc9:
-
+			/** @todo RET*/
 			break;
 		case 0xca:
-
+			/** @todo JP Z addr*/
 			break;
 		case 0xcb:
-
+			/** @todo PREFIX */
 			break;
 		case 0xcc:
-
+			/** @todo CALL Z addr*/
 			break;
 		case 0xcd:
-
+			/** @todo CALL addr */
 			break;
 		case 0xce:
-
+			accumulator_add_directByte( WITH_CARRY );
 			break;
 		case 0xcf:
-
+			stack_reset( 0x08 );
 			break;
 		case 0xd0:
 
