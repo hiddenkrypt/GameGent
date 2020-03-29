@@ -14,6 +14,8 @@ void cpu_stop(){}
 void cpu_halt(){}
 void cpu_setCarryFlag(){}
 void cpu_flipCarryFlag(){}
+void cpu_enableInterrupts(){}
+void cpu_disableInterrupts(){}
 void load_16bitRegister_DirectWord( register16 targetRegister ){}
 void load_8bitRegister_DirectByte( register8 targetRegister ){}
 void load_8bitRegister_MemoryAtRegisterValue( register8 targetRegister, register16 address ){}
@@ -21,6 +23,12 @@ void load_8bitRegister_8bitRegister( register8 targetRegister, register8 dataReg
 void load_memory_directByte(){} //ld(HL)d8
 void load_memoryAtRegisterValue_8bitRegisterData( register16 address, register8 dataRegister ){}
 void load_memoryAtDirectWord_16bitRegister(){} //put SP in memory at direct addr
+void load_memoryAtDirectWord_A(){}
+void load_memoryHighDirectOffset_A(){}
+void load_memoryHighRegisterOffset_A(){}//load(ff00+c),a
+void load_A_MemoryAtDirectWord(){}
+void load_A_MemoryHighWithDirectByteOffset(); //load a,ff00+d8
+void load_A_MemoryHighWithRegisterByteOffset(); //load a,c+ff00
 void increment_16bitRegister( register16 targetRegister ){}
 void decrement_16bitRegister( register16 targetRegister ){}
 void increment_8bitRegister( register8 targetRegister ){}
@@ -42,14 +50,19 @@ void accumulator_and_memoryValue(){}
 void accumulator_and_directByte(){}
 void accumulator_xor_8bitRegister( register8 valueRegister ){}
 void accumulator_xor_memoryValue(){}
+void accumulator_xor_directByte(){}
 void accumulator_or_8bitRegister( register8 valueRegister ){}
 void accumulator_or_memoryValue(){}
 void accumulator_or_directByte(){}
 void accumulator_cp_8bitRegister( register8 valueRegister ){}
 void accumulator_cp_memoryValue(){}
+void accumulator_cp_directByte(){}
 void stack_pop( register16 targetRegister ){}
 void stack_push( register16 valueRegister ){}
 void stack_reset( uint8_t offset ){}
+void stack_addDirectByteToSP(){}
+void stack_load_HL_SPWithDirectByteOffset(){}
+void stack_load_SP_HL(){}
 
 inline void executeInstruction( instruction opcode ){
 	switch( opcode.codePoint ){
@@ -680,148 +693,137 @@ inline void executeInstruction( instruction opcode ){
 			stack_reset( 0x08 );
 			break;
 		case 0xd0:
-
+			/** @todo RET NC */
 			break;
 		case 0xd1:
-
+			stack_pop( DE );
 			break;
 		case 0xd2:
-
+			/** @todo JP NC,a16*/
 			break;
 		case 0xd3:
-
 			break;
 		case 0xd4:
-
+			/** @todo CALL NC, a16*/
 			break;
 		case 0xd5:
-
+			stack_push( DE );
 			break;
 		case 0xd6:
-
+			accumulator_sub_directByte( NO_CARRY );
 			break;
 		case 0xd7:
-
+			stack_reset( 0x10 );
 			break;
 		case 0xd8:
-
+			/** @todo RET C */
 			break;
 		case 0xd9:
-
+			/** @todo RETI */
 			break;
 		case 0xda:
-
+			/** @todo JP C, a16*/
 			break;
 		case 0xdb:
-
 			break;
 		case 0xdc:
-
+			/** @todo CALL C,a16 */
 			break;
 		case 0xdd:
-
 			break;
 		case 0xde:
-
+			accumulator_sub_directByte( WITH_CARRY );
 			break;
 		case 0xdf:
-
+			stack_reset( 0x18 );
 			break;
 		case 0xe0:
-
+			load_memoryHighDirectOffset_A();
 			break;
 		case 0xe1:
-
+			stack_pop( HL );
 			break;
 		case 0xe2:
-
+			load_memoryHighRegisterOffset_A(); //addr=ff00+c
 			break;
 		case 0xe3:
-
 			break;
 		case 0xe4:
-
 			break;
 		case 0xe5:
-
+			stack_push( HL );
 			break;
 		case 0xe6:
-
+			accumulator_and_directByte();
 			break;
 		case 0xe7:
-
+			stack_reset( 0x20 );
 			break;
 		case 0xe8:
-
+			stack_addDirectByteToSP();
 			break;
 		case 0xe9:
-
+			/** @todo  JP (HL) */
 			break;
 		case 0xea:
-
+			load_memoryAtDirectWord_A();
 			break;
 		case 0xeb:
-
 			break;
 		case 0xec:
-
 			break;
 		case 0xed:
-
 			break;
 		case 0xee:
-
+			accumulator_xor_directByte();
 			break;
 		case 0xef:
-
+			stack_reset( 0x28 );
 			break;
 		case 0xf0:
-
+			load_A_MemoryHighWithDirectByteOffset();
 			break;
 		case 0xf1:
-
+			stack_pop( AF );
 			break;
 		case 0xf2:
-
+			load_A_MemoryHighWithRegisterByteOffset();
 			break;
 		case 0xf3:
-
+			cpu_disableInterrupts();
 			break;
 		case 0xf4:
-
 			break;
 		case 0xf5:
-
+			stack_push( AF );
 			break;
 		case 0xf6:
-
+			accumulator_or_directByte();
 			break;
 		case 0xf7:
-
+			stack_reset( 0x30 );
 			break;
 		case 0xf8:
-
+			stack_load_HL_SPWithDirectByteOffset();
 			break;
 		case 0xf9:
-
+			stack_load_SP_HL();
 			break;
 		case 0xfa:
-
+			load_A_MemoryAtDirectWord();
 			break;
 		case 0xfb:
-
+			cpu_enableInterrupts();
 			break;
 		case 0xfc:
-
 			break;
 		case 0xfd:
-
 			break;
 		case 0xfe:
-
+			accumulator_cp_directByte();
 			break;
 		case 0xff:
-
+			stack_reset( 0x38 );
 			break;
 	}
 }
