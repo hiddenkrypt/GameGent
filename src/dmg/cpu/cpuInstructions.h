@@ -20,3 +20,11 @@ typedef enum register16Enum{
 	DE,
 	HL
 } register16;
+
+typedef enum flagConditionalEnum{
+	CONDITION_ZERO,
+	CONDITION_CARRY,
+	CONDITION_NO_ZERO,
+	CONDITION_NO_CARRY,
+	CONDITION_ALWAYS
+} flagConditional;

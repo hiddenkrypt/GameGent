@@ -16,6 +16,7 @@ void cpu_setCarryFlag(){}
 void cpu_flipCarryFlag(){}
 void cpu_enableInterrupts(){}
 void cpu_disableInterrupts(){}
+
 void load_16bitRegister_DirectWord( register16 targetRegister ){}
 void load_8bitRegister_DirectByte( register8 targetRegister ){}
 void load_8bitRegister_MemoryAtRegisterValue( register8 targetRegister, register16 address ){}
@@ -27,15 +28,18 @@ void load_memoryAtDirectWord_A(){}
 void load_memoryHighDirectOffset_A(){}
 void load_memoryHighRegisterOffset_A(){}//load(ff00+c),a
 void load_A_MemoryAtDirectWord(){}
-void load_A_MemoryHighWithDirectByteOffset(); //load a,ff00+d8
-void load_A_MemoryHighWithRegisterByteOffset(); //load a,c+ff00
+void load_A_MemoryHighWithDirectByteOffset(){} //load a,ff00+d8
+void load_A_MemoryHighWithRegisterByteOffset(){} //load a,c+ff00
+
 void increment_16bitRegister( register16 targetRegister ){}
 void decrement_16bitRegister( register16 targetRegister ){}
 void increment_8bitRegister( register8 targetRegister ){}
 void decrement_8bitRegister( register8 targetRegister ){}
 void increment_memoryValue(){} //inc(HL)
 void decrement_memoryValue(){} //dec(HL)
+
 void rotate_8bitRegister( register8 targetRegister, bool left, bool throughCarry ){}
+
 void accumulator_add_16bitRegister( register16 valueRegister ){}
 void accumulator_add_8bitRegister( register8 valueRegister, bool carry ){}
 void accumulator_add_memoryValue( bool carry ){} //a+=(HL)
@@ -57,12 +61,22 @@ void accumulator_or_directByte(){}
 void accumulator_cp_8bitRegister( register8 valueRegister ){}
 void accumulator_cp_memoryValue(){}
 void accumulator_cp_directByte(){}
+
 void stack_pop( register16 targetRegister ){}
 void stack_push( register16 valueRegister ){}
 void stack_reset( uint8_t offset ){}
 void stack_addDirectByteToSP(){}
 void stack_load_HL_SPWithDirectByteOffset(){}
 void stack_load_SP_HL(){}
+void stack_return( flagConditional condition ){}
+void stack_call( flagConditional condition ){}
+
+void jump_relativeByte( flagConditional condition ){}
+void jump_toAddressWord( flagConditional condition ){}
+void jump_toHL(){}
+
+void cpu_prefix(){}
+
 
 inline void executeInstruction( instruction opcode ){
 	switch( opcode.codePoint ){
@@ -139,7 +153,8 @@ inline void executeInstruction( instruction opcode ){
 			rotate_8bitRegister( A, LEFT, THROUGH_CARRY );
 			break;
 		case 0x18:
-			/** @todo jump relative 8 bit data **/ break;
+			jump_relativeByte( CONDITION_ALWAYS );
+			break;
 		case 0x19:
 			accumulator_add_16bitRegister( DE );
 			break;
@@ -162,7 +177,8 @@ inline void executeInstruction( instruction opcode ){
 			rotate_8bitRegister( A, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
-			/** @todo jump NZ relative 8 bit data **/break;
+			jump_relativeByte( CONDITION_NO_ZERO );
+			break;
 		case 0x21:
 			load_16bitRegister_DirectWord( HL );
 			break;
@@ -183,10 +199,10 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( H );
 			break;
 		case 0x27:
-			accumulator_decimalAdjustment(); /** DAA */
+			accumulator_decimalAdjustment();
 			break;
 		case 0x28:
-			/** @todo jump zero, relative 8 **/
+			jump_relativeByte( CONDITION_ZERO );
 			break;
 		case 0x29:
 			accumulator_add_16bitRegister( HL );
@@ -208,10 +224,10 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( L );
 			break;
 		case 0x2f:
-			accumulator_complement(); /** CPL */
+			accumulator_complement();
 			break;
 		case 0x30:
-			/** @todo Jump  No Carry, relative8 */
+			jump_relativeByte( CONDITION_NO_CARRY );
 			break;
 		case 0x31:
 			load_16bitRegister_DirectWord( SP );
@@ -236,7 +252,7 @@ inline void executeInstruction( instruction opcode ){
 			cpu_setCarryFlag();
 			break;
 		case 0x38:
-			/** @todo jump carry relative 8 **/
+			jump_relativeByte( C );
 			break;
 		case 0x39:
 			accumulator_add_16bitRegister( SP );
@@ -645,19 +661,19 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_cp_8bitRegister( A );
 			break;
 		case 0xc0:
-			/** @todo RET NZ*/
+			stack_return( CONDITION_NO_ZERO );
 			break;
 		case 0xc1:
 			stack_pop( BC );
 			break;
 		case 0xc2:
-			/** @todo JUMP NZ, ADDR*/
+			jump_toAddressWord( CONDITION_NO_ZERO );
 			break;
 		case 0xc3:
-			/** @todo JP ADDR*/
+			jump_toAddressWord( CONDITION_ALWAYS );
 			break;
 		case 0xc4:
-			/** @todo CALL NZ ADDR*/
+			stack_call( CONDITION_NO_ZERO );
 			break;
 		case 0xc5:
 			stack_push( BC );
@@ -669,22 +685,22 @@ inline void executeInstruction( instruction opcode ){
 			stack_reset( 0x00 );
 			break;
 		case 0xc8:
-			/** @todo RET Z*/
+			stack_return( CONDITION_ZERO );
 			break;
 		case 0xc9:
-			/** @todo RET*/
+			stack_return( CONDITION_ALWAYS );
 			break;
 		case 0xca:
-			/** @todo JP Z addr*/
+			jump_toAddressWord( CONDITION_ZERO );
 			break;
 		case 0xcb:
-			/** @todo PREFIX */
+			cpu_prefix();
 			break;
 		case 0xcc:
-			/** @todo CALL Z addr*/
+			stack_call( CONDITION_ZERO );
 			break;
 		case 0xcd:
-			/** @todo CALL addr */
+			stack_call( CONDITION_ALWAYS );
 			break;
 		case 0xce:
 			accumulator_add_directByte( WITH_CARRY );
@@ -693,18 +709,18 @@ inline void executeInstruction( instruction opcode ){
 			stack_reset( 0x08 );
 			break;
 		case 0xd0:
-			/** @todo RET NC */
+			stack_return( CONDITION_NO_CARRY );
 			break;
 		case 0xd1:
 			stack_pop( DE );
 			break;
 		case 0xd2:
-			/** @todo JP NC,a16*/
+			jump_toAddressWord( CONDITION_NO_CARRY );
 			break;
 		case 0xd3:
 			break;
 		case 0xd4:
-			/** @todo CALL NC, a16*/
+			stack_call( CONDITION_NO_CARRY );
 			break;
 		case 0xd5:
 			stack_push( DE );
@@ -716,18 +732,19 @@ inline void executeInstruction( instruction opcode ){
 			stack_reset( 0x10 );
 			break;
 		case 0xd8:
-			/** @todo RET C */
+			stack_return( C );
 			break;
 		case 0xd9:
-			/** @todo RETI */
+			stack_return( CONDITION_ALWAYS );
+			cpu_enableInterrupts();
 			break;
 		case 0xda:
-			/** @todo JP C, a16*/
+			jump_toAddressWord( CONDITION_CARRY );
 			break;
 		case 0xdb:
 			break;
 		case 0xdc:
-			/** @todo CALL C,a16 */
+			stack_call( C );
 			break;
 		case 0xdd:
 			break;
@@ -763,7 +780,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_addDirectByteToSP();
 			break;
 		case 0xe9:
-			/** @todo  JP (HL) */
+			jump_toHL();
 			break;
 		case 0xea:
 			load_memoryAtDirectWord_A();
