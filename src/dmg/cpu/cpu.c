@@ -74,15 +74,13 @@ void CPU_crash( char* reason ){
 	DMG_stopEmulation();
 	printf( reason );
 	printf( "\n\n   register dump \n" );
-	printf( "   -------------\n" );
-	printf( " A |  %#x  |  %#x  | F\n", cpuRegisters.a, cpuRegisters.f );
-	printf( " B |  %#x  |  %#x  | C\n", cpuRegisters.bc );
-	printf( " D |  %#x  |  %#x  | E\n", cpuRegisters.de );
-	printf( " H |  %#x  |  %#x  | L\n", cpuRegisters.hl );
-	printf( "   -------------\n");
-	printf( "PC |   %#06x  |\n", cpuRegisters.pc );
-	printf( "   -------------\n");
-	printf( "SP |   %#06x  |\n", cpuRegisters.sp );
-	printf( "   -------------\n");
+	printf( "   -------------------\n" );
+	printf( " A |  %#04x  |  %#04x  | F\n", cpuRegisters.a, cpuRegisters.f );
+	printf( " B |  %#04x  |  %#04x  | C\n", cpuRegisters.b, cpuRegisters.c );
+	printf( " D |  %#04x  |  %#04x  | E\n", cpuRegisters.d, cpuRegisters.e );
+	printf( " H |  %#04x  |  %#04x  | L\n", cpuRegisters.h, cpuRegisters.l );
+	printf( "   -------------------\n");
+	printf( "PC | %#06x | %#06x | SP\n", cpuRegisters.pc, cpuRegisters.sp  );
+	printf( "   -------------------\n");
 	printf( "  IME: %d \n", cpuRegisters.ime );
 }
