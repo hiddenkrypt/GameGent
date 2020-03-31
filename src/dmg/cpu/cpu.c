@@ -8,7 +8,7 @@
 #include "cpu.h"
 #include "cpuInstructions.h"
 
-DmgRegisters registers;
+DmgRegisters cpuRegisters;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
 /** \brief return the current instruction
@@ -18,12 +18,12 @@ static const uint8_t PREFIX_INDICATOR = 0xCB;
  * \return instruction the instruction struct representing the current instruction.
  */
 static instruction fetchDecode(){
-	uint8_t opcode = MMU_readByte( registers.PC );
+	uint8_t opcode = MMU_readByte( cpuRegisters.pc );
 	if ( opcode != PREFIX_INDICATOR ){
 		return codeTable[ opcode ];
 	} else {
-		registers.PC++;
-		opcode = MMU_readByte( registers.PC );
+		cpuRegisters.pc++;
+		opcode = MMU_readByte( cpuRegisters.pc );
 		return prefixCodeTable[ opcode ];
 	}
 }
@@ -34,12 +34,13 @@ static instruction fetchDecode(){
  * \todo pick state based on presence or absence of bootloader rom.
  */
 void CPU_init(){ //serves as a restart
-	registers.af = 0x0000;
-	registers.bc = 0x0000;
-	registers.de = 0x0000;
-	registers.hl = 0x0000;
-	registers.PC = 0x0000;
-	registers.SP = 0x0000;
+	cpuRegisters.af = 0x0000;
+	cpuRegisters.bc = 0x0000;
+	cpuRegisters.de = 0x0000;
+	cpuRegisters.hl = 0x0000;
+	cpuRegisters.pc = 0x0000;
+	cpuRegisters.sp = 0x0000;
+	cpuRegisters.ime = true;
 }
 
 
@@ -51,11 +52,11 @@ void CPU_tick(){
 	instruction currentInstruction = fetchDecode();
 	if( currentInstruction.cycles == 0){
 		char errorMessage[100];
-		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( registers.PC ));
+		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( cpuRegisters.pc ));
 		CPU_crash(errorMessage);
 	}
 	executeInstruction( currentInstruction );
-	registers.PC++;
+	cpuRegisters.pc++;
 }
 
 /** \brief stop the cpu and print out some debug information
@@ -69,18 +70,19 @@ void CPU_tick(){
  *
  * \param reason - an explanation of the crash, if possible, to be printed with the debug info
  */
-void CPU_crash(char* reason){
+void CPU_crash( char* reason ){
 	DMG_stopEmulation();
-	printf(reason);
-	printf("\n\n   register dump \n");
-	printf("   -------------\n");
-	printf(" A |  %#x  |  %#x  | F\n", registers.a, registers.f);
-	printf(" B |  %#x  |  %#x  | C\n", registers.bc);
-	printf(" D |  %#x  |  %#x  | E\n", registers.de);
-	printf(" H |  %#x  |  %#x  | L\n", registers.hl);
-	printf("   -------------\n");
-	printf("PC |   %#06x  |\n", registers.PC);
-	printf("   -------------\n");
-	printf("SP |   %#06x  |\n", registers.SP);
-	printf("   -------------\n");
+	printf( reason );
+	printf( "\n\n   register dump \n" );
+	printf( "   -------------\n" );
+	printf( " A |  %#x  |  %#x  | F\n", cpuRegisters.a, cpuRegisters.f );
+	printf( " B |  %#x  |  %#x  | C\n", cpuRegisters.bc );
+	printf( " D |  %#x  |  %#x  | E\n", cpuRegisters.de );
+	printf( " H |  %#x  |  %#x  | L\n", cpuRegisters.hl );
+	printf( "   -------------\n");
+	printf( "PC |   %#06x  |\n", cpuRegisters.pc );
+	printf( "   -------------\n");
+	printf( "SP |   %#06x  |\n", cpuRegisters.sp );
+	printf( "   -------------\n");
+	printf( "  IME: %d \n", cpuRegisters.ime );
 }
