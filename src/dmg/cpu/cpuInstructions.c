@@ -12,18 +12,30 @@
 void cpu_noop(){}
 void cpu_stop(){}
 void cpu_halt(){}
-void cpu_setCarryFlag(){}
-void cpu_flipCarryFlag(){}
-void cpu_enableInterrupts(){}
-void cpu_disableInterrupts(){}
+void cpu_setCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_CARRY;
+}
+void cpu_flipCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f ^ FLAG_CARRY;
+}
+void cpu_enableInterrupts(){
+	cpuRegisters.ime = true;
+}
+void cpu_disableInterrupts(){
+	cpuRegisters.ime = false;
+}
 
 void load_16bitRegister_DirectWord( register16 targetRegister ){}
 void load_8bitRegister_DirectByte( register8 targetRegister ){}
 void load_8bitRegister_MemoryAtRegisterValue( register8 targetRegister, register16 address ){}
 void load_8bitRegister_8bitRegister( register8 targetRegister, register8 dataRegister ){}
-void load_memory_directByte(){} //ld(HL)d8
+void load_memory_directByte(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc+1 ) );
+}
 void load_memoryAtRegisterValue_8bitRegisterData( register16 address, register8 dataRegister ){}
-void load_memoryAtDirectWord_16bitRegister(){} //put SP in memory at direct addr
+void load_memoryAtDirectWord_16bitRegister(){
+	MMU_loadWord( MMU_readWord( cpuRegisters.pc+1 ), cpuRegisters.sp );
+} //put SP in memory at direct addr
 void load_memoryAtDirectWord_A(){}
 void load_memoryHighDirectOffset_A(){}
 void load_memoryHighRegisterOffset_A(){}//load(ff00+c),a
