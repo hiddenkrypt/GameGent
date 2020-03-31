@@ -46,7 +46,7 @@ void MMU_loadByte( uint16_t address, uint8_t data ){
  * \return bool true if write is successful, false if not.
  */
 bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t* data ){
-	if( ((uint32_t)startAddress + (uint32_t)countBytes) > 0xffff ) {
+	if( ( (uint32_t)startAddress + (uint32_t)countBytes ) > 0xffff ) {
 		return false;
 	}
 	memcpy(ram+startAddress, data, countBytes);
@@ -54,9 +54,9 @@ bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t* data ){
 }
 
 uint16_t MMU_readWord( uint16_t address ){
-	return ram[address]<<7 | ram[address+1];
+	return ram[address] << 8 | ram[address + 1];
 }
 void MMU_loadWord( uint16_t address, uint16_t data ){
-	ram[address] = (uint8_t) (data >> 7);
-	ram[address+1] = (uint8_t) (data | 0x0f);
+	ram[address] = (uint8_t) ( data >> 8 );
+	ram[address + 1] = (uint8_t) ( data | 0x0f );
 }
