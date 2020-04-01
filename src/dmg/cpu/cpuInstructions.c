@@ -23,6 +23,9 @@ void cpu_halt(){}
 void cpu_setCarryFlag(){
 	cpuRegisters.f = cpuRegisters.f | FLAG_CARRY;
 }
+void cpu_clearCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_CARRY);
+}
 void cpu_flipCarryFlag(){
 	cpuRegisters.f = cpuRegisters.f ^ FLAG_CARRY;
 }
@@ -92,11 +95,68 @@ void decrement_memoryValue(){
 	MMU_loadByte( cpuRegisters.hl, MMU_readByte(cpuRegisters.hl) - 1 );
 }
 
-void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){}
+void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
+	if( left ){
+		uint8_t msb = *targetRegister >> 7;
+		*targetRegister = *targetRegister << 1;
+		if( throughCarry ){
+			uint8_t previousCarry = cpuRegisters.f & FLAG_CARRY;
+			if( msb ){
+				cpu_setCarryFlag();
+			} else {
+				cpu_clearCarryFlag();
+			}
+			if( previousCarry ){
+				*targetRegister = *targetRegister | 0x01;
+			} else {
+				*targetRegister = *targetRegister & 0xfe;
+			}
+		} else {
+			if( msb ){
+				cpu_setCarryFlag();
+				*targetRegister = *targetRegister | 0x01;
+			} else {
+				cpu_clearCarryFlag();
+				*targetRegister = *targetRegister & 0xfe;
+			}
+		}
+	} else {
+		uint8_t lsb = *targetRegister & 0x01;
+		*targetRegister = *targetRegister >> 1;
+		if( throughCarry ){
+			uint8_t previousCarry = cpuRegisters.f & FLAG_CARRY;
+			if( lsb ){
+				cpu_setCarryFlag();
+			} else {
+				cpu_clearCarryFlag();
+			}
+			if( previousCarry ){
+				*targetRegister = *targetRegister | 0x80;
+			} else {
+				*targetRegister = *targetRegister & 0x7f;
+			}
+		} else {
+			if( lsb ){
+				cpu_setCarryFlag();
+				*targetRegister = *targetRegister | 0x80;
+			} else {
+				cpu_clearCarryFlag();
+				*targetRegister = *targetRegister & 0x7f;
+			}
+		}
+	}
+}
 
-void add_16bitRegister( uint16_t valueRegister ){}
+void add_16bitRegister( uint16_t valueRegister ){
+	cpuRegisters.hl = cpuRegisters.hl + valueRegister;
+}
 
-void accumulator_add_8bitRegister( uint8_t valueRegister, bool carry ){}
+void accumulator_add_8bitRegister( uint8_t valueRegister, bool carry ){
+	cpuRegisters.a = cpuRegisters.a + valueRegister;
+	if( carry ){
+		cpuRegisters.a = cpuRegisters.a + ( cpuRegisters.f & FLAG_CARRY );
+	}
+}
 void accumulator_add_memoryValue( bool carry ){} //a+=(HL)
 void accumulator_add_directByte( bool carry ){}
 void accumulator_decimalAdjustment(){}
