@@ -17,6 +17,12 @@
 #define CONDITION_NO_CARRY !((bool)cpuRegisters.f & FLAG_CARRY)
 #define CONDITION_ALWAYS (true)
 
+#define CARRY_FLAG_VALUE ((cpuRegisters.f & FLAG_CARRY) >> 4)
+
+/** @todo fix overflows from math ops
+ * @todo set flags
+ * @todo figure out branch timing
+ */
 void cpu_noop(){}
 void cpu_stop(){}
 void cpu_halt(){}
@@ -157,8 +163,18 @@ void accumulator_add_8bitRegister( uint8_t valueRegister, bool carry ){
 		cpuRegisters.a = cpuRegisters.a + ( cpuRegisters.f & FLAG_CARRY );
 	}
 }
-void accumulator_add_memoryValue( bool carry ){} //a+=(HL)
-void accumulator_add_directByte( bool carry ){}
+void accumulator_add_memoryValue( bool carry ){
+	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.hl );
+	if( carry ){
+		cpuRegisters.a = cpuRegisters.a + CARRY_FLAG_VALUE;
+	}
+}
+void accumulator_add_directByte( bool carry ){
+	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.pc+1 );
+	if( carry ){
+		cpuRegisters.a = cpuRegisters.a + CARRY_FLAG_VALUE;
+	}
+}
 void accumulator_decimalAdjustment(){}
 void accumulator_complement(){}
 void accumulator_sub_memoryValue( bool carry ){}
