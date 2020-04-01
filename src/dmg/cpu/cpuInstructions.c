@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "registers.h"
 #include "opcodes.h"
 #include "../mmu/mmu.h"
@@ -8,6 +9,13 @@
 #define THROUGH_CARRY true
 #define LEFT true
 #define RIGHT false
+
+#define flagConditional bool
+#define CONDITION_ZERO ((bool)cpuRegisters.f & FLAG_ZERO)
+#define CONDITION_NO_ZERO !((bool)cpuRegisters.f & FLAG_ZERO)
+#define CONDITION_CARRY ((bool)cpuRegisters.f & FLAG_CARRY)
+#define CONDITION_NO_CARRY !((bool)cpuRegisters.f & FLAG_CARRY)
+#define CONDITION_ALWAYS (true)
 
 void cpu_noop(){}
 void cpu_stop(){}
@@ -25,30 +33,64 @@ void cpu_disableInterrupts(){
 	cpuRegisters.ime = false;
 }
 
-void load_16bitRegister_DirectWord( uint16_t* targetRegister ){}
-void load_8bitRegister_DirectByte( uint8_t* targetRegister ){}
-void load_8bitRegister_MemoryAtRegisterValue( uint8_t* targetRegister, uint16_t address ){}
-void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dataRegister ){}
+void load_16bitRegister_DirectWord( uint16_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
+}
+void load_8bitRegister_DirectByte( uint8_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
+}
+void load_8bitRegister_MemoryAtRegisterValue( uint8_t* targetRegister, uint16_t address ){
+	*targetRegister = MMU_readWord( address );
+}
+void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dataRegister ){
+	*targetRegister = dataRegister;
+}
 void load_memory_directByte(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc+1 ) );
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc + 1 ) );
 }
-void load_memoryAtRegisterValue_8bitRegisterData( uint16_t address, uint8_t dataRegister ){}
+void load_memoryAtRegisterValue_8bitRegisterData( uint16_t address, uint8_t dataRegister ){
+	MMU_loadByte( address, dataRegister );
+}
 void load_memoryAtDirectWord_16bitRegister(){
-	MMU_loadWord( MMU_readWord( cpuRegisters.pc+1 ), cpuRegisters.sp );
+	MMU_loadWord( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.sp );
 }
-void load_memoryAtDirectWord_A(){}
-void load_memoryHighDirectOffset_A(){}
-void load_memoryHighRegisterOffset_A(){}//load(ff00+c),a
-void load_A_MemoryAtDirectWord(){}
-void load_A_MemoryHighWithDirectByteOffset(){} //load a,ff00+d8
-void load_A_MemoryHighWithRegisterByteOffset(){} //load a,c+ff00
+void load_memoryAtDirectWord_A(){
+	MMU_loadByte( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.a );
+}
+void load_memoryHighDirectOffset_A(){
+	MMU_loadByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ), cpuRegisters.a );
+}
+void load_memoryHighRegisterOffset_A(){
+	MMU_loadByte( 0xff00 + cpuRegisters.c, cpuRegisters.a );
+}
+void load_A_MemoryAtDirectWord(){
+	cpuRegisters.a = MMU_readByte( cpuRegisters.pc + 1 );
+}
+void load_A_MemoryHighWithDirectByteOffset(){
+	cpuRegisters.a = MMU_readByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ) );
+}
+void load_A_MemoryHighWithRegisterByteOffset(){
+	cpuRegisters.a = MMU_readByte( 0xff00 + cpuRegisters.c );
+}
 
-void increment_16bitRegister( uint16_t* targetRegister ){}
-void decrement_16bitRegister( uint16_t* targetRegister ){}
-void increment_8bitRegister( uint8_t* targetRegister ){}
-void decrement_8bitRegister( uint8_t* targetRegister ){}
-void increment_memoryValue(){} //inc(HL)
-void decrement_memoryValue(){} //dec(HL)
+void increment_16bitRegister( uint16_t* targetRegister ){
+	*targetRegister = *targetRegister+1;
+}
+void decrement_16bitRegister( uint16_t* targetRegister ){
+	*targetRegister = *targetRegister-1;
+}
+void increment_8bitRegister( uint8_t* targetRegister ){
+	*targetRegister = *targetRegister+1;
+}
+void decrement_8bitRegister( uint8_t* targetRegister ){
+	*targetRegister = *targetRegister-1;
+}
+void increment_memoryValue(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte(cpuRegisters.hl) + 1 );
+}
+void decrement_memoryValue(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte(cpuRegisters.hl) - 1 );
+}
 
 void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){}
 
@@ -92,6 +134,7 @@ void cpu_prefix(){}
 
 
 inline void executeInstruction( instruction opcode ){
+	printf("called for %#04x %s\n", opcode.codePoint, opcode.mnemonic);
 	switch( opcode.codePoint ){
 		case 0x00:
 			cpu_noop();
