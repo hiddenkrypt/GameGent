@@ -15,6 +15,8 @@
 #define CONDITION_NO_ZERO !((bool)cpuRegisters.f & FLAG_ZERO)
 #define CONDITION_CARRY ((bool)cpuRegisters.f & FLAG_CARRY)
 #define CONDITION_NO_CARRY !((bool)cpuRegisters.f & FLAG_CARRY)
+#define CONDITION_SUBTRACT ((bool)cpuRegisters.f & FLAG_SUBTRACT)
+#define CONDITION_HALFCARRY ((bool)cpuRegisters.f & FLAG_HALFCARRY)
 #define CONDITION_ALWAYS (true)
 
 #define CARRY_FLAG_VALUE ((cpuRegisters.f & FLAG_CARRY) >> 4)
@@ -175,8 +177,31 @@ void accumulator_add_directByte( bool carry ){
 		cpuRegisters.a = cpuRegisters.a + CARRY_FLAG_VALUE;
 	}
 }
-void accumulator_decimalAdjustment(){}
-void accumulator_complement(){}
+void accumulator_decimalAdjustment(){
+	uint16_t workingValue = cpuRegisters.a;
+	if ( CONDITION_SUBTRACT ){
+		if( CONDITION_HALFCARRY ){
+			workingValue = ( workingValue - 0x06 ) & 0xff ;
+		}
+		if( CONDITION_CARRY ){
+			workingValue = workingValue - 0x60;
+		}
+	} else {
+		if( CONDITION_HALFCARRY || ( workingValue & 0x0f ) > 9 ){
+			workingValue = workingValue + 0x06;
+		}
+		if( CONDITION_CARRY || workingValue > 0x9f){
+			workingValue = workingValue + 0x60;
+		}
+	}
+	if( workingValue >= 0x100 ){
+		cpu_setCarryFlag();
+	}
+	cpuRegisters.a = workingValue & 0xff;
+}
+void accumulator_complement(){
+	cpuRegisters.a = ~cpuRegisters.a;
+}
 void accumulator_sub_memoryValue( bool carry ){}
 void accumulator_sub_8bitRegister( uint8_t valueRegister, bool carry ){}
 void accumulator_sub_directByte(){}
