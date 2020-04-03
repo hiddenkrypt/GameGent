@@ -19,7 +19,6 @@
 #define CONDITION_HALFCARRY ((bool)cpuRegisters.f & FLAG_HALFCARRY)
 #define CONDITION_ALWAYS (true)
 
-#define CARRY_FLAG_VALUE ((cpuRegisters.f & FLAG_CARRY) >> 4)
 
 /** @todo fix overflows from math ops
  * @todo set flags
@@ -37,6 +36,48 @@ void cpu_clearCarryFlag(){
 void cpu_flipCarryFlag(){
 	cpuRegisters.f = cpuRegisters.f ^ FLAG_CARRY;
 }
+bool cpu_getCarryFlag(){
+	return cpuRegisters.f & FLAG_CARRY;
+}
+
+
+
+void cpu_setZeroFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_ZERO;
+}
+void cpu_clearZeroFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_ZERO);
+}
+bool cpu_getZeroFlag(){
+	return cpuRegisters.f & FLAG_ZERO;
+}
+
+
+
+void cpu_setHalfCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_HALFCARRY;
+}
+void cpu_clearHalfCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_HALFCARRY);
+}
+bool cpu_getHalfCarryFlag(){
+	return cpuRegisters.f & FLAG_HALFCARRY;
+}
+
+
+
+void cpu_setSubtractFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_SUBTRACT;
+}
+void cpu_clearSubtractFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_SUBTRACT);
+}
+bool cpu_getSubtractFlag(){
+	return cpuRegisters.f & FLAG_SUBTRACT;
+}
+
+
+
 void cpu_enableInterrupts(){
 	cpuRegisters.ime = true;
 }
@@ -91,16 +132,43 @@ void decrement_16bitRegister( uint16_t* targetRegister ){
 	*targetRegister = *targetRegister-1;
 }
 void increment_8bitRegister( uint8_t* targetRegister ){
-	*targetRegister = *targetRegister+1;
+	if( !( *targetRegister & 0x0F ) ) {
+		cpu_setHalfCarryFlag();
+	}
+	*targetRegister = *targetRegister + 1;
+	if( *targetRegister == 0 ){
+		cpu_setZeroFlag();
+	}
+	if( !( *targetRegister & 0x0F ) ) {
+		cpu_setHalfCarryFlag();
+	}
 }
 void decrement_8bitRegister( uint8_t* targetRegister ){
 	*targetRegister = *targetRegister-1;
+	if( ( *targetRegister & 0x0f ) == 0x0f ){
+		cpu_setHalfCarryFlag();
+	}
+	if( *targetRegister == 0 ){
+		cpu_setZeroFlag();
+	}
 }
 void increment_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte(cpuRegisters.hl) + 1 );
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
+	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
+		cpu_setZeroFlag();
+	}
+	if( !( MMU_readByte( cpuRegisters.hl ) & 0x0F ) ) {
+		cpu_setHalfCarryFlag();
+	}
 }
 void decrement_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte(cpuRegisters.hl) - 1 );
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
+	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
+		cpu_setZeroFlag();
+	}
+	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0f ) == 0x0f ){
+		cpu_setHalfCarryFlag();
+	}
 }
 
 void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
@@ -108,7 +176,7 @@ void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry 
 		uint8_t msb = *targetRegister >> 7;
 		*targetRegister = *targetRegister << 1;
 		if( throughCarry ){
-			uint8_t previousCarry = cpuRegisters.f & FLAG_CARRY;
+			uint8_t previousCarry = cpu_getCarryFlag();
 			if( msb ){
 				cpu_setCarryFlag();
 			} else {
@@ -132,7 +200,7 @@ void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry 
 		uint8_t lsb = *targetRegister & 0x01;
 		*targetRegister = *targetRegister >> 1;
 		if( throughCarry ){
-			uint8_t previousCarry = cpuRegisters.f & FLAG_CARRY;
+			uint8_t previousCarry = cpu_getCarryFlag();
 			if( lsb ){
 				cpu_setCarryFlag();
 			} else {
@@ -153,28 +221,45 @@ void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry 
 			}
 		}
 	}
+	if( *targetRegister == 0 ){
+		cpu_setZeroFlag();
+	}
 }
 
 void add_16bitRegister( uint16_t valueRegister ){
+	if( ( ( cpuRegisters.hl & 0x0fff ) + ( valueRegister & 0x0fff ) ) &0x1000 ){
+		cpu_setHalfCarryFlag();
+	}
 	cpuRegisters.hl = cpuRegisters.hl + valueRegister;
+	if( cpuRegisters.hl < valueRegister ){
+		cpu_setCarryFlag();
+	}
 }
 
-void accumulator_add_8bitRegister( uint8_t valueRegister, bool carry ){
+void accumulator_add_8bitRegister( uint8_t valueRegister, bool useCarry ){
 	cpuRegisters.a = cpuRegisters.a + valueRegister;
-	if( carry ){
-		cpuRegisters.a = cpuRegisters.a + ( cpuRegisters.f & FLAG_CARRY );
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
+	}
+	if( cpuRegisters.a < valueRegister ){
+		cpu_setCarryFlag();
 	}
 }
-void accumulator_add_memoryValue( bool carry ){
+void accumulator_add_memoryValue( bool useCarry ){
 	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.hl );
-	if( carry ){
-		cpuRegisters.a = cpuRegisters.a + CARRY_FLAG_VALUE;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
 	}
 }
-void accumulator_add_directByte( bool carry ){
+void accumulator_add_directByte( bool useCarry ){
 	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.pc+1 );
-	if( carry ){
-		cpuRegisters.a = cpuRegisters.a + CARRY_FLAG_VALUE;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
+	}
+	if( cpuRegisters.a <  MMU_readByte( cpuRegisters.pc+1 ) ){
+		cpu_setCarryFlag();
+	} else {
+		cpu_clearCarryFlag();
 	}
 }
 void accumulator_decimalAdjustment(){
