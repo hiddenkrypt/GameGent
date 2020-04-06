@@ -235,32 +235,23 @@ void add_16bitRegister( uint16_t valueRegister ){
 		cpu_setCarryFlag();
 	}
 }
-
-void accumulator_add_8bitRegister( uint8_t valueRegister, bool useCarry ){
-	cpuRegisters.a = cpuRegisters.a + valueRegister;
+void accumulator_addition( uint8_t value, bool useCarry ){
+	cpuRegisters.a = cpuRegisters.a + value;
 	if( useCarry ){
 		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
 	}
-	if( cpuRegisters.a < valueRegister ){
+	if( cpuRegisters.a < value ){
 		cpu_setCarryFlag();
 	}
+}
+void accumulator_add_8bitRegister( uint8_t valueRegister, bool useCarry ){
+	accumulator_addition( valueRegister, useCarry );
 }
 void accumulator_add_memoryValue( bool useCarry ){
-	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.hl );
-	if( useCarry ){
-		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
-	}
+	accumulator_addition( MMU_readByte( cpuRegisters.hl ), useCarry );
 }
 void accumulator_add_directByte( bool useCarry ){
-	cpuRegisters.a = cpuRegisters.a + MMU_readByte( cpuRegisters.pc+1 );
-	if( useCarry ){
-		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
-	}
-	if( cpuRegisters.a <  MMU_readByte( cpuRegisters.pc+1 ) ){
-		cpu_setCarryFlag();
-	} else {
-		cpu_clearCarryFlag();
-	}
+	accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), useCarry );
 }
 void accumulator_decimalAdjustment(){
 	uint16_t workingValue = cpuRegisters.a;
@@ -287,18 +278,53 @@ void accumulator_decimalAdjustment(){
 void accumulator_complement(){
 	cpuRegisters.a = ~cpuRegisters.a;
 }
-void accumulator_sub_memoryValue( bool carry ){}
-void accumulator_sub_8bitRegister( uint8_t valueRegister, bool carry ){}
-void accumulator_sub_directByte(){}
-void accumulator_and_8bitRegister( uint8_t valueRegister ){}
-void accumulator_and_memoryValue(){}
-void accumulator_and_directByte(){}
-void accumulator_xor_8bitRegister( uint8_t valueRegister ){}
-void accumulator_xor_memoryValue(){}
-void accumulator_xor_directByte(){}
-void accumulator_or_8bitRegister( uint8_t valueRegister ){}
-void accumulator_or_memoryValue(){}
-void accumulator_or_directByte(){}
+
+void accumulator_subtract( uint8_t value, bool useCarry ){
+	uint8_t valueA = cpuRegisters.a;
+	cpuRegisters.a = cpuRegisters.a - value;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a - cpu_getCarryFlag();
+	}
+	if( cpuRegisters.a == 0 ){
+		cpu_setZeroFlag();
+	}
+	if( ( valueA & 0x0f ) < ( value & 0x0f ) ){
+		cpu_setHalfCarryFlag();
+	}
+	if( valueA < value ) {
+		cpu_setCarryFlag();
+	}
+	cpu_setSubtractFlag();
+}
+void accumulator_sub_memoryValue( bool useCarry ){
+	accumulator_subtract( MMU_readByte( cpuRegisters.hl ), useCarry );
+}
+void accumulator_sub_8bitRegister( uint8_t valueRegister, bool useCarry ){
+	accumulator_subtract( valueRegister, useCarry );
+}
+void accumulator_sub_directByte( bool useCarry ){
+	accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), useCarry );
+}
+
+void accumulator_logicalAnd( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a & value;
+	if ( cpuRegisters.a == 0 ){
+		cpu_setZeroFlag();
+	}
+}
+
+void accumulator_logicalXor( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a ^ value;
+	if ( cpuRegisters.a == 0 ){
+		cpu_setZeroFlag();
+	}
+}
+
+
+void accumulator_logicalOr( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a | value;
+}
+
 void accumulator_cp_8bitRegister( uint8_t valueRegister ){}
 void accumulator_cp_memoryValue(){}
 void accumulator_cp_directByte(){}
@@ -807,76 +833,76 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_sub_8bitRegister( cpuRegisters.a, WITH_CARRY );
 			break;
 		case 0xa0:
-			accumulator_and_8bitRegister( cpuRegisters.b );
+			accumulator_logicalAnd( cpuRegisters.b );
 			break;
 		case 0xa1:
-			accumulator_and_8bitRegister( cpuRegisters.c );
+			accumulator_logicalAnd( cpuRegisters.c );
 			break;
 		case 0xa2:
-			accumulator_and_8bitRegister( cpuRegisters.d );
+			accumulator_logicalAnd( cpuRegisters.d );
 			break;
 		case 0xa3:
-			accumulator_and_8bitRegister( cpuRegisters.e );
+			accumulator_logicalAnd( cpuRegisters.e );
 			break;
 		case 0xa4:
-			accumulator_and_8bitRegister( cpuRegisters.h );
+			accumulator_logicalAnd( cpuRegisters.h );
 			break;
 		case 0xa5:
-			accumulator_and_8bitRegister( cpuRegisters.l );
+			accumulator_logicalAnd( cpuRegisters.l );
 			break;
 		case 0xa6:
-			accumulator_and_memoryValue();
+			accumulator_logicalAnd( MMU_readByte( cpuRegisters.hl ) );
 			break;
 		case 0xa7:
-			accumulator_and_8bitRegister( cpuRegisters.a );
+			accumulator_logicalAnd( cpuRegisters.a );
 			break;
 		case 0xa8:
-			accumulator_xor_8bitRegister( cpuRegisters.b );
+			accumulator_logicalXor( cpuRegisters.b );
 			break;
 		case 0xa9:
-			accumulator_xor_8bitRegister( cpuRegisters.c );
+			accumulator_logicalXor( cpuRegisters.c );
 			break;
 		case 0xaa:
-			accumulator_xor_8bitRegister( cpuRegisters.d );
+			accumulator_logicalXor( cpuRegisters.d );
 			break;
 		case 0xab:
-			accumulator_xor_8bitRegister( cpuRegisters.e );
+			accumulator_logicalXor( cpuRegisters.e );
 			break;
 		case 0xac:
-			accumulator_xor_8bitRegister( cpuRegisters.h );
+			accumulator_logicalXor( cpuRegisters.h );
 			break;
 		case 0xad:
-			accumulator_xor_8bitRegister( cpuRegisters.l );
+			accumulator_logicalXor( cpuRegisters.l );
 			break;
 		case 0xae:
-			accumulator_xor_memoryValue();
+			accumulator_logicalXor( MMU_readByte( cpuRegisters.hl ) );
 			break;
 		case 0xaf:
-			accumulator_xor_8bitRegister( cpuRegisters.a );
+			accumulator_logicalXor( cpuRegisters.a );
 			break;
 		case 0xb0:
-			accumulator_or_8bitRegister( cpuRegisters.b );
+			accumulator_logicalOr( cpuRegisters.b );
 			break;
 		case 0xb1:
-			accumulator_or_8bitRegister( cpuRegisters.c );
+			accumulator_logicalOr( cpuRegisters.c );
 			break;
 		case 0xb2:
-			accumulator_or_8bitRegister( cpuRegisters.d );
+			accumulator_logicalOr( cpuRegisters.d );
 			break;
 		case 0xb3:
-			accumulator_or_8bitRegister( cpuRegisters.e );
+			accumulator_logicalOr( cpuRegisters.e );
 			break;
 		case 0xb4:
-			accumulator_or_8bitRegister( cpuRegisters.h );
+			accumulator_logicalOr( cpuRegisters.h );
 			break;
 		case 0xb5:
-			accumulator_or_8bitRegister( cpuRegisters.l );
+			accumulator_logicalOr( cpuRegisters.l );
 			break;
 		case 0xb6:
-			accumulator_or_memoryValue();
+			accumulator_logicalOr( MMU_readByte( cpuRegisters.hl ) );
 			break;
 		case 0xb7:
-			accumulator_or_8bitRegister( cpuRegisters.a );
+			accumulator_logicalOr( cpuRegisters.a );
 			break;
 		case 0xb8:
 			accumulator_cp_8bitRegister( cpuRegisters.b );
@@ -1013,7 +1039,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_push( cpuRegisters.hl );
 			break;
 		case 0xe6:
-			accumulator_and_directByte();
+			accumulator_logicalAnd( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xe7:
 			stack_reset( 0x20 );
@@ -1034,7 +1060,7 @@ inline void executeInstruction( instruction opcode ){
 		case 0xed:
 			break;
 		case 0xee:
-			accumulator_xor_directByte();
+			accumulator_logicalXor( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xef:
 			stack_reset( 0x28 );
@@ -1057,7 +1083,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_push( cpuRegisters.af );
 			break;
 		case 0xf6:
-			accumulator_or_directByte();
+			accumulator_logicalOr( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xf7:
 			stack_reset( 0x30 );
