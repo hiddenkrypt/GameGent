@@ -235,24 +235,8 @@ void add_16bitRegister( uint16_t valueRegister ){
 		cpu_setCarryFlag();
 	}
 }
-void accumulator_addition( uint8_t value, bool useCarry ){
-	cpuRegisters.a = cpuRegisters.a + value;
-	if( useCarry ){
-		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
-	}
-	if( cpuRegisters.a < value ){
-		cpu_setCarryFlag();
-	}
-}
-void accumulator_add_8bitRegister( uint8_t valueRegister, bool useCarry ){
-	accumulator_addition( valueRegister, useCarry );
-}
-void accumulator_add_memoryValue( bool useCarry ){
-	accumulator_addition( MMU_readByte( cpuRegisters.hl ), useCarry );
-}
-void accumulator_add_directByte( bool useCarry ){
-	accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), useCarry );
-}
+
+
 void accumulator_decimalAdjustment(){
 	uint16_t workingValue = cpuRegisters.a;
 	if ( CONDITION_SUBTRACT ){
@@ -278,7 +262,15 @@ void accumulator_decimalAdjustment(){
 void accumulator_complement(){
 	cpuRegisters.a = ~cpuRegisters.a;
 }
-
+void accumulator_addition( uint8_t value, bool useCarry ){
+	cpuRegisters.a = cpuRegisters.a + value;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
+	}
+	if( cpuRegisters.a < value ){
+		cpu_setCarryFlag();
+	}
+}
 void accumulator_subtract( uint8_t value, bool useCarry ){
 	uint8_t valueA = cpuRegisters.a;
 	cpuRegisters.a = cpuRegisters.a - value;
@@ -296,15 +288,6 @@ void accumulator_subtract( uint8_t value, bool useCarry ){
 	}
 	cpu_setSubtractFlag();
 }
-void accumulator_sub_memoryValue( bool useCarry ){
-	accumulator_subtract( MMU_readByte( cpuRegisters.hl ), useCarry );
-}
-void accumulator_sub_8bitRegister( uint8_t valueRegister, bool useCarry ){
-	accumulator_subtract( valueRegister, useCarry );
-}
-void accumulator_sub_directByte( bool useCarry ){
-	accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), useCarry );
-}
 
 void accumulator_logicalAnd( uint8_t value ){
 	cpuRegisters.a = cpuRegisters.a & value;
@@ -312,17 +295,17 @@ void accumulator_logicalAnd( uint8_t value ){
 		cpu_setZeroFlag();
 	}
 }
-
 void accumulator_logicalXor( uint8_t value ){
 	cpuRegisters.a = cpuRegisters.a ^ value;
 	if ( cpuRegisters.a == 0 ){
 		cpu_setZeroFlag();
 	}
 }
-
-
 void accumulator_logicalOr( uint8_t value ){
 	cpuRegisters.a = cpuRegisters.a | value;
+	if ( cpuRegisters.a == 0 ){
+		cpu_setZeroFlag();
+	}
 }
 
 void accumulator_cp_8bitRegister( uint8_t valueRegister ){}
@@ -737,100 +720,100 @@ inline void executeInstruction( instruction opcode ){
 			cpu_noop();
 			break;
 		case 0x80:
-			accumulator_add_8bitRegister( cpuRegisters.b, NO_CARRY );
+			accumulator_addition( cpuRegisters.b, NO_CARRY );
 			break;
 		case 0x81:
-			accumulator_add_8bitRegister( cpuRegisters.c, NO_CARRY );
+			accumulator_addition( cpuRegisters.c, NO_CARRY );
 			break;
 		case 0x82:
-			accumulator_add_8bitRegister( cpuRegisters.d, NO_CARRY );
+			accumulator_addition( cpuRegisters.d, NO_CARRY );
 			break;
 		case 0x83:
-			accumulator_add_8bitRegister( cpuRegisters.e, NO_CARRY );
+			accumulator_addition( cpuRegisters.e, NO_CARRY );
 			break;
 		case 0x84:
-			accumulator_add_8bitRegister( cpuRegisters.h, NO_CARRY );
+			accumulator_addition( cpuRegisters.h, NO_CARRY );
 			break;
 		case 0x85:
-			accumulator_add_8bitRegister( cpuRegisters.l, NO_CARRY );
+			accumulator_addition( cpuRegisters.l, NO_CARRY );
 			break;
 		case 0x86:
-			accumulator_add_memoryValue( NO_CARRY );
+			accumulator_addition( MMU_readByte( cpuRegisters.hl ), NO_CARRY );
 			break;
 		case 0x87:
-			accumulator_add_8bitRegister( cpuRegisters.a, NO_CARRY );
+			accumulator_addition( cpuRegisters.a, NO_CARRY );
 			break;
 		case 0x88:
-			accumulator_add_8bitRegister( cpuRegisters.b, WITH_CARRY );
+			accumulator_addition( cpuRegisters.b, WITH_CARRY );
 			break;
 		case 0x89:
-			accumulator_add_8bitRegister( cpuRegisters.c, WITH_CARRY );
+			accumulator_addition( cpuRegisters.c, WITH_CARRY );
 			break;
 		case 0x8a:
-			accumulator_add_8bitRegister( cpuRegisters.d, WITH_CARRY );
+			accumulator_addition( cpuRegisters.d, WITH_CARRY );
 			break;
 		case 0x8b:
-			accumulator_add_8bitRegister( cpuRegisters.e, WITH_CARRY );
+			accumulator_addition( cpuRegisters.e, WITH_CARRY );
 			break;
 		case 0x8c:
-			accumulator_add_8bitRegister( cpuRegisters.h, WITH_CARRY );
+			accumulator_addition( cpuRegisters.h, WITH_CARRY );
 			break;
 		case 0x8d:
-			accumulator_add_8bitRegister( cpuRegisters.l, WITH_CARRY );
+			accumulator_addition( cpuRegisters.l, WITH_CARRY );
 			break;
 		case 0x8e:
-			accumulator_add_memoryValue( WITH_CARRY );
+			accumulator_addition( MMU_readByte( cpuRegisters.hl ), WITH_CARRY );
 			break;
 		case 0x8f:
-			accumulator_add_8bitRegister( cpuRegisters.a, WITH_CARRY );
+			accumulator_addition( cpuRegisters.a, WITH_CARRY );
 			break;
 		case 0x90:
-			accumulator_sub_8bitRegister( cpuRegisters.b, NO_CARRY );
+			accumulator_subtract( cpuRegisters.b, NO_CARRY );
 			break;
 		case 0x91:
-			accumulator_sub_8bitRegister( cpuRegisters.c, NO_CARRY );
+			accumulator_subtract( cpuRegisters.c, NO_CARRY );
 			break;
 		case 0x92:
-			accumulator_sub_8bitRegister( cpuRegisters.d, NO_CARRY );
+			accumulator_subtract( cpuRegisters.d, NO_CARRY );
 			break;
 		case 0x93:
-			accumulator_sub_8bitRegister( cpuRegisters.e, NO_CARRY );
+			accumulator_subtract( cpuRegisters.e, NO_CARRY );
 			break;
 		case 0x94:
-			accumulator_sub_8bitRegister( cpuRegisters.h, NO_CARRY );
+			accumulator_subtract( cpuRegisters.h, NO_CARRY );
 			break;
 		case 0x95:
-			accumulator_sub_8bitRegister( cpuRegisters.l, NO_CARRY );
+			accumulator_subtract( cpuRegisters.l, NO_CARRY );
 			break;
 		case 0x96:
-			accumulator_sub_memoryValue( NO_CARRY );
+			accumulator_subtract( MMU_readByte( cpuRegisters.hl ), NO_CARRY );
 			break;
 		case 0x97:
-			accumulator_sub_8bitRegister( cpuRegisters.a, NO_CARRY );
+			accumulator_subtract( cpuRegisters.a, NO_CARRY );
 			break;
 		case 0x98:
-			accumulator_sub_8bitRegister( cpuRegisters.b, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.b, WITH_CARRY );
 			break;
 		case 0x99:
-			accumulator_sub_8bitRegister( cpuRegisters.c, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.c, WITH_CARRY );
 			break;
 		case 0x9a:
-			accumulator_sub_8bitRegister( cpuRegisters.d, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.d, WITH_CARRY );
 			break;
 		case 0x9b:
-			accumulator_sub_8bitRegister( cpuRegisters.e, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.e, WITH_CARRY );
 			break;
 		case 0x9c:
-			accumulator_sub_8bitRegister( cpuRegisters.h, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.h, WITH_CARRY );
 			break;
 		case 0x9d:
-			accumulator_sub_8bitRegister( cpuRegisters.l, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.l, WITH_CARRY );
 			break;
 		case 0x9e:
-			accumulator_sub_memoryValue( WITH_CARRY );
+			accumulator_subtract( MMU_readByte( cpuRegisters.hl ), WITH_CARRY );
 			break;
 		case 0x9f:
-			accumulator_sub_8bitRegister( cpuRegisters.a, WITH_CARRY );
+			accumulator_subtract( cpuRegisters.a, WITH_CARRY );
 			break;
 		case 0xa0:
 			accumulator_logicalAnd( cpuRegisters.b );
@@ -947,7 +930,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_push( cpuRegisters.bc );
 			break;
 		case 0xc6:
-			accumulator_add_directByte( NO_CARRY );
+			accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), NO_CARRY );
 			break;
 		case 0xc7:
 			stack_reset( 0x00 );
@@ -971,7 +954,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_call( CONDITION_ALWAYS );
 			break;
 		case 0xce:
-			accumulator_add_directByte( WITH_CARRY );
+			accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), WITH_CARRY );
 			break;
 		case 0xcf:
 			stack_reset( 0x08 );
@@ -994,7 +977,7 @@ inline void executeInstruction( instruction opcode ){
 			stack_push( cpuRegisters.de );
 			break;
 		case 0xd6:
-			accumulator_sub_directByte( NO_CARRY );
+			accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), NO_CARRY );
 			break;
 		case 0xd7:
 			stack_reset( 0x10 );
@@ -1017,7 +1000,7 @@ inline void executeInstruction( instruction opcode ){
 		case 0xdd:
 			break;
 		case 0xde:
-			accumulator_sub_directByte( WITH_CARRY );
+			accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), WITH_CARRY );
 			break;
 		case 0xdf:
 			stack_reset( 0x18 );
