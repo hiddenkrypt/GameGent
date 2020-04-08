@@ -43,4 +43,3 @@ typedef struct{
 	char arg2[5];			/**< the mnemonic representation of the second arg, if applicable */
 } instruction;
 
-#include "codeTables.h"

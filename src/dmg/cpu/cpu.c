@@ -5,8 +5,9 @@
 #include "opcodes.h"
 #include "../mmu/mmu.h"
 #include "../dmg.h"
-#include "cpu.h"
 #include "cpuInstructions.h"
+#include "codeTables.h"
+#include "cpu.h"
 
 DmgRegisters cpuRegisters;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
