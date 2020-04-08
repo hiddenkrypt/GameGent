@@ -323,12 +323,47 @@ void accumulator_compare( uint8_t value ){
 	}
 }
 
-void stack_pop( uint16_t* targetRegister ){}
-void stack_push( uint16_t valueRegister ){}
-void stack_reset( uint8_t offset ){}
-void stack_addDirectByteToSP(){}
-void stack_load_HL_SPWithDirectByteOffset(){}
-void stack_load_SP_HL(){}
+void stack_pop( uint16_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.sp );
+	cpuRegisters.sp = cpuRegisters.sp + 2;
+}
+void stack_push( uint16_t valueRegister ){
+	MMU_loadWord( cpuRegisters.sp, valueRegister );
+	cpuRegisters.sp = cpuRegisters.sp - 2;
+}
+void stack_restart( uint8_t address ){
+	stack_push( cpuRegisters.pc );
+	cpuRegisters.pc = address;
+}
+void stack_addDirectByteToSP(){
+	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
+	if( ( ( cpuRegisters.sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
+		cpu_setHalfCarryFlag();
+	}
+	cpuRegisters.sp = cpuRegisters.sp + value;
+	if( cpuRegisters.sp < value ){
+		cpu_setCarryFlag();
+	}
+}
+void stack_load_HL_SPWithDirectByteOffset(){
+	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
+	uint16_t sp = cpuRegisters.sp;
+	if( ( ( sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
+		cpu_setHalfCarryFlag();
+	} else {
+		cpu_clearHalfCarryFlag();
+	}
+	sp = sp + value;
+	if( sp < value ){
+		cpu_setCarryFlag();
+	} else {
+		cpu_clearCarryFlag();
+	}
+	cpuRegisters.hl = sp;
+}
+void stack_load_SP_HL(){
+	cpuRegisters.hl = cpuRegisters.sp;
+}
 void stack_return( flagConditional condition ){}
 void stack_call( flagConditional condition ){}
 
@@ -944,7 +979,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), NO_CARRY );
 			break;
 		case 0xc7:
-			stack_reset( 0x00 );
+			stack_restart( 0x00 );
 			break;
 		case 0xc8:
 			stack_return( CONDITION_ZERO );
@@ -968,7 +1003,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_addition( MMU_readByte( cpuRegisters.pc+1 ), WITH_CARRY );
 			break;
 		case 0xcf:
-			stack_reset( 0x08 );
+			stack_restart( 0x08 );
 			break;
 		case 0xd0:
 			stack_return( CONDITION_NO_CARRY );
@@ -991,7 +1026,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), NO_CARRY );
 			break;
 		case 0xd7:
-			stack_reset( 0x10 );
+			stack_restart( 0x10 );
 			break;
 		case 0xd8:
 			stack_return( cpuRegisters.c );
@@ -1014,7 +1049,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_subtract( MMU_readByte( cpuRegisters.pc+1 ), WITH_CARRY );
 			break;
 		case 0xdf:
-			stack_reset( 0x18 );
+			stack_restart( 0x18 );
 			break;
 		case 0xe0:
 			load_memoryHighDirectOffset_A();
@@ -1036,7 +1071,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_logicalAnd( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xe7:
-			stack_reset( 0x20 );
+			stack_restart( 0x20 );
 			break;
 		case 0xe8:
 			stack_addDirectByteToSP();
@@ -1057,7 +1092,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_logicalXor( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xef:
-			stack_reset( 0x28 );
+			stack_restart( 0x28 );
 			break;
 		case 0xf0:
 			load_A_MemoryHighWithDirectByteOffset();
@@ -1080,7 +1115,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_logicalOr( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xf7:
-			stack_reset( 0x30 );
+			stack_restart( 0x30 );
 			break;
 		case 0xf8:
 			stack_load_HL_SPWithDirectByteOffset();
@@ -1102,7 +1137,7 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_compare( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xff:
-			stack_reset( 0x38 );
+			stack_restart( 0x38 );
 			break;
 	}
 }
