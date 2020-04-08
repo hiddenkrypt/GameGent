@@ -308,9 +308,20 @@ void accumulator_logicalOr( uint8_t value ){
 	}
 }
 
-void accumulator_cp_8bitRegister( uint8_t valueRegister ){}
-void accumulator_cp_memoryValue(){}
-void accumulator_cp_directByte(){}
+void accumulator_compare( uint8_t value ){
+	if( ( cpuRegisters.a & 0x0f ) < ( value & 0x0f ) ){
+		cpu_setHalfCarryFlag();
+	}
+	if( cpuRegisters.a < value ) {
+		cpu_setCarryFlag();
+	}
+	cpu_setSubtractFlag();
+	if( cpuRegisters.a == value){
+		cpu_setZeroFlag();
+	} else {
+		cpu_clearZeroFlag();
+	}
+}
 
 void stack_pop( uint16_t* targetRegister ){}
 void stack_push( uint16_t valueRegister ){}
@@ -888,28 +899,28 @@ inline void executeInstruction( instruction opcode ){
 			accumulator_logicalOr( cpuRegisters.a );
 			break;
 		case 0xb8:
-			accumulator_cp_8bitRegister( cpuRegisters.b );
+			accumulator_compare( cpuRegisters.b );
 			break;
 		case 0xb9:
-			accumulator_cp_8bitRegister( cpuRegisters.c );
+			accumulator_compare( cpuRegisters.c );
 			break;
 		case 0xba:
-			accumulator_cp_8bitRegister( cpuRegisters.d );
+			accumulator_compare( cpuRegisters.d );
 			break;
 		case 0xbb:
-			accumulator_cp_8bitRegister( cpuRegisters.e );
+			accumulator_compare( cpuRegisters.e );
 			break;
 		case 0xbc:
-			accumulator_cp_8bitRegister( cpuRegisters.h );
+			accumulator_compare( cpuRegisters.h );
 			break;
 		case 0xbd:
-			accumulator_cp_8bitRegister( cpuRegisters.l );
+			accumulator_compare( cpuRegisters.l );
 			break;
 		case 0xbe:
-			accumulator_cp_memoryValue();
+			accumulator_compare( MMU_readByte( cpuRegisters.hl ) );
 			break;
 		case 0xbf:
-			accumulator_cp_8bitRegister( cpuRegisters.a );
+			accumulator_compare( cpuRegisters.a );
 			break;
 		case 0xc0:
 			stack_return( CONDITION_NO_ZERO );
@@ -1088,7 +1099,7 @@ inline void executeInstruction( instruction opcode ){
 		case 0xfd:
 			break;
 		case 0xfe:
-			accumulator_cp_directByte();
+			accumulator_compare( MMU_readByte( cpuRegisters.pc+1 ) );
 			break;
 		case 0xff:
 			stack_reset( 0x38 );
