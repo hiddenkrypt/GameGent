@@ -364,12 +364,31 @@ void stack_load_HL_SPWithDirectByteOffset(){
 void stack_load_SP_HL(){
 	cpuRegisters.hl = cpuRegisters.sp;
 }
-void stack_return( flagConditional condition ){}
-void stack_call( flagConditional condition ){}
+void stack_return( flagConditional condition ){
+	if( condition ){
+		stack_pop( &cpuRegisters.pc );
+	}
+}
+void stack_call( flagConditional condition ){
+	if( condition ){
+		stack_push( cpuRegisters.pc + 1 );
+		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc +1 );
+	}
+}
 
-void jump_relativeByte( flagConditional condition ){}
-void jump_toAddressWord( flagConditional condition ){}
-void jump_toHL(){}
+void jump_relativeByte( flagConditional condition ){
+	if( condition ){
+		cpuRegisters.pc = cpuRegisters.pc + MMU_readByte( cpuRegisters.pc + 1 );
+	}
+}
+void jump_toAddressWord( flagConditional condition ){
+	if( condition ){
+		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc + 1 );
+	}
+}
+void jump_toHL(){
+	cpuRegisters.pc = cpuRegisters.hl;
+}
 
 void cpu_prefix(){}
 
