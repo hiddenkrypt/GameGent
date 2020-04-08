@@ -57,7 +57,7 @@ void CPU_tick(){
 		CPU_crash(errorMessage);
 	}
 	executeInstruction( currentInstruction );
-	cpuRegisters.pc++;
+	cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
 }
 
 /** \brief stop the cpu and print out some debug information
