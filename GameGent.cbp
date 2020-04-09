@@ -44,6 +44,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/GameGent.h" />
+		<Unit filename="src/dmg/cpu/codeTables.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/dmg/cpu/codeTables.h" />
 		<Unit filename="src/dmg/cpu/cpu.c">
 			<Option compilerVar="CC" />
