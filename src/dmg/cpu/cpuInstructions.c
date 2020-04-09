@@ -2,402 +2,59 @@
 #include "registers.h"
 #include "opcodes.h"
 #include "../mmu/mmu.h"
+#include "cpu.h"
 #include "cpuInstructions.h"
-
-#define NO_CARRY false
-#define WITH_CARRY true
-#define THROUGH_CARRY true
-#define LEFT true
-#define RIGHT false
-
-#define flagConditional bool
-#define CONDITION_ZERO ((bool)cpuRegisters.f & FLAG_ZERO)
-#define CONDITION_NO_ZERO !((bool)cpuRegisters.f & FLAG_ZERO)
-#define CONDITION_CARRY ((bool)cpuRegisters.f & FLAG_CARRY)
-#define CONDITION_NO_CARRY !((bool)cpuRegisters.f & FLAG_CARRY)
-#define CONDITION_SUBTRACT ((bool)cpuRegisters.f & FLAG_SUBTRACT)
-#define CONDITION_HALFCARRY ((bool)cpuRegisters.f & FLAG_HALFCARRY)
-#define CONDITION_ALWAYS (true)
+#include "cpuInstructionHeaders.h"
 
 
-/** @todo fix overflows from math ops
- * @todo set flags
- * @todo figure out branch timing
+
+/** @todo cpu halt and stop
+ * @todo prefix opcodes
+ * @todo timing
  */
-void cpu_noop(){}
-void cpu_stop(){}
-void cpu_halt(){}
-void cpu_setCarryFlag(){
-	cpuRegisters.f = cpuRegisters.f | FLAG_CARRY;
-}
-void cpu_clearCarryFlag(){
-	cpuRegisters.f = cpuRegisters.f & (~FLAG_CARRY);
-}
-void cpu_flipCarryFlag(){
-	cpuRegisters.f = cpuRegisters.f ^ FLAG_CARRY;
-}
-bool cpu_getCarryFlag(){
-	return cpuRegisters.f & FLAG_CARRY;
-}
 
-
-
-void cpu_setZeroFlag(){
-	cpuRegisters.f = cpuRegisters.f | FLAG_ZERO;
-}
-void cpu_clearZeroFlag(){
-	cpuRegisters.f = cpuRegisters.f & (~FLAG_ZERO);
-}
-bool cpu_getZeroFlag(){
-	return cpuRegisters.f & FLAG_ZERO;
-}
-
-
-
-void cpu_setHalfCarryFlag(){
-	cpuRegisters.f = cpuRegisters.f | FLAG_HALFCARRY;
-}
-void cpu_clearHalfCarryFlag(){
-	cpuRegisters.f = cpuRegisters.f & (~FLAG_HALFCARRY);
-}
-bool cpu_getHalfCarryFlag(){
-	return cpuRegisters.f & FLAG_HALFCARRY;
-}
-
-
-
-void cpu_setSubtractFlag(){
-	cpuRegisters.f = cpuRegisters.f | FLAG_SUBTRACT;
-}
-void cpu_clearSubtractFlag(){
-	cpuRegisters.f = cpuRegisters.f & (~FLAG_SUBTRACT);
-}
-bool cpu_getSubtractFlag(){
-	return cpuRegisters.f & FLAG_SUBTRACT;
-}
-
-
-
-void cpu_enableInterrupts(){
-	cpuRegisters.ime = true;
-}
-void cpu_disableInterrupts(){
-	cpuRegisters.ime = false;
-}
-
-void load_16bitRegister_DirectWord( uint16_t* targetRegister ){
-	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
-}
-void load_8bitRegister_DirectByte( uint8_t* targetRegister ){
-	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
-}
-void load_8bitRegister_MemoryAtRegisterValue( uint8_t* targetRegister, uint16_t address ){
-	*targetRegister = MMU_readWord( address );
-}
-void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dataRegister ){
-	*targetRegister = dataRegister;
-}
-void load_memory_directByte(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc + 1 ) );
-}
-void load_memoryAtRegisterValue_8bitRegisterData( uint16_t address, uint8_t dataRegister ){
-	MMU_loadByte( address, dataRegister );
-}
-void load_memoryAtDirectWord_16bitRegister(){
-	MMU_loadWord( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.sp );
-}
-void load_memoryAtDirectWord_A(){
-	MMU_loadByte( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.a );
-}
-void load_memoryHighDirectOffset_A(){
-	MMU_loadByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ), cpuRegisters.a );
-}
-void load_memoryHighRegisterOffset_A(){
-	MMU_loadByte( 0xff00 + cpuRegisters.c, cpuRegisters.a );
-}
-void load_A_MemoryAtDirectWord(){
-	cpuRegisters.a = MMU_readByte( cpuRegisters.pc + 1 );
-}
-void load_A_MemoryHighWithDirectByteOffset(){
-	cpuRegisters.a = MMU_readByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ) );
-}
-void load_A_MemoryHighWithRegisterByteOffset(){
-	cpuRegisters.a = MMU_readByte( 0xff00 + cpuRegisters.c );
-}
-
-void increment_16bitRegister( uint16_t* targetRegister ){
-	*targetRegister = *targetRegister+1;
-}
-void decrement_16bitRegister( uint16_t* targetRegister ){
-	*targetRegister = *targetRegister-1;
-}
-void increment_8bitRegister( uint8_t* targetRegister ){
-	if( !( *targetRegister & 0x0F ) ) {
-		cpu_setHalfCarryFlag();
-	}
-	*targetRegister = *targetRegister + 1;
-	if( *targetRegister == 0 ){
-		cpu_setZeroFlag();
-	}
-	if( !( *targetRegister & 0x0F ) ) {
-		cpu_setHalfCarryFlag();
-	}
-}
-void decrement_8bitRegister( uint8_t* targetRegister ){
-	*targetRegister = *targetRegister-1;
-	if( ( *targetRegister & 0x0f ) == 0x0f ){
-		cpu_setHalfCarryFlag();
-	}
-	if( *targetRegister == 0 ){
-		cpu_setZeroFlag();
-	}
-}
-void increment_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
-	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
-		cpu_setZeroFlag();
-	}
-	if( !( MMU_readByte( cpuRegisters.hl ) & 0x0F ) ) {
-		cpu_setHalfCarryFlag();
-	}
-}
-void decrement_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
-	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
-		cpu_setZeroFlag();
-	}
-	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0f ) == 0x0f ){
-		cpu_setHalfCarryFlag();
-	}
-}
-
-void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
-	if( left ){
-		uint8_t msb = *targetRegister >> 7;
-		*targetRegister = *targetRegister << 1;
-		if( throughCarry ){
-			uint8_t previousCarry = cpu_getCarryFlag();
-			if( msb ){
-				cpu_setCarryFlag();
-			} else {
-				cpu_clearCarryFlag();
-			}
-			if( previousCarry ){
-				*targetRegister = *targetRegister | 0x01;
-			} else {
-				*targetRegister = *targetRegister & 0xfe;
-			}
-		} else {
-			if( msb ){
-				cpu_setCarryFlag();
-				*targetRegister = *targetRegister | 0x01;
-			} else {
-				cpu_clearCarryFlag();
-				*targetRegister = *targetRegister & 0xfe;
-			}
-		}
-	} else {
-		uint8_t lsb = *targetRegister & 0x01;
-		*targetRegister = *targetRegister >> 1;
-		if( throughCarry ){
-			uint8_t previousCarry = cpu_getCarryFlag();
-			if( lsb ){
-				cpu_setCarryFlag();
-			} else {
-				cpu_clearCarryFlag();
-			}
-			if( previousCarry ){
-				*targetRegister = *targetRegister | 0x80;
-			} else {
-				*targetRegister = *targetRegister & 0x7f;
-			}
-		} else {
-			if( lsb ){
-				cpu_setCarryFlag();
-				*targetRegister = *targetRegister | 0x80;
-			} else {
-				cpu_clearCarryFlag();
-				*targetRegister = *targetRegister & 0x7f;
-			}
-		}
-	}
-	if( *targetRegister == 0 ){
-		cpu_setZeroFlag();
-	}
-}
-
-void add_16bitRegister( uint16_t valueRegister ){
-	if( ( ( cpuRegisters.hl & 0x0fff ) + ( valueRegister & 0x0fff ) ) &0x1000 ){
-		cpu_setHalfCarryFlag();
-	}
-	cpuRegisters.hl = cpuRegisters.hl + valueRegister;
-	if( cpuRegisters.hl < valueRegister ){
-		cpu_setCarryFlag();
-	}
-}
-
-
-void accumulator_decimalAdjustment(){
-	uint16_t workingValue = cpuRegisters.a;
-	if ( CONDITION_SUBTRACT ){
-		if( CONDITION_HALFCARRY ){
-			workingValue = ( workingValue - 0x06 ) & 0xff ;
-		}
-		if( CONDITION_CARRY ){
-			workingValue = workingValue - 0x60;
-		}
-	} else {
-		if( CONDITION_HALFCARRY || ( workingValue & 0x0f ) > 9 ){
-			workingValue = workingValue + 0x06;
-		}
-		if( CONDITION_CARRY || workingValue > 0x9f){
-			workingValue = workingValue + 0x60;
-		}
-	}
-	if( workingValue >= 0x100 ){
-		cpu_setCarryFlag();
-	}
-	cpuRegisters.a = workingValue & 0xff;
-}
-void accumulator_complement(){
-	cpuRegisters.a = ~cpuRegisters.a;
-}
-void accumulator_addition( uint8_t value, bool useCarry ){
-	cpuRegisters.a = cpuRegisters.a + value;
-	if( useCarry ){
-		cpuRegisters.a = cpuRegisters.a + cpu_getCarryFlag();
-	}
-	if( cpuRegisters.a < value ){
-		cpu_setCarryFlag();
-	}
-}
-void accumulator_subtract( uint8_t value, bool useCarry ){
-	uint8_t valueA = cpuRegisters.a;
-	cpuRegisters.a = cpuRegisters.a - value;
-	if( useCarry ){
-		cpuRegisters.a = cpuRegisters.a - cpu_getCarryFlag();
-	}
-	if( cpuRegisters.a == 0 ){
-		cpu_setZeroFlag();
-	}
-	if( ( valueA & 0x0f ) < ( value & 0x0f ) ){
-		cpu_setHalfCarryFlag();
-	}
-	if( valueA < value ) {
-		cpu_setCarryFlag();
-	}
-	cpu_setSubtractFlag();
-}
-
-void accumulator_logicalAnd( uint8_t value ){
-	cpuRegisters.a = cpuRegisters.a & value;
-	if ( cpuRegisters.a == 0 ){
-		cpu_setZeroFlag();
-	}
-}
-void accumulator_logicalXor( uint8_t value ){
-	cpuRegisters.a = cpuRegisters.a ^ value;
-	if ( cpuRegisters.a == 0 ){
-		cpu_setZeroFlag();
-	}
-}
-void accumulator_logicalOr( uint8_t value ){
-	cpuRegisters.a = cpuRegisters.a | value;
-	if ( cpuRegisters.a == 0 ){
-		cpu_setZeroFlag();
-	}
-}
-
-void accumulator_compare( uint8_t value ){
-	if( ( cpuRegisters.a & 0x0f ) < ( value & 0x0f ) ){
-		cpu_setHalfCarryFlag();
-	}
-	if( cpuRegisters.a < value ) {
-		cpu_setCarryFlag();
-	}
-	cpu_setSubtractFlag();
-	if( cpuRegisters.a == value){
-		cpu_setZeroFlag();
-	} else {
-		cpu_clearZeroFlag();
-	}
-}
-
-void stack_pop( uint16_t* targetRegister ){
-	*targetRegister = MMU_readWord( cpuRegisters.sp );
-	cpuRegisters.sp = cpuRegisters.sp + 2;
-}
-void stack_push( uint16_t valueRegister ){
-	MMU_loadWord( cpuRegisters.sp, valueRegister );
-	cpuRegisters.sp = cpuRegisters.sp - 2;
-}
-void stack_restart( uint8_t address ){
-	stack_push( cpuRegisters.pc );
-	cpuRegisters.pc = address;
-}
-void stack_addDirectByteToSP(){
-	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
-	if( ( ( cpuRegisters.sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
-		cpu_setHalfCarryFlag();
-	}
-	cpuRegisters.sp = cpuRegisters.sp + value;
-	if( cpuRegisters.sp < value ){
-		cpu_setCarryFlag();
-	}
-}
-void stack_load_HL_SPWithDirectByteOffset(){
-	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
-	uint16_t sp = cpuRegisters.sp;
-	if( ( ( sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
-		cpu_setHalfCarryFlag();
-	} else {
-		cpu_clearHalfCarryFlag();
-	}
-	sp = sp + value;
-	if( sp < value ){
-		cpu_setCarryFlag();
-	} else {
-		cpu_clearCarryFlag();
-	}
-	cpuRegisters.hl = sp;
-}
-void stack_load_SP_HL(){
-	cpuRegisters.hl = cpuRegisters.sp;
-}
-void stack_return( flagConditional condition ){
-	if( condition ){
-		stack_pop( &cpuRegisters.pc );
-	}
-}
-void stack_call( flagConditional condition ){
-	if( condition ){
-		stack_push( cpuRegisters.pc + 1 );
-		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc +1 );
-	}
-}
-
-void jump_relativeByte( flagConditional condition ){
-	if( condition ){
-		cpuRegisters.pc = cpuRegisters.pc + MMU_readByte( cpuRegisters.pc + 1 );
-	}
-}
-void jump_toAddressWord( flagConditional condition ){
-	if( condition ){
-		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc + 1 );
-	}
-}
-void jump_toHL(){
-	cpuRegisters.pc = cpuRegisters.hl;
-}
-
-void cpu_prefix(){}
 
 
 inline void executeInstruction( instruction opcode ){
-	printf("called for %#04x %s\n", opcode.codePoint, opcode.mnemonic);
-	switch( opcode.codePoint ){
+
+//	printf("called for %#04x %s\n", opcode.codePoint, opcode.mnemonic);
+	instructionSwitch( opcode.codePoint );
+	handleStaticFlagEffects( opcode );
+}
+inline void handleStaticFlagEffects( instruction opcode ){
+	if( opcode.flags.carry == EFFECT_RAISED ){
+		CPU_setCarryFlag();
+	}
+	if( opcode.flags.carry == EFFECT_CLEARED ){
+		CPU_clearCarryFlag();
+	}
+	if( opcode.flags.halfCarry == EFFECT_RAISED ){
+		CPU_setHalfCarryFlag();
+	}
+	if( opcode.flags.halfCarry == EFFECT_CLEARED ){
+		CPU_clearHalfCarryFlag();
+	}
+	if( opcode.flags.zero == EFFECT_RAISED ){
+		CPU_setZeroFlag();
+	}
+	if( opcode.flags.zero == EFFECT_CLEARED ){
+		CPU_clearZeroFlag();
+	}
+	if( opcode.flags.subtract == EFFECT_RAISED ){
+		CPU_setSubtractFlag();
+	}
+	if( opcode.flags.carry == EFFECT_CLEARED ){
+		CPU_clearSubtractFlag();
+	}
+}
+
+
+
+
+inline void instructionSwitch( uint8_t codePoint ){
+	switch( codePoint ){
 		case 0x00:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x01:
 			load_16bitRegister_DirectWord( &cpuRegisters.bc );
@@ -445,7 +102,7 @@ inline void executeInstruction( instruction opcode ){
 			rotate_8bitRegister( &cpuRegisters.a, RIGHT, NO_CARRY );
 			break;
 		case 0x10:
-			cpu_stop();
+			CPU_stop();
 			break;
 		case 0x11:
 			load_16bitRegister_DirectWord( &cpuRegisters.de );
@@ -565,7 +222,7 @@ inline void executeInstruction( instruction opcode ){
 			load_memory_directByte();
 			break;
 		case 0x37:
-			cpu_setCarryFlag();
+			CPU_setCarryFlag();
 			break;
 		case 0x38:
 			jump_relativeByte( CONDITION_CARRY );
@@ -590,10 +247,10 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_DirectByte( &cpuRegisters.a );
 			break;
 		case 0x3f:
-			cpu_flipCarryFlag();
+			CPU_flipCarryFlag();
 			break;
 		case 0x40:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x41:
 			load_8bitRegister_8bitRegister( &cpuRegisters.b, cpuRegisters.c );
@@ -620,7 +277,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_8bitRegister( &cpuRegisters.c, cpuRegisters.b );
 			break;
 		case 0x49:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x4a:
 			load_8bitRegister_8bitRegister( &cpuRegisters.c, cpuRegisters.d );
@@ -647,7 +304,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_8bitRegister( &cpuRegisters.d, cpuRegisters.c );
 			break;
 		case 0x52:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x53:
 			load_8bitRegister_8bitRegister( &cpuRegisters.d, cpuRegisters.e );
@@ -674,7 +331,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_8bitRegister( &cpuRegisters.e, cpuRegisters.d );
 			break;
 		case 0x5b:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x5c:
 			load_8bitRegister_8bitRegister( &cpuRegisters.e, cpuRegisters.h );
@@ -701,7 +358,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_8bitRegister( &cpuRegisters.h, cpuRegisters.e );
 			break;
 		case 0x64:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x65:
 			load_8bitRegister_8bitRegister( &cpuRegisters.h, cpuRegisters.l );
@@ -728,7 +385,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_8bitRegister( &cpuRegisters.l, cpuRegisters.h );
 			break;
 		case 0x6d:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x6e:
 			load_8bitRegister_MemoryAtRegisterValue( &cpuRegisters.l, cpuRegisters.hl );
@@ -755,7 +412,7 @@ inline void executeInstruction( instruction opcode ){
 			load_memoryAtRegisterValue_8bitRegisterData( cpuRegisters.hl, cpuRegisters.l );
 			break;
 		case 0x76:
-			cpu_halt();
+			CPU_halt();
 			break;
 		case 0x77:
 			load_memoryAtRegisterValue_8bitRegisterData( cpuRegisters.hl, cpuRegisters.a );
@@ -782,7 +439,7 @@ inline void executeInstruction( instruction opcode ){
 			load_8bitRegister_MemoryAtRegisterValue( &cpuRegisters.a, cpuRegisters.hl );
 			break;
 		case 0x7f:
-			cpu_noop();
+			CPU_noop();
 			break;
 		case 0x80:
 			accumulator_addition( cpuRegisters.b, NO_CARRY );
@@ -1010,7 +667,7 @@ inline void executeInstruction( instruction opcode ){
 			jump_toAddressWord( CONDITION_ZERO );
 			break;
 		case 0xcb:
-			cpu_prefix();
+			prefixInstruction();
 			break;
 		case 0xcc:
 			stack_call( CONDITION_ZERO );
@@ -1052,7 +709,7 @@ inline void executeInstruction( instruction opcode ){
 			break;
 		case 0xd9:
 			stack_return( CONDITION_ALWAYS );
-			cpu_enableInterrupts();
+			CPU_enableInterrupts();
 			break;
 		case 0xda:
 			jump_toAddressWord( CONDITION_CARRY );
@@ -1123,7 +780,7 @@ inline void executeInstruction( instruction opcode ){
 			load_A_MemoryHighWithRegisterByteOffset();
 			break;
 		case 0xf3:
-			cpu_disableInterrupts();
+			CPU_disableInterrupts();
 			break;
 		case 0xf4:
 			break;
@@ -1146,7 +803,7 @@ inline void executeInstruction( instruction opcode ){
 			load_A_MemoryAtDirectWord();
 			break;
 		case 0xfb:
-			cpu_enableInterrupts();
+			CPU_enableInterrupts();
 			break;
 		case 0xfc:
 			break;
@@ -1159,4 +816,826 @@ inline void executeInstruction( instruction opcode ){
 			stack_restart( 0x38 );
 			break;
 	}
+}
+
+inline void prefixInstructionSwitch(){
+	switch ( MMU_readByte( cpuRegisters.pc+1 ) ){
+		case 0x00:
+			break;
+		case 0x01:
+			break;
+		case 0x02:
+			break;
+		case 0x03:
+			break;
+		case 0x04:
+			break;
+		case 0x05:
+			break;
+		case 0x06:
+			break;
+		case 0x07:
+			break;
+		case 0x08:
+			break;
+		case 0x09:
+			break;
+		case 0x0a:
+			break;
+		case 0x0b:
+			break;
+		case 0x0c:
+			break;
+		case 0x0d:
+			break;
+		case 0x0e:
+			break;
+		case 0x0f:
+			break;
+		case 0x10:
+			break;
+		case 0x11:
+			break;
+		case 0x12:
+			break;
+		case 0x13:
+			break;
+		case 0x14:
+			break;
+		case 0x15:
+			break;
+		case 0x16:
+			break;
+		case 0x17:
+			break;
+		case 0x18:
+			break;
+		case 0x19:
+			break;
+		case 0x1a:
+			break;
+		case 0x1b:
+			break;
+		case 0x1c:
+			break;
+		case 0x1d:
+			break;
+		case 0x1e:
+			break;
+		case 0x1f:
+			break;
+		case 0x20:
+			break;
+		case 0x21:
+			break;
+		case 0x22:
+			break;
+		case 0x23:
+			break;
+		case 0x24:
+			break;
+		case 0x25:
+			break;
+		case 0x26:
+			break;
+		case 0x27:
+			break;
+		case 0x28:
+			break;
+		case 0x29:
+			break;
+		case 0x2a:
+			break;
+		case 0x2b:
+			break;
+		case 0x2c:
+			break;
+		case 0x2d:
+			break;
+		case 0x2e:
+			break;
+		case 0x2f:
+			break;
+		case 0x30:
+			break;
+		case 0x31:
+			break;
+		case 0x32:
+			break;
+		case 0x33:
+			break;
+		case 0x34:
+			break;
+		case 0x35:
+			break;
+		case 0x36:
+			break;
+		case 0x37:
+			break;
+		case 0x38:
+			break;
+		case 0x39:
+			break;
+		case 0x3a:
+			break;
+		case 0x3b:
+			break;
+		case 0x3c:
+			break;
+		case 0x3d:
+			break;
+		case 0x3e:
+			break;
+		case 0x3f:
+			break;
+		case 0x40:
+			break;
+		case 0x41:
+			break;
+		case 0x42:
+			break;
+		case 0x43:
+			break;
+		case 0x44:
+			break;
+		case 0x45:
+			break;
+		case 0x46:
+			break;
+		case 0x47:
+			break;
+		case 0x48:
+			break;
+		case 0x49:
+			break;
+		case 0x4a:
+			break;
+		case 0x4b:
+			break;
+		case 0x4c:
+			break;
+		case 0x4d:
+			break;
+		case 0x4e:
+			break;
+		case 0x4f:
+			break;
+		case 0x50:
+			break;
+		case 0x51:
+			break;
+		case 0x52:
+			break;
+		case 0x53:
+			break;
+		case 0x54:
+			break;
+		case 0x55:
+			break;
+		case 0x56:
+			break;
+		case 0x57:
+			break;
+		case 0x58:
+			break;
+		case 0x59:
+			break;
+		case 0x5a:
+			break;
+		case 0x5b:
+			break;
+		case 0x5c:
+			break;
+		case 0x5d:
+			break;
+		case 0x5e:
+			break;
+		case 0x5f:
+			break;
+		case 0x60:
+			break;
+		case 0x61:
+			break;
+		case 0x62:
+			break;
+		case 0x63:
+			break;
+		case 0x64:
+			break;
+		case 0x65:
+			break;
+		case 0x66:
+			break;
+		case 0x67:
+			break;
+		case 0x68:
+			break;
+		case 0x69:
+			break;
+		case 0x6a:
+			break;
+		case 0x6b:
+			break;
+		case 0x6c:
+			break;
+		case 0x6d:
+			break;
+		case 0x6e:
+			break;
+		case 0x6f:
+			break;
+		case 0x70:
+			break;
+		case 0x71:
+			break;
+		case 0x72:
+			break;
+		case 0x73:
+			break;
+		case 0x74:
+			break;
+		case 0x75:
+			break;
+		case 0x76:
+			break;
+		case 0x77:
+			break;
+		case 0x78:
+			break;
+		case 0x79:
+			break;
+		case 0x7a:
+			break;
+		case 0x7b:
+			break;
+		case 0x7c:
+			break;
+		case 0x7d:
+			break;
+		case 0x7e:
+			break;
+		case 0x7f:
+			break;
+		case 0x80:
+			break;
+		case 0x81:
+			break;
+		case 0x82:
+			break;
+		case 0x83:
+			break;
+		case 0x84:
+			break;
+		case 0x85:
+			break;
+		case 0x86:
+			break;
+		case 0x87:
+			break;
+		case 0x88:
+			break;
+		case 0x89:
+			break;
+		case 0x8a:
+			break;
+		case 0x8b:
+			break;
+		case 0x8c:
+			break;
+		case 0x8d:
+			break;
+		case 0x8e:
+			break;
+		case 0x8f:
+			break;
+		case 0x90:
+			break;
+		case 0x91:
+			break;
+		case 0x92:
+			break;
+		case 0x93:
+			break;
+		case 0x94:
+			break;
+		case 0x95:
+			break;
+		case 0x96:
+			break;
+		case 0x97:
+			break;
+		case 0x98:
+			break;
+		case 0x99:
+			break;
+		case 0x9a:
+			break;
+		case 0x9b:
+			break;
+		case 0x9c:
+			break;
+		case 0x9d:
+			break;
+		case 0x9e:
+			break;
+		case 0x9f:
+			break;
+		case 0xa0:
+			break;
+		case 0xa1:
+			break;
+		case 0xa2:
+			break;
+		case 0xa3:
+			break;
+		case 0xa4:
+			break;
+		case 0xa5:
+			break;
+		case 0xa6:
+			break;
+		case 0xa7:
+			break;
+		case 0xa8:
+			break;
+		case 0xa9:
+			break;
+		case 0xaa:
+			break;
+		case 0xab:
+			break;
+		case 0xac:
+			break;
+		case 0xad:
+			break;
+		case 0xae:
+			break;
+		case 0xaf:
+			break;
+		case 0xb0:
+			break;
+		case 0xb1:
+			break;
+		case 0xb2:
+			break;
+		case 0xb3:
+			break;
+		case 0xb4:
+			break;
+		case 0xb5:
+			break;
+		case 0xb6:
+			break;
+		case 0xb7:
+			break;
+		case 0xb8:
+			break;
+		case 0xb9:
+			break;
+		case 0xba:
+			break;
+		case 0xbb:
+			break;
+		case 0xbc:
+			break;
+		case 0xbd:
+			break;
+		case 0xbe:
+			break;
+		case 0xbf:
+			break;
+		case 0xc0:
+			break;
+		case 0xc1:
+			break;
+		case 0xc2:
+			break;
+		case 0xc3:
+			break;
+		case 0xc4:
+			break;
+		case 0xc5:
+			break;
+		case 0xc6:
+			break;
+		case 0xc7:
+			break;
+		case 0xc8:
+			break;
+		case 0xc9:
+			break;
+		case 0xca:
+			break;
+		case 0xcb:
+			break;
+		case 0xcc:
+			break;
+		case 0xcd:
+			break;
+		case 0xce:
+			break;
+		case 0xcf:
+			break;
+		case 0xd0:
+			break;
+		case 0xd1:
+			break;
+		case 0xd2:
+			break;
+		case 0xd3:
+			break;
+		case 0xd4:
+			break;
+		case 0xd5:
+			break;
+		case 0xd6:
+			break;
+		case 0xd7:
+			break;
+		case 0xd8:
+			break;
+		case 0xd9:
+			break;
+		case 0xda:
+			break;
+		case 0xdb:
+			break;
+		case 0xdc:
+			break;
+		case 0xdd:
+			break;
+		case 0xde:
+			break;
+		case 0xdf:
+			break;
+		case 0xe0:
+			break;
+		case 0xe1:
+			break;
+		case 0xe2:
+			break;
+		case 0xe3:
+			break;
+		case 0xe4:
+			break;
+		case 0xe5:
+			break;
+		case 0xe6:
+			break;
+		case 0xe7:
+			break;
+		case 0xe8:
+			break;
+		case 0xe9:
+			break;
+		case 0xea:
+			break;
+		case 0xeb:
+			break;
+		case 0xec:
+			break;
+		case 0xed:
+			break;
+		case 0xee:
+			break;
+		case 0xef:
+			break;
+		case 0xf0:
+			break;
+		case 0xf1:
+			break;
+		case 0xf2:
+			break;
+		case 0xf3:
+			break;
+		case 0xf4:
+			break;
+		case 0xf5:
+			break;
+		case 0xf6:
+			break;
+		case 0xf7:
+			break;
+		case 0xf8:
+			break;
+		case 0xf9:
+			break;
+		case 0xfa:
+			break;
+		case 0xfb:
+			break;
+		case 0xfc:
+			break;
+		case 0xfd:
+			break;
+		case 0xfe:
+			break;
+		case 0xff:
+			break;
+	}
+}
+
+inline void load_16bitRegister_DirectWord( uint16_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
+}
+inline void load_8bitRegister_DirectByte( uint8_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
+}
+inline void load_8bitRegister_MemoryAtRegisterValue( uint8_t* targetRegister, uint16_t address ){
+	*targetRegister = MMU_readWord( address );
+}
+inline void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dataRegister ){
+	*targetRegister = dataRegister;
+}
+inline void load_memory_directByte(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc + 1 ) );
+}
+inline void load_memoryAtRegisterValue_8bitRegisterData( uint16_t address, uint8_t dataRegister ){
+	MMU_loadByte( address, dataRegister );
+}
+inline void load_memoryAtDirectWord_16bitRegister(){
+	MMU_loadWord( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.sp );
+}
+inline void load_memoryAtDirectWord_A(){
+	MMU_loadByte( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.a );
+}
+inline void load_memoryHighDirectOffset_A(){
+	MMU_loadByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ), cpuRegisters.a );
+}
+inline void load_memoryHighRegisterOffset_A(){
+	MMU_loadByte( 0xff00 + cpuRegisters.c, cpuRegisters.a );
+}
+inline void load_A_MemoryAtDirectWord(){
+	cpuRegisters.a = MMU_readByte( cpuRegisters.pc + 1 );
+}
+inline void load_A_MemoryHighWithDirectByteOffset(){
+	cpuRegisters.a = MMU_readByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ) );
+}
+inline void load_A_MemoryHighWithRegisterByteOffset(){
+	cpuRegisters.a = MMU_readByte( 0xff00 + cpuRegisters.c );
+}
+
+inline void increment_16bitRegister( uint16_t* targetRegister ){
+	*targetRegister = *targetRegister+1;
+}
+inline void decrement_16bitRegister( uint16_t* targetRegister ){
+	*targetRegister = *targetRegister-1;
+}
+inline void increment_8bitRegister( uint8_t* targetRegister ){
+	if( !( *targetRegister & 0x0F ) ) {
+		CPU_setHalfCarryFlag();
+	}
+	*targetRegister = *targetRegister + 1;
+	if( *targetRegister == 0 ){
+		CPU_setZeroFlag();
+	}
+	if( !( *targetRegister & 0x0F ) ) {
+		CPU_setHalfCarryFlag();
+	}
+}
+inline void decrement_8bitRegister( uint8_t* targetRegister ){
+	*targetRegister = *targetRegister-1;
+	if( ( *targetRegister & 0x0f ) == 0x0f ){
+		CPU_setHalfCarryFlag();
+	}
+	if( *targetRegister == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+inline void increment_memoryValue(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
+	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
+		CPU_setZeroFlag();
+	}
+	if( !( MMU_readByte( cpuRegisters.hl ) & 0x0F ) ) {
+		CPU_setHalfCarryFlag();
+	}
+}
+inline void decrement_memoryValue(){
+	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
+	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
+		CPU_setZeroFlag();
+	}
+	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0f ) == 0x0f ){
+		CPU_setHalfCarryFlag();
+	}
+}
+
+inline void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
+	if( left ){
+		uint8_t msb = *targetRegister >> 7;
+		*targetRegister = *targetRegister << 1;
+		if( throughCarry ){
+			uint8_t previousCarry = CPU_getCarryFlag();
+			if( msb ){
+				CPU_setCarryFlag();
+			} else {
+				CPU_clearCarryFlag();
+			}
+			if( previousCarry ){
+				*targetRegister = *targetRegister | 0x01;
+			} else {
+				*targetRegister = *targetRegister & 0xfe;
+			}
+		} else {
+			if( msb ){
+				CPU_setCarryFlag();
+				*targetRegister = *targetRegister | 0x01;
+			} else {
+				CPU_clearCarryFlag();
+				*targetRegister = *targetRegister & 0xfe;
+			}
+		}
+	} else {
+		uint8_t lsb = *targetRegister & 0x01;
+		*targetRegister = *targetRegister >> 1;
+		if( throughCarry ){
+			uint8_t previousCarry = CPU_getCarryFlag();
+			if( lsb ){
+				CPU_setCarryFlag();
+			} else {
+				CPU_clearCarryFlag();
+			}
+			if( previousCarry ){
+				*targetRegister = *targetRegister | 0x80;
+			} else {
+				*targetRegister = *targetRegister & 0x7f;
+			}
+		} else {
+			if( lsb ){
+				CPU_setCarryFlag();
+				*targetRegister = *targetRegister | 0x80;
+			} else {
+				CPU_clearCarryFlag();
+				*targetRegister = *targetRegister & 0x7f;
+			}
+		}
+	}
+	if( *targetRegister == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+
+inline void add_16bitRegister( uint16_t valueRegister ){
+	if( ( ( cpuRegisters.hl & 0x0fff ) + ( valueRegister & 0x0fff ) ) &0x1000 ){
+		CPU_setHalfCarryFlag();
+	}
+	cpuRegisters.hl = cpuRegisters.hl + valueRegister;
+	if( cpuRegisters.hl < valueRegister ){
+		CPU_setCarryFlag();
+	}
+}
+
+
+inline void accumulator_decimalAdjustment(){
+	uint16_t workingValue = cpuRegisters.a;
+	if ( CONDITION_SUBTRACT ){
+		if( CONDITION_HALFCARRY ){
+			workingValue = ( workingValue - 0x06 ) & 0xff ;
+		}
+		if( CONDITION_CARRY ){
+			workingValue = workingValue - 0x60;
+		}
+	} else {
+		if( CONDITION_HALFCARRY || ( workingValue & 0x0f ) > 9 ){
+			workingValue = workingValue + 0x06;
+		}
+		if( CONDITION_CARRY || workingValue > 0x9f){
+			workingValue = workingValue + 0x60;
+		}
+	}
+	if( workingValue >= 0x100 ){
+		CPU_setCarryFlag();
+	}
+	cpuRegisters.a = workingValue & 0xff;
+}
+inline void accumulator_complement(){
+	cpuRegisters.a = ~cpuRegisters.a;
+}
+inline void accumulator_addition( uint8_t value, bool useCarry ){
+	cpuRegisters.a = cpuRegisters.a + value;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a + CPU_getCarryFlag();
+	}
+	if( cpuRegisters.a < value ){
+		CPU_setCarryFlag();
+	}
+}
+inline void accumulator_subtract( uint8_t value, bool useCarry ){
+	uint8_t valueA = cpuRegisters.a;
+	cpuRegisters.a = cpuRegisters.a - value;
+	if( useCarry ){
+		cpuRegisters.a = cpuRegisters.a - CPU_getCarryFlag();
+	}
+	if( cpuRegisters.a == 0 ){
+		CPU_setZeroFlag();
+	}
+	if( ( valueA & 0x0f ) < ( value & 0x0f ) ){
+		CPU_setHalfCarryFlag();
+	}
+	if( valueA < value ) {
+		CPU_setCarryFlag();
+	}
+	CPU_setSubtractFlag();
+}
+
+inline void accumulator_logicalAnd( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a & value;
+	if ( cpuRegisters.a == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+inline void accumulator_logicalXor( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a ^ value;
+	if ( cpuRegisters.a == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+inline void accumulator_logicalOr( uint8_t value ){
+	cpuRegisters.a = cpuRegisters.a | value;
+	if ( cpuRegisters.a == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+
+inline void accumulator_compare( uint8_t value ){
+	if( ( cpuRegisters.a & 0x0f ) < ( value & 0x0f ) ){
+		CPU_setHalfCarryFlag();
+	}
+	if( cpuRegisters.a < value ) {
+		CPU_setCarryFlag();
+	}
+	CPU_setSubtractFlag();
+	if( cpuRegisters.a == value){
+		CPU_setZeroFlag();
+	} else {
+		CPU_clearZeroFlag();
+	}
+}
+
+inline void stack_pop( uint16_t* targetRegister ){
+	*targetRegister = MMU_readWord( cpuRegisters.sp );
+	cpuRegisters.sp = cpuRegisters.sp + 2;
+}
+inline void stack_push( uint16_t valueRegister ){
+	MMU_loadWord( cpuRegisters.sp, valueRegister );
+	cpuRegisters.sp = cpuRegisters.sp - 2;
+}
+inline void stack_restart( uint8_t address ){
+	stack_push( cpuRegisters.pc );
+	cpuRegisters.pc = address;
+}
+inline void stack_addDirectByteToSP(){
+	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
+	if( ( ( cpuRegisters.sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
+		CPU_setHalfCarryFlag();
+	}
+	cpuRegisters.sp = cpuRegisters.sp + value;
+	if( cpuRegisters.sp < value ){
+		CPU_setCarryFlag();
+	}
+}
+inline void stack_load_HL_SPWithDirectByteOffset(){
+	uint8_t value = MMU_readByte( cpuRegisters.pc + 1 );
+	uint16_t sp = cpuRegisters.sp;
+	if( ( ( sp & 0x0fff ) + ( value & 0x0fff ) ) &0x1000 ){
+		CPU_setHalfCarryFlag();
+	} else {
+		CPU_clearHalfCarryFlag();
+	}
+	sp = sp + value;
+	if( sp < value ){
+		CPU_setCarryFlag();
+	} else {
+		CPU_clearCarryFlag();
+	}
+	cpuRegisters.hl = sp;
+}
+inline void stack_load_SP_HL(){
+	cpuRegisters.hl = cpuRegisters.sp;
+}
+inline void stack_return( flagConditional condition ){
+	if( condition ){
+		stack_pop( &cpuRegisters.pc );
+	}
+}
+inline void stack_call( flagConditional condition ){
+	if( condition ){
+		stack_push( cpuRegisters.pc + 1 );
+		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc +1 );
+	}
+}
+
+inline void jump_relativeByte( flagConditional condition ){
+	if( condition ){
+		cpuRegisters.pc = cpuRegisters.pc + MMU_readByte( cpuRegisters.pc + 1 );
+	}
+}
+inline void jump_toAddressWord( flagConditional condition ){
+	if( condition ){
+		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc + 1 );
+	}
+}
+inline void jump_toHL(){
+	cpuRegisters.pc = cpuRegisters.hl;
 }

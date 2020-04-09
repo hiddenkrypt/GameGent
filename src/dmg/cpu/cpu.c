@@ -85,3 +85,64 @@ void CPU_crash( char* reason ){
 	printf( "   -------------------\n");
 	printf( "  IME: %d \n", cpuRegisters.ime );
 }
+
+void CPU_noop(){}
+void CPU_stop(){}
+void CPU_halt(){}
+void CPU_setCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_CARRY;
+}
+void CPU_clearCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_CARRY);
+}
+void CPU_flipCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f ^ FLAG_CARRY;
+}
+bool CPU_getCarryFlag(){
+	return cpuRegisters.f & FLAG_CARRY;
+}
+
+
+
+void CPU_setZeroFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_ZERO;
+}
+void CPU_clearZeroFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_ZERO);
+}
+bool CPU_getZeroFlag(){
+	return cpuRegisters.f & FLAG_ZERO;
+}
+
+
+
+void CPU_setHalfCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_HALFCARRY;
+}
+void CPU_clearHalfCarryFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_HALFCARRY);
+}
+bool CPU_getHalfCarryFlag(){
+	return cpuRegisters.f & FLAG_HALFCARRY;
+}
+
+
+
+void CPU_setSubtractFlag(){
+	cpuRegisters.f = cpuRegisters.f | FLAG_SUBTRACT;
+}
+void CPU_clearSubtractFlag(){
+	cpuRegisters.f = cpuRegisters.f & (~FLAG_SUBTRACT);
+}
+bool CPU_getSubtractFlag(){
+	return cpuRegisters.f & FLAG_SUBTRACT;
+}
+
+
+
+void CPU_enableInterrupts(){
+	cpuRegisters.ime = true;
+}
+void CPU_disableInterrupts(){
+	cpuRegisters.ime = false;
+}
