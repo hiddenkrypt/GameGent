@@ -2,17 +2,17 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define NO_FLAGS E_UNAFFECTED,E_UNAFFECTED,E_UNAFFECTED,E_UNAFFECTED
+#define NO_FLAG_EFFECTS EFFECT_UNAFFECTED,EFFECT_UNAFFECTED,EFFECT_UNAFFECTED,EFFECT_UNAFFECTED
 
 /** \brief an instruction's effect on a flag
  *
  *	each instruction can affect each flag in one of these four ways
  */
 typedef enum flagEffectEnum{
-	E_UNAFFECTED = 0,	/**< flag is unchanged */
-	E_CLEARED = 1,		/**< flag is always set to 0 */
-	E_RAISED = 2,		/**< flag is always set to 1 */
-	E_APPLIED = 3		/**< flag is set according to the rules of the flag */
+	EFFECT_UNAFFECTED = 0,	/**< flag is unchanged */
+	EFFECT_CLEARED = 1,		/**< flag is always set to 0 */
+	EFFECT_RAISED = 2,		/**< flag is always set to 1 */
+	EFFECT_APPLIED = 3		/**< flag is set according to the rules of the flag */
 } flagEffect;
 
 /** \brief a collection of the effects an instruction has on the four cpu flags
