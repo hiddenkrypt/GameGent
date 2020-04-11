@@ -52,6 +52,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/cpu/cpu.h" />
+		<Unit filename="src/dmg/cpu/cpuInstructionHeaders.h" />
 		<Unit filename="src/dmg/cpu/cpuInstructions.c">
 			<Option compilerVar="CC" />
 		</Unit>

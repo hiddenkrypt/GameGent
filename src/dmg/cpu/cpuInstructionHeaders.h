@@ -37,6 +37,7 @@ void decrement_8bitRegister( uint8_t* targetRegister );
 void increment_memoryValue();
 void decrement_memoryValue();
 void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry );
+void rotate_memoryByte( bool left, bool throughCarry );
 void add_16bitRegister( uint16_t valueRegister );
 void accumulator_decimalAdjustment();
 void accumulator_complement();

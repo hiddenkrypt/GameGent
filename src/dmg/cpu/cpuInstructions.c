@@ -667,7 +667,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			jump_toAddressWord( CONDITION_ZERO );
 			break;
 		case 0xcb:
-			prefixInstruction();
+			prefixInstructionSwitch();
 			break;
 		case 0xcc:
 			stack_call( CONDITION_ZERO );
@@ -821,36 +821,52 @@ inline void instructionSwitch( uint8_t codePoint ){
 inline void prefixInstructionSwitch(){
 	switch ( MMU_readByte( cpuRegisters.pc+1 ) ){
 		case 0x00:
+			rotate_8bitRegister( &cpuRegisters.b, LEFT, NO_CARRY );
 			break;
 		case 0x01:
+			rotate_8bitRegister( &cpuRegisters.c, LEFT, NO_CARRY );
 			break;
 		case 0x02:
+			rotate_8bitRegister( &cpuRegisters.d, LEFT, NO_CARRY );
 			break;
 		case 0x03:
+			rotate_8bitRegister( &cpuRegisters.e, LEFT, NO_CARRY );
 			break;
 		case 0x04:
+			rotate_8bitRegister( &cpuRegisters.h, LEFT, NO_CARRY );
 			break;
 		case 0x05:
+			rotate_8bitRegister( &cpuRegisters.l, LEFT, NO_CARRY );
 			break;
 		case 0x06:
+			rotate_memoryByte( RIGHT, NO_CARRY );
 			break;
 		case 0x07:
+			rotate_8bitRegister( &cpuRegisters.a, LEFT, NO_CARRY );
 			break;
 		case 0x08:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, NO_CARRY );
 			break;
 		case 0x09:
+			rotate_8bitRegister( &cpuRegisters.c, RIGHT, NO_CARRY );
 			break;
 		case 0x0a:
+			rotate_8bitRegister( &cpuRegisters.d, RIGHT, NO_CARRY );
 			break;
 		case 0x0b:
+			rotate_8bitRegister( &cpuRegisters.e, RIGHT, NO_CARRY );
 			break;
 		case 0x0c:
+			rotate_8bitRegister( &cpuRegisters.h, RIGHT, NO_CARRY );
 			break;
 		case 0x0d:
+			rotate_8bitRegister( &cpuRegisters.l, RIGHT, NO_CARRY );
 			break;
 		case 0x0e:
+			rotate_memoryByte( RIGHT, NO_CARRY );
 			break;
 		case 0x0f:
+			rotate_8bitRegister( &cpuRegisters.a, RIGHT, NO_CARRY );
 			break;
 		case 0x10:
 			break;
@@ -1419,6 +1435,12 @@ inline void decrement_memoryValue(){
 	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0f ) == 0x0f ){
 		CPU_setHalfCarryFlag();
 	}
+}
+
+inline void rotate_memoryByte( bool left, bool throughCarry ){
+	uint8_t memoryValue = MMU_readByte( cpuRegisters.hl );
+	rotate_8bitRegister( &memoryValue, left, throughCarry );
+	MMU_loadByte( cpuRegisters.hl, memoryValue );
 }
 
 inline void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
