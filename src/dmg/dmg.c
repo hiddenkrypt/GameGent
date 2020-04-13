@@ -12,7 +12,7 @@ void loadBootRom(char* path){
 	printf("loading bootrom\n");
 	FILE* bootRom = fopen(path, "r");
 	if( bootRom == NULL ){
-		printf("Failed to open");
+		printf("Bootrom failed to open, make sure bootrom exists at %s\n", path);
 		/**\todo reset registers as they should be post-bootup*/
 		return;
 	}
