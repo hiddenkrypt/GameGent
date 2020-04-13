@@ -21,7 +21,7 @@ GameGentState static init(){
 	GameGentState GameGent;
 	GameGent.quit = false;
 	GameGent.inMenu = false;
-
+    GameGent.FPS = 30;
 	GameGent.renderer = GUI_init();
 	if ( GameGent.renderer == NULL ) {
 		printf("Window Initialization Failure!");
