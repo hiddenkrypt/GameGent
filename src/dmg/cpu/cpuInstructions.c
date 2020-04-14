@@ -8,7 +8,7 @@
 
 
 
-/** @todo cpu halt and stop
+/**
  * @todo prefix opcodes
  * @todo timing
  */
@@ -869,36 +869,52 @@ inline void prefixInstructionSwitch(){
 			rotate_8bitRegister( &cpuRegisters.a, RIGHT, NO_CARRY );
 			break;
 		case 0x10:
+			rotate_8bitRegister( &cpuRegisters.b, LEFT, THROUGH_CARRY );
 			break;
 		case 0x11:
+			rotate_8bitRegister( &cpuRegisters.c, LEFT, THROUGH_CARRY );
 			break;
 		case 0x12:
+			rotate_8bitRegister( &cpuRegisters.d, LEFT, THROUGH_CARRY );
 			break;
 		case 0x13:
+			rotate_8bitRegister( &cpuRegisters.e, LEFT, THROUGH_CARRY );
 			break;
 		case 0x14:
+			rotate_8bitRegister( &cpuRegisters.h, LEFT, THROUGH_CARRY );
 			break;
 		case 0x15:
+			rotate_8bitRegister( &cpuRegisters.l, LEFT, THROUGH_CARRY );
 			break;
 		case 0x16:
+			rotate_memoryByte( LEFT, THROUGH_CARRY );
 			break;
 		case 0x17:
+			rotate_8bitRegister( &cpuRegisters.a, LEFT, THROUGH_CARRY );
 			break;
 		case 0x18:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x19:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1a:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1b:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1c:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1d:
+			rotate_8bitRegister( &cpuRegisters.b, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1e:
+			rotate_memoryByte( RIGHT, THROUGH_CARRY );
 			break;
 		case 0x1f:
+			rotate_8bitRegister( &cpuRegisters.a, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
 			break;
