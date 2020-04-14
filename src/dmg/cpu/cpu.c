@@ -9,6 +9,8 @@
 #include "codeTables.h"
 #include "cpu.h"
 
+/** @todo cpu halt and stop */
+
 DmgRegisters cpuRegisters;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
@@ -56,6 +58,9 @@ void CPU_tick(){
 		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( cpuRegisters.pc ));
 		CPU_crash(errorMessage);
 	}
+	if ( cpuRegisters.pc >= 0x100 ){
+        CPU_crash( "force crash at pc >= 100 for Debug" );
+	}
 	executeInstruction( currentInstruction );
 	cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
 }
@@ -73,6 +78,7 @@ void CPU_tick(){
  */
 void CPU_crash( char* reason ){
 	DMG_stopEmulation();
+	printf( "\n\n=======CPU CRASH=======\n" );
 	printf( reason );
 	printf( "\n\n   register dump \n" );
 	printf( "   -------------------\n" );
@@ -87,8 +93,20 @@ void CPU_crash( char* reason ){
 }
 
 void CPU_noop(){}
-void CPU_stop(){}
-void CPU_halt(){}
+void CPU_stop(){
+/** per gbcpuman.pdf
+ * The STOP command halts the GameBoy processor and screen until
+ * any button is pressed. The GB and GBP screen goes white with
+ * a single dark horizontal line. The GBC screen goes black.
+ */
+}
+void CPU_halt(){
+/**
+ * stops system clock until the next interrupt.
+ * after interrupt service, execution begins right after halt opcode
+ * if interrupts are disabled, command gets really funky: "the halt bug", and takes special consideration.
+ */
+}
 void CPU_setCarryFlag(){
 	cpuRegisters.f = cpuRegisters.f | FLAG_CARRY;
 }
