@@ -917,36 +917,52 @@ inline void prefixInstructionSwitch(){
 			rotate_8bitRegister( &cpuRegisters.a, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
+		    shift( &cpuRegisters.b, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x21:
+		    shift( &cpuRegisters.c, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x22:
+		    shift( &cpuRegisters.d, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x23:
+		    shift( &cpuRegisters.e, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x24:
+		    shift( &cpuRegisters.h, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x25:
+		    shift( &cpuRegisters.l, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x26:
+		    shift_memory( LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x27:
+		    shift( &cpuRegisters.a, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x28:
+		    shift( &cpuRegisters.b, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x29:
+		    shift( &cpuRegisters.c, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2a:
+		    shift( &cpuRegisters.d, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2b:
+		    shift( &cpuRegisters.e, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2c:
+		    shift( &cpuRegisters.h, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2d:
+		    shift( &cpuRegisters.l, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2e:
+		    shift_memory( RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2f:
+		    shift( &cpuRegisters.a, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x30:
 			break;
@@ -1676,4 +1692,34 @@ inline void jump_toAddressWord( flagConditional condition ){
 }
 inline void jump_toHL(){
 	cpuRegisters.pc = cpuRegisters.hl;
+}
+inline void shift_memory( bool left, bool resetSignificantBit ){
+    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+    shift( &memoryGrabber, left, resetSignificantBit );
+    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+}
+inline void shift( uint8_t* value, bool left, bool resetSignificantBit ){
+    if( left ){
+        uint8_t carry = *value & 0x80;
+        *value = *value << 1;
+        if( resetSignificantBit ){
+            *value = *value & 0xfe;
+        }
+        if( carry ){
+            CPU_setCarryFlag();
+        } else{
+            CPU_clearCarryFlag();
+        }
+    } else{
+        uint8_t carry = *value & 0x01;
+        *value = *value >> 1;
+        if( resetSignificantBit ){
+            *value = *value & 0x7F;
+        }
+        if( carry ){
+            CPU_setCarryFlag();
+        } else{
+            CPU_clearCarryFlag();
+        }
+    }
 }

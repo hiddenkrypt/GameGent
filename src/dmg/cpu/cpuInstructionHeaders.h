@@ -3,6 +3,9 @@
 #define THROUGH_CARRY true
 #define LEFT true
 #define RIGHT false
+#define RESET_SIGNIFICANT_BIT true
+#define NO_RESET_SIGNIFICANT_BIT false
+
 
 #define flagConditional bool
 #define CONDITION_ZERO ((bool)cpuRegisters.f & FLAG_ZERO)
@@ -58,3 +61,5 @@ void stack_call( flagConditional condition );
 void jump_relativeByte( flagConditional condition );
 void jump_toAddressWord( flagConditional condition );
 void jump_toHL();
+void shift( uint8_t* value, bool left, bool resetSignificantBit );
+void shift_memory( bool left, bool resetSignificantBit );
