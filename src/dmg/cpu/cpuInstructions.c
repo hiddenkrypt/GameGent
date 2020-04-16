@@ -981,20 +981,29 @@ inline void prefixInstructionSwitch(){
 		case 0x37:
 			break;
 		case 0x38:
+		    shift( &cpuRegisters.b, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x39:
+		    shift( &cpuRegisters.c, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3a:
+		    shift( &cpuRegisters.d, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3b:
+		    shift( &cpuRegisters.e, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3c:
+		    shift( &cpuRegisters.h, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3d:
+		    shift( &cpuRegisters.l, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3e:
+
+		    shift_memory( RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3f:
+		    shift( &cpuRegisters.a, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x40:
 			break;
