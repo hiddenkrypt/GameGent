@@ -965,20 +965,28 @@ inline void prefixInstructionSwitch(){
 		    shift( &cpuRegisters.a, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x30:
+            swapNibbles( &cpuRegisters.b );
 			break;
 		case 0x31:
+            swapNibbles( &cpuRegisters.c );
 			break;
 		case 0x32:
+            swapNibbles( &cpuRegisters.d );
 			break;
 		case 0x33:
+            swapNibbles( &cpuRegisters.e );
 			break;
 		case 0x34:
+            swapNibbles( &cpuRegisters.h );
 			break;
 		case 0x35:
+            swapNibbles( &cpuRegisters.l );
 			break;
 		case 0x36:
+            swapMemoryNibbles();
 			break;
 		case 0x37:
+		    swapNibbles( &cpuRegisters.a );
 			break;
 		case 0x38:
 		    shift( &cpuRegisters.b, RIGHT, RESET_SIGNIFICANT_BIT );
@@ -999,7 +1007,6 @@ inline void prefixInstructionSwitch(){
 		    shift( &cpuRegisters.l, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3e:
-
 		    shift_memory( RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3f:
@@ -1731,4 +1738,14 @@ inline void shift( uint8_t* value, bool left, bool resetSignificantBit ){
             CPU_clearCarryFlag();
         }
     }
+}
+inline void swapMemoryNibbles(){
+    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+    swapNibbles( &memoryGrabber );
+    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+}
+inline void swapNibbles( uint8_t* value ){
+    uint8_t mostSignificantNibble = *value & 0xf0;
+    uint8_t leastSignificantNibble = *value & 0x0f;
+    *value = mostSignificantNibble | leastSignificantNibble;
 }

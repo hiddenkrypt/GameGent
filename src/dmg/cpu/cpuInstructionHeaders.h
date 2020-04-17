@@ -63,3 +63,5 @@ void jump_toAddressWord( flagConditional condition );
 void jump_toHL();
 void shift( uint8_t* value, bool left, bool resetSignificantBit );
 void shift_memory( bool left, bool resetSignificantBit );
+void swapMemoryNibbles();
+void swapNibbles( uint8_t* value );
