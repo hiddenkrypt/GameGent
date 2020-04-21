@@ -1013,6 +1013,7 @@ inline void prefixInstructionSwitch(){
 		    shift( &cpuRegisters.a, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x40:
+			bit_read( BIT_ZERO, &cpuRegisters.b );
 			break;
 		case 0x41:
 			break;
@@ -1141,6 +1142,7 @@ inline void prefixInstructionSwitch(){
 		case 0x7f:
 			break;
 		case 0x80:
+			bit_reset( BIT_ZERO, &cpuRegisters.b );
 			break;
 		case 0x81:
 			break;
@@ -1269,6 +1271,7 @@ inline void prefixInstructionSwitch(){
 		case 0xbf:
 			break;
 		case 0xc0:
+			bit_set( BIT_ZERO, &cpuRegisters.b );
 			break;
 		case 0xc1:
 			break;
@@ -1748,4 +1751,32 @@ inline void swapNibbles( uint8_t* value ){
     uint8_t mostSignificantNibble = *value & 0xf0;
     uint8_t leastSignificantNibble = *value & 0x0f;
     *value = mostSignificantNibble | leastSignificantNibble;
+}
+inline void bit_read( bitmask targetBit, uint8_t* targetByte ){
+	if( (*targetByte & targetBit) == 0 ){
+		CPU_setZeroFlag();
+	}
+}
+inline void bit_set( bitmask targetBit, uint8_t* targetByte ){
+	*targetByte = *targetByte | targetBit;
+}
+inline void bit_reset( bitmask targetBit, uint8_t* targetByte ){
+	*targetByte = *targetByte & !targetBit;
+}
+
+
+inline void bit_memoryRead( bitmask targetBit ){
+    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+    bit_read( targetBit, &memoryGrabber );
+    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+}
+inline void bit_memorySet( bitmask targetBit ){
+    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+    bit_set( targetBit, &memoryGrabber );
+    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+}
+inline void bit_memoryReset( bitmask targetBit ){
+    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+    bit_reset( targetBit, &memoryGrabber );
+    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
 }
