@@ -54,7 +54,7 @@ bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t* data ){
 }
 
 uint16_t MMU_readWord( uint16_t address ){
-	return ram[address] << 8 | ram[address + 1];
+	return ram[address+1] << 8 | ram[address];
 }
 void MMU_loadWord( uint16_t address, uint16_t data ){
 	ram[address] = (uint8_t) ( data >> 8 );
