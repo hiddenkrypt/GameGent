@@ -9,7 +9,12 @@
 #include "codeTables.h"
 #include "cpu.h"
 
-/** @todo cpu halt and stop */
+/** @todo cpu halt and stop
+ * @todo timings
+ * @todo predictable flags
+ * @todo interrupts
+ *
+ */
 
 DmgRegisters cpuRegisters;
 static const uint8_t PREFIX_INDICATOR = 0xCB;

@@ -6,6 +6,11 @@
 #include "mmu/mmu.h"
 #include "dmg.h"
 
+/** @todo LCD / PPU
+ * @todo APU
+ * @todo serial???
+ */
+
 dmgCoreState state = STOPPED;
 
 void loadBootRom(char* path){
