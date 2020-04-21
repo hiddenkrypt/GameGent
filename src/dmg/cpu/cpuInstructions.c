@@ -1400,130 +1400,193 @@ inline void prefixInstructionSwitch(){
 			bit_set( BIT_ZERO, &cpuRegisters.b );
 			break;
 		case 0xc1:
+			bit_set( BIT_ZERO, &cpuRegisters.c );
 			break;
 		case 0xc2:
+			bit_set( BIT_ZERO, &cpuRegisters.d );
 			break;
 		case 0xc3:
+			bit_set( BIT_ZERO, &cpuRegisters.e );
 			break;
 		case 0xc4:
+			bit_set( BIT_ZERO, &cpuRegisters.h );
 			break;
 		case 0xc5:
+			bit_set( BIT_ZERO, &cpuRegisters.l );
 			break;
 		case 0xc6:
+			bit_memorySet( BIT_ZERO );
 			break;
 		case 0xc7:
+			bit_set( BIT_ZERO, &cpuRegisters.a );
 			break;
 		case 0xc8:
+			bit_set( BIT_ONE, &cpuRegisters.b );
 			break;
 		case 0xc9:
+			bit_set( BIT_ONE, &cpuRegisters.c );
 			break;
 		case 0xca:
+			bit_set( BIT_ONE, &cpuRegisters.d );
 			break;
 		case 0xcb:
+			bit_set( BIT_ONE, &cpuRegisters.e );
 			break;
 		case 0xcc:
+			bit_set( BIT_ONE, &cpuRegisters.h );
 			break;
 		case 0xcd:
+			bit_set( BIT_ONE, &cpuRegisters.l );
 			break;
 		case 0xce:
+			bit_memorySet( BIT_ONE );
 			break;
 		case 0xcf:
+			bit_set( BIT_ONE, &cpuRegisters.a );
 			break;
 		case 0xd0:
+			bit_set( BIT_TWO, &cpuRegisters.b );
 			break;
 		case 0xd1:
+			bit_set( BIT_TWO, &cpuRegisters.c );
 			break;
 		case 0xd2:
+			bit_set( BIT_TWO, &cpuRegisters.d );
 			break;
 		case 0xd3:
+			bit_set( BIT_TWO, &cpuRegisters.e );
 			break;
 		case 0xd4:
+			bit_set( BIT_TWO, &cpuRegisters.h );
 			break;
 		case 0xd5:
+			bit_set( BIT_TWO, &cpuRegisters.l );
 			break;
 		case 0xd6:
+			bit_memorySet( BIT_TWO );
 			break;
 		case 0xd7:
+			bit_set( BIT_TWO, &cpuRegisters.a );
 			break;
 		case 0xd8:
+			bit_set( BIT_THREE, &cpuRegisters.b );
 			break;
 		case 0xd9:
+			bit_set( BIT_THREE, &cpuRegisters.c );
 			break;
 		case 0xda:
+			bit_set( BIT_THREE, &cpuRegisters.d );
 			break;
 		case 0xdb:
+			bit_set( BIT_THREE, &cpuRegisters.e );
 			break;
 		case 0xdc:
+			bit_set( BIT_THREE, &cpuRegisters.h );
 			break;
 		case 0xdd:
+			bit_set( BIT_THREE, &cpuRegisters.l );
 			break;
 		case 0xde:
+			bit_memorySet( BIT_THREE );
 			break;
 		case 0xdf:
+			bit_set( BIT_THREE, &cpuRegisters.a );
 			break;
 		case 0xe0:
+			bit_set( BIT_FOUR, &cpuRegisters.b );
 			break;
 		case 0xe1:
+			bit_set( BIT_FOUR, &cpuRegisters.c );
 			break;
 		case 0xe2:
+			bit_set( BIT_FOUR, &cpuRegisters.d );
 			break;
 		case 0xe3:
+			bit_set( BIT_FOUR, &cpuRegisters.e );
 			break;
 		case 0xe4:
+			bit_set( BIT_FOUR, &cpuRegisters.h );
 			break;
 		case 0xe5:
+			bit_set( BIT_FOUR, &cpuRegisters.l );
 			break;
 		case 0xe6:
+			bit_memorySet( BIT_FOUR );
 			break;
 		case 0xe7:
+			bit_set( BIT_FOUR, &cpuRegisters.a );
 			break;
 		case 0xe8:
+			bit_set( BIT_FIVE, &cpuRegisters.b );
 			break;
 		case 0xe9:
+			bit_set( BIT_FIVE, &cpuRegisters.c );
 			break;
 		case 0xea:
+			bit_set( BIT_FIVE, &cpuRegisters.d );
 			break;
 		case 0xeb:
+			bit_set( BIT_FIVE, &cpuRegisters.e );
 			break;
 		case 0xec:
+			bit_set( BIT_FIVE, &cpuRegisters.h );
 			break;
 		case 0xed:
+			bit_set( BIT_FIVE, &cpuRegisters.l );
 			break;
 		case 0xee:
+			bit_memorySet( BIT_FIVE );
 			break;
 		case 0xef:
+			bit_set( BIT_FIVE, &cpuRegisters.a );
 			break;
 		case 0xf0:
+			bit_set( BIT_SIX, &cpuRegisters.b );
 			break;
 		case 0xf1:
+			bit_set( BIT_SIX, &cpuRegisters.c );
 			break;
 		case 0xf2:
+			bit_set( BIT_SIX, &cpuRegisters.d );
 			break;
 		case 0xf3:
+			bit_set( BIT_SIX, &cpuRegisters.e );
 			break;
 		case 0xf4:
+			bit_set( BIT_SIX, &cpuRegisters.h );
 			break;
 		case 0xf5:
+			bit_set( BIT_SIX, &cpuRegisters.l );
 			break;
 		case 0xf6:
+			bit_memorySet( BIT_SIX );
 			break;
 		case 0xf7:
+			bit_set( BIT_SIX, &cpuRegisters.a );
 			break;
 		case 0xf8:
+			bit_set( BIT_SEVEN, &cpuRegisters.b );
 			break;
 		case 0xf9:
+			bit_set( BIT_SEVEN, &cpuRegisters.c );
 			break;
 		case 0xfa:
+			bit_set( BIT_SEVEN, &cpuRegisters.d );
 			break;
 		case 0xfb:
+			bit_set( BIT_SEVEN, &cpuRegisters.e );
 			break;
 		case 0xfc:
+			bit_set( BIT_SEVEN, &cpuRegisters.l );
 			break;
 		case 0xfd:
+			bit_set( BIT_SEVEN, &cpuRegisters.h );
 			break;
 		case 0xfe:
+			bit_memorySet( BIT_SEVEN );
 			break;
 		case 0xff:
+			bit_set( BIT_SEVEN, &cpuRegisters.a );
 			break;
 	}
 }
