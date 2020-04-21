@@ -1016,130 +1016,193 @@ inline void prefixInstructionSwitch(){
 			bit_read( BIT_ZERO, &cpuRegisters.b );
 			break;
 		case 0x41:
+			bit_read( BIT_ZERO, &cpuRegisters.c );
 			break;
 		case 0x42:
+			bit_read( BIT_ZERO, &cpuRegisters.d );
 			break;
 		case 0x43:
+			bit_read( BIT_ZERO, &cpuRegisters.e );
 			break;
 		case 0x44:
+			bit_read( BIT_ZERO, &cpuRegisters.h );
 			break;
 		case 0x45:
+			bit_read( BIT_ZERO, &cpuRegisters.l );
 			break;
 		case 0x46:
+			bit_memoryRead( BIT_ZERO );
 			break;
 		case 0x47:
+			bit_read( BIT_ZERO, &cpuRegisters.a );
 			break;
 		case 0x48:
+			bit_read( BIT_ONE, &cpuRegisters.b );
 			break;
 		case 0x49:
+			bit_read( BIT_ONE, &cpuRegisters.c );
 			break;
 		case 0x4a:
+			bit_read( BIT_ONE, &cpuRegisters.d );
 			break;
 		case 0x4b:
+			bit_read( BIT_ONE, &cpuRegisters.e );
 			break;
 		case 0x4c:
+			bit_read( BIT_ONE, &cpuRegisters.h );
 			break;
 		case 0x4d:
+			bit_read( BIT_ONE, &cpuRegisters.l );
 			break;
 		case 0x4e:
+			bit_memoryRead( BIT_ONE );
 			break;
 		case 0x4f:
+			bit_read( BIT_ONE, &cpuRegisters.a );
 			break;
 		case 0x50:
+			bit_read( BIT_TWO, &cpuRegisters.b );
 			break;
 		case 0x51:
+			bit_read( BIT_TWO, &cpuRegisters.c );
 			break;
 		case 0x52:
+			bit_read( BIT_TWO, &cpuRegisters.d );
 			break;
 		case 0x53:
+			bit_read( BIT_TWO, &cpuRegisters.e );
 			break;
 		case 0x54:
+			bit_read( BIT_TWO, &cpuRegisters.h );
 			break;
 		case 0x55:
+			bit_read( BIT_TWO, &cpuRegisters.l );
 			break;
 		case 0x56:
+			bit_memoryRead( BIT_TWO );
 			break;
 		case 0x57:
+			bit_read( BIT_TWO, &cpuRegisters.a );
 			break;
 		case 0x58:
+			bit_read( BIT_THREE, &cpuRegisters.b );
 			break;
 		case 0x59:
+			bit_read( BIT_THREE, &cpuRegisters.c );
 			break;
 		case 0x5a:
+			bit_read( BIT_THREE, &cpuRegisters.d );
 			break;
 		case 0x5b:
+			bit_read( BIT_THREE, &cpuRegisters.e );
 			break;
 		case 0x5c:
+			bit_read( BIT_THREE, &cpuRegisters.h );
 			break;
 		case 0x5d:
+			bit_read( BIT_THREE, &cpuRegisters.l );
 			break;
 		case 0x5e:
+			bit_memoryRead( BIT_THREE );
 			break;
 		case 0x5f:
+			bit_read( BIT_THREE, &cpuRegisters.a );
 			break;
 		case 0x60:
+			bit_read( BIT_FOUR, &cpuRegisters.b );
 			break;
 		case 0x61:
+			bit_read( BIT_FOUR, &cpuRegisters.c );
 			break;
 		case 0x62:
+			bit_read( BIT_FOUR, &cpuRegisters.d );
 			break;
 		case 0x63:
+			bit_read( BIT_FOUR, &cpuRegisters.e );
 			break;
 		case 0x64:
+			bit_read( BIT_FOUR, &cpuRegisters.h );
 			break;
 		case 0x65:
+			bit_read( BIT_FOUR, &cpuRegisters.l );
 			break;
 		case 0x66:
+			bit_memoryRead( BIT_FOUR);
 			break;
 		case 0x67:
+			bit_read( BIT_FOUR, &cpuRegisters.a );
 			break;
 		case 0x68:
+			bit_read( BIT_FIVE, &cpuRegisters.b );
 			break;
 		case 0x69:
+			bit_read( BIT_FIVE, &cpuRegisters.c );
 			break;
 		case 0x6a:
+			bit_read( BIT_FIVE, &cpuRegisters.d );
 			break;
 		case 0x6b:
+			bit_read( BIT_FIVE, &cpuRegisters.e );
 			break;
 		case 0x6c:
+			bit_read( BIT_FIVE, &cpuRegisters.h );
 			break;
 		case 0x6d:
+			bit_read( BIT_FIVE, &cpuRegisters.l );
 			break;
 		case 0x6e:
+			bit_memoryRead( BIT_FIVE );
 			break;
 		case 0x6f:
+			bit_read( BIT_FIVE, &cpuRegisters.a );
 			break;
 		case 0x70:
+			bit_read( BIT_SIX, &cpuRegisters.b );
 			break;
 		case 0x71:
+			bit_read( BIT_SIX, &cpuRegisters.c );
 			break;
 		case 0x72:
+			bit_read( BIT_SIX, &cpuRegisters.d );
 			break;
 		case 0x73:
+			bit_read( BIT_SIX, &cpuRegisters.e );
 			break;
 		case 0x74:
+			bit_read( BIT_SIX, &cpuRegisters.h );
 			break;
 		case 0x75:
+			bit_read( BIT_SIX, &cpuRegisters.l );
 			break;
 		case 0x76:
+			bit_memoryRead( BIT_SIX );
 			break;
 		case 0x77:
+			bit_read( BIT_SIX, &cpuRegisters.a );
 			break;
 		case 0x78:
+			bit_read( BIT_SEVEN, &cpuRegisters.b );
 			break;
 		case 0x79:
+			bit_read( BIT_SEVEN, &cpuRegisters.c );
 			break;
 		case 0x7a:
+			bit_read( BIT_SEVEN, &cpuRegisters.d );
 			break;
 		case 0x7b:
+			bit_read( BIT_SEVEN, &cpuRegisters.e );
 			break;
 		case 0x7c:
+			bit_read( BIT_SEVEN, &cpuRegisters.h );
 			break;
 		case 0x7d:
+			bit_read( BIT_SEVEN, &cpuRegisters.l );
 			break;
 		case 0x7e:
+			bit_memoryRead( BIT_SEVEN );
 			break;
 		case 0x7f:
+			bit_read( BIT_SEVEN, &cpuRegisters.a );
 			break;
 		case 0x80:
 			bit_reset( BIT_ZERO, &cpuRegisters.b );
