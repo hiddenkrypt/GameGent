@@ -8,12 +8,12 @@
 
 
 #define flagConditional bool
-#define CONDITION_ZERO ((bool)cpuRegisters.f & FLAG_ZERO)
-#define CONDITION_NO_ZERO !((bool)cpuRegisters.f & FLAG_ZERO)
-#define CONDITION_CARRY ((bool)cpuRegisters.f & FLAG_CARRY)
-#define CONDITION_NO_CARRY !((bool)cpuRegisters.f & FLAG_CARRY)
-#define CONDITION_SUBTRACT ((bool)cpuRegisters.f & FLAG_SUBTRACT)
-#define CONDITION_HALFCARRY ((bool)cpuRegisters.f & FLAG_HALFCARRY)
+#define CONDITION_ZERO ((bool)(cpuRegisters.f & FLAG_ZERO))
+#define CONDITION_NO_ZERO !((bool)(cpuRegisters.f & FLAG_ZERO))
+#define CONDITION_CARRY ((bool)(cpuRegisters.f & FLAG_CARRY))
+#define CONDITION_NO_CARRY !((bool)(cpuRegisters.f & FLAG_CARRY))
+#define CONDITION_SUBTRACT ((bool)(cpuRegisters.f & FLAG_SUBTRACT))
+#define CONDITION_HALFCARRY ((bool)(cpuRegisters.f & FLAG_HALFCARRY))
 #define CONDITION_ALWAYS (true)
 
 void handleStaticFlagEffects( instruction opcode );
