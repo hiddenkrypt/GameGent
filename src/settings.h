@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include "gui/menus/recentRomStruct.h"
 
+bool Settings_getDebugFlag();
+
 
 void Settings_init();
 bool Settings_get_runBootRom();

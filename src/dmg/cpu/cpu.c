@@ -1,10 +1,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "registers.h"
-#include "opcodes.h"
+#include "../../settings.h"
 #include "../mmu/mmu.h"
 #include "../dmg.h"
+#include "registers.h"
+#include "opcodes.h"
 #include "cpuInstructions.h"
 #include "codeTables.h"
 #include "cpu.h"
@@ -18,7 +19,19 @@
 
 DmgRegisters cpuRegisters;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
-
+static void cpuInstructionDebug( instruction currentInstruction ){
+//	if ( cpuRegisters.pc > 0x2f ){
+//        CPU_crash( "force crash at  for Debug" );
+//	}
+	printf("%#06x|  %#04x %s", cpuRegisters.pc, currentInstruction.codePoint, currentInstruction.mnemonic);
+	if(currentInstruction.length > 1 ){
+		printf(" %s",currentInstruction.arg1);
+	}
+	if(currentInstruction.length > 2 ){
+		printf(" %s",currentInstruction.arg2);
+	}
+	printf("\n");
+}
 /** \brief return the current instruction
  * The fetch and decode steps of the fetch-decode-execute cycle. Finds the current instruction
  * opcode in DMG memory, and returns the appropriate instruction object.
@@ -27,13 +40,19 @@ static const uint8_t PREFIX_INDICATOR = 0xCB;
  */
 static instruction fetchDecode(){
 	uint8_t opcode = MMU_readByte( cpuRegisters.pc );
+	instruction currentInstruction;
+
 	if ( opcode != PREFIX_INDICATOR ){
-		return codeTable[ opcode ];
+		currentInstruction = codeTable[ opcode ];
 	} else {
-		cpuRegisters.pc++;
-		opcode = MMU_readByte( cpuRegisters.pc );
-		return prefixCodeTable[ opcode ];
+		opcode = MMU_readByte( cpuRegisters.pc+1 );
+		currentInstruction = prefixCodeTable[ opcode ];
 	}
+
+	if( Settings_getDebugFlag() ){
+		cpuInstructionDebug( currentInstruction );
+	}
+	return currentInstruction;
 }
 
 
@@ -58,14 +77,6 @@ void CPU_init(){ //serves as a restart
  */
 void CPU_tick(){
 	instruction currentInstruction = fetchDecode();
-	if( currentInstruction.cycles == 0){
-		char errorMessage[100];
-		sprintf(errorMessage, "Instruction %#x not found in code table!", MMU_readByte( cpuRegisters.pc ));
-		CPU_crash(errorMessage);
-	}
-	if ( cpuRegisters.pc >= 0x100 ){
-        CPU_crash( "force crash at pc >= 100 for Debug" );
-	}
 	executeInstruction( currentInstruction );
 	cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
 }
@@ -94,7 +105,18 @@ void CPU_crash( char* reason ){
 	printf( "   -------------------\n");
 	printf( "PC | %#06x | %#06x | SP\n", cpuRegisters.pc, cpuRegisters.sp  );
 	printf( "   -------------------\n");
-	printf( "  IME: %d \n", cpuRegisters.ime );
+	printf( "  IME: %d \n\n", cpuRegisters.ime );
+	printf( " memory dump \n");
+	uint16_t position = cpuRegisters.pc-5;
+	if( position < 0 ){ position = 0; }
+	for(uint16_t i = position; i < cpuRegisters.pc+10; i++){
+		if( cpuRegisters.pc == i){
+			printf("PC==>");
+		}else{
+			printf("     ");
+		}
+		printf("%#06x -- %#04x\n", i, MMU_readByte( i ));
+	}
 }
 
 void CPU_noop(){}

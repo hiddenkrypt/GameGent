@@ -6,6 +6,7 @@
 
 static char* bootRomPath;
 static bool runBootRom;
+static bool debugFlag;
 
 /** \brief setup the settings module
  * gathers info on the saved settings of GameGent, and sets up default keybinds
@@ -13,12 +14,14 @@ static bool runBootRom;
  */
 void Settings_init(){
 	//set defaults on init
-
+	debugFlag = true;
 	runBootRom = true;
 	bootRomPath = "DMG_ROM.bin";
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
-
+bool Settings_getDebugFlag(){
+	return debugFlag;
+}
 /** \brief return if a bootrom should be used
  * @todo bootrom use should be off by default in a proper release
  * \return true to have the emulator core use the bootrom, false to skip it
