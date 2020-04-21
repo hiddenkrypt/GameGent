@@ -46,6 +46,9 @@ inline void handleStaticFlagEffects( instruction opcode ){
 	if( opcode.flags.carry == EFFECT_CLEARED ){
 		CPU_clearSubtractFlag();
 	}
+	if( opcode.flags.zero == EFFECT_APPLIED && cpuRegisters.a == 0x00 ){
+		CPU_setZeroFlag();
+	}
 }
 
 
