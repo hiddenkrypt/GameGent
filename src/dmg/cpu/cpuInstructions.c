@@ -16,9 +16,7 @@
 
 
 inline void executeInstruction( instruction opcode ){
-
-//	printf("called for %#04x %s\n", opcode.codePoint, opcode.mnemonic);
-	instructionSwitch( opcode.codePoint );
+	instructionSwitch( MMU_readByte(cpuRegisters.pc) );
 	handleStaticFlagEffects( opcode );
 }
 inline void handleStaticFlagEffects( instruction opcode ){
@@ -1893,7 +1891,7 @@ inline void stack_call( flagConditional condition ){
 
 inline void jump_relativeByte( flagConditional condition ){
 	if( condition ){
-		cpuRegisters.pc = cpuRegisters.pc + MMU_readByte( cpuRegisters.pc + 1 );
+		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 );
 	}
 }
 inline void jump_toAddressWord( flagConditional condition ){
@@ -1947,7 +1945,10 @@ inline void swapNibbles( uint8_t* value ){
 inline void bit_read( bitmask targetBit, uint8_t* targetByte ){
 	if( (*targetByte & targetBit) == 0 ){
 		CPU_setZeroFlag();
+	} else {
+		CPU_clearZeroFlag();
 	}
+
 }
 inline void bit_set( bitmask targetBit, uint8_t* targetByte ){
 	*targetByte = *targetByte | targetBit;
