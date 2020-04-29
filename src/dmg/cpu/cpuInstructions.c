@@ -1678,14 +1678,14 @@ inline void decrement_memoryValue(){
 	}
 }
 
-inline void rotate_memoryByte( bool left, bool throughCarry ){
+inline void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry ){
 	uint8_t memoryValue = MMU_readByte( cpuRegisters.hl );
-	rotate_8bitRegister( &memoryValue, left, throughCarry );
+	rotate_8bitRegister( &memoryValue, leftOrRight, throughCarry );
 	MMU_loadByte( cpuRegisters.hl, memoryValue );
 }
 
-inline void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry ){
-	if( left ){
+inline void rotate_8bitRegister( uint8_t* targetRegister, direction leftOrRight, carryPolicy throughCarry ){
+	if( leftOrRight == LEFT ){
 		uint8_t msb = *targetRegister >> 7;
 		*targetRegister = *targetRegister << 1;
 		if( throughCarry ){
@@ -1775,19 +1775,19 @@ inline void accumulator_decimalAdjustment(){
 inline void accumulator_complement(){
 	cpuRegisters.a = ~cpuRegisters.a;
 }
-inline void accumulator_addition( uint8_t value, bool useCarry ){
+inline void accumulator_addition( uint8_t value, carryPolicy carryUse ){
 	cpuRegisters.a = cpuRegisters.a + value;
-	if( useCarry ){
+	if( carryUse ){
 		cpuRegisters.a = cpuRegisters.a + CPU_getCarryFlag();
 	}
 	if( cpuRegisters.a < value ){
 		CPU_setCarryFlag();
 	}
 }
-inline void accumulator_subtract( uint8_t value, bool useCarry ){
+inline void accumulator_subtract( uint8_t value, carryPolicy carryUse ){
 	uint8_t valueA = cpuRegisters.a;
 	cpuRegisters.a = cpuRegisters.a - value;
-	if( useCarry ){
+	if( carryUse ){
 		cpuRegisters.a = cpuRegisters.a - CPU_getCarryFlag();
 	}
 	if( cpuRegisters.a == 0 ){
@@ -1902,16 +1902,16 @@ inline void jump_toAddressWord( flagConditional condition ){
 inline void jump_toHL(){
 	cpuRegisters.pc = cpuRegisters.hl;
 }
-inline void shift_memory( bool left, bool resetSignificantBit ){
+inline void shift_memory( direction leftOrRight, significantBitPolicy plan ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    shift( &memoryGrabber, left, resetSignificantBit );
+    shift( &memoryGrabber, leftOrRight, plan );
     MMU_loadByte( cpuRegisters.hl, memoryGrabber );
 }
-inline void shift( uint8_t* value, bool left, bool resetSignificantBit ){
-    if( left ){
+inline void shift( uint8_t* value, direction leftOrRight, significantBitPolicy plan ){
+    if( leftOrRight == LEFT ){
         uint8_t carry = *value & 0x80;
         *value = *value << 1;
-        if( resetSignificantBit ){
+        if( plan == RESET_SIGNIFICANT_BIT ){
             *value = *value & 0xfe;
         }
         if( carry ){
@@ -1922,7 +1922,7 @@ inline void shift( uint8_t* value, bool left, bool resetSignificantBit ){
     } else{
         uint8_t carry = *value & 0x01;
         *value = *value >> 1;
-        if( resetSignificantBit ){
+        if( plan == RESET_SIGNIFICANT_BIT ){
             *value = *value & 0x7F;
         }
         if( carry ){

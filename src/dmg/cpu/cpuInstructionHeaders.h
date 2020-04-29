@@ -1,11 +1,3 @@
-#define NO_CARRY false
-#define WITH_CARRY true
-#define THROUGH_CARRY true
-#define LEFT true
-#define RIGHT false
-#define RESET_SIGNIFICANT_BIT true
-#define NO_RESET_SIGNIFICANT_BIT false
-
 
 #define flagConditional bool
 #define CONDITION_ZERO ((bool)(cpuRegisters.f & FLAG_ZERO))
@@ -15,6 +7,34 @@
 #define CONDITION_SUBTRACT ((bool)(cpuRegisters.f & FLAG_SUBTRACT))
 #define CONDITION_HALFCARRY ((bool)(cpuRegisters.f & FLAG_HALFCARRY))
 #define CONDITION_ALWAYS (true)
+
+
+typedef enum bitSelectionEnum {
+	BIT_ZERO = 0x01,
+	BIT_ONE = 0x02,
+	BIT_TWO = 0x04,
+	BIT_THREE = 0x08,
+	BIT_FOUR = 0x10,
+	BIT_FIVE = 0x20,
+	BIT_SIX = 0x40,
+	BIT_SEVEN = 0x80
+} bitmask;
+
+typedef enum carryPolicyEnum{
+    NO_CARRY = 0,
+    WITH_CARRY = 1,
+    THROUGH_CARRY = 1
+} carryPolicy;
+
+typedef enum significantBitPolicyEnum {
+    RESET_SIGNIFICANT_BIT,
+    NO_RESET_SIGNIFICANT_BIT
+} significantBitPolicy;
+
+typedef enum directionEnum{
+    LEFT,
+    RIGHT
+} direction;
 
 void handleStaticFlagEffects( instruction opcode );
 void instructionSwitch( uint8_t codePoint );
@@ -39,13 +59,13 @@ void increment_8bitRegister( uint8_t* targetRegister );
 void decrement_8bitRegister( uint8_t* targetRegister );
 void increment_memoryValue();
 void decrement_memoryValue();
-void rotate_8bitRegister( uint8_t* targetRegister, bool left, bool throughCarry );
-void rotate_memoryByte( bool left, bool throughCarry );
+void rotate_8bitRegister( uint8_t* targetRegister, direction leftOrRight, carryPolicy throughCarry );
+void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry );
 void add_16bitRegister( uint16_t valueRegister );
 void accumulator_decimalAdjustment();
 void accumulator_complement();
-void accumulator_addition( uint8_t value, bool useCarry );
-void accumulator_subtract( uint8_t value, bool useCarry );
+void accumulator_addition( uint8_t value, carryPolicy carryUse );
+void accumulator_subtract( uint8_t value, carryPolicy carryUse );
 void accumulator_logicalAnd( uint8_t value );
 void accumulator_logicalXor( uint8_t value );
 void accumulator_logicalOr( uint8_t value );
@@ -61,8 +81,8 @@ void stack_call( flagConditional condition );
 void jump_relativeByte( flagConditional condition );
 void jump_toAddressWord( flagConditional condition );
 void jump_toHL();
-void shift( uint8_t* value, bool left, bool resetSignificantBit );
-void shift_memory( bool left, bool resetSignificantBit );
+void shift( uint8_t* value, direction leftOrRight, significantBitPolicy plan );
+void shift_memory( direction leftOrRight, significantBitPolicy plan );
 void swapMemoryNibbles();
 void swapNibbles( uint8_t* value );
 void bit_read( bitmask targetBit, uint8_t* targetByte );
