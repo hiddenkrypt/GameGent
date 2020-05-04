@@ -18,7 +18,9 @@
  */
 
 DmgRegisters cpuRegisters;
+cpuStateStatus cpuState;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
+
 static void cpuInstructionDebug( instruction currentInstruction ){
 //	if ( cpuRegisters.pc > 0x2f ){
 //        CPU_crash( "force crash at  for Debug" );
@@ -48,7 +50,9 @@ static instruction fetchDecode(){
 		opcode = MMU_readByte( cpuRegisters.pc+1 );
 		currentInstruction = prefixCodeTable[ opcode ];
 	}
-
+    if (cpuRegisters.pc >= 0x0b){
+        CPU_crash("test 0x11");
+    }
 	if( Settings_getDebugFlag() ){
 		cpuInstructionDebug( currentInstruction );
 	}
@@ -68,6 +72,7 @@ void CPU_init(){ //serves as a restart
 	cpuRegisters.pc = 0x0000;
 	cpuRegisters.sp = 0x0000;
 	cpuRegisters.ime = true;
+    cpuState = NORMAL_OPERATION;
 }
 
 
@@ -76,9 +81,12 @@ void CPU_init(){ //serves as a restart
  * Sends the CPU through one instruction cycle. Fetch is handed off to the Opcodes module.
  */
 void CPU_tick(){
-	instruction currentInstruction = fetchDecode();
-	executeInstruction( currentInstruction );
-	cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
+    /** @todo check interrupts, come out of halt/stop */
+    if( cpuState == NORMAL_OPERATION ){
+        instruction currentInstruction = fetchDecode();
+        executeInstruction( currentInstruction );
+        cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
+    }
 }
 
 /** \brief stop the cpu and print out some debug information
