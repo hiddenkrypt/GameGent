@@ -28,6 +28,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lComdlg32 -lOle32" />
 				</Linker>
 			</Target>
 		</Build>
