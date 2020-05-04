@@ -42,7 +42,8 @@ void static shutdown(){
 
 /*!
  * @brief program entry, main loop
- *
+ * @todo limit gui update rates! maybe 60 hz?
+ * @todo limit cpu tick rate to DMG clock speed
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
 int main ( int argn, char* args[] ) {
