@@ -50,6 +50,7 @@ void DMG_init(){
     if( Settings_getRunBlargTest() ){
         //overwrites bootrom
         DMG_loadRom( Settings_getCurrentBlargTest() );
+        CPU_setPC( 0x100 );
     }
 	state = RUNNING;
 }

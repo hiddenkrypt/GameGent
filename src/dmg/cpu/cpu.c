@@ -22,9 +22,9 @@ cpuStateStatus cpuState;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
 static void cpuInstructionDebug( instruction currentInstruction ){
-//	if ( cpuRegisters.pc > 0x2f ){
-//        CPU_crash( "force crash at  for Debug" );
-//	}
+	if ( cpuRegisters.pc >= 0xc000 ){
+        CPU_crash( "force crash at  for Debug" );
+	}
 	printf("%#06x|  %#04x %s", cpuRegisters.pc, currentInstruction.codePoint, currentInstruction.mnemonic);
 	if(currentInstruction.length > 1 ){
 		printf(" %s",currentInstruction.arg1);
@@ -88,7 +88,6 @@ void CPU_tick(){
         }
         instruction currentInstruction = fetchDecode();
         executeInstruction( currentInstruction );
-        cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;
     }
 }
 
@@ -202,3 +201,7 @@ void CPU_enableInterrupts(){
 void CPU_disableInterrupts(){
 	cpuRegisters.ime = false;
 }
+
+void CPU_setPC( uint16_t address ){
+    cpuRegisters.pc = address;
+};

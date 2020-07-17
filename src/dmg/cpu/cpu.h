@@ -27,3 +27,5 @@ void CPU_clearSubtractFlag();
 bool CPU_getSubtractFlag();
 void CPU_enableInterrupts();
 void CPU_disableInterrupts();
+
+void CPU_setPC( uint16_t address );

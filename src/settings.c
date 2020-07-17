@@ -16,10 +16,10 @@ static double cpuSpeedMultiplier;
  */
 void Settings_init(){
 	//set defaults on init
-	debugFlag = false;
+	debugFlag = true;
 	runBootRom = false;
-	runBlargTest = false;
-	currentBlargTest = "tools/gb-test-roms-master/cpu_instrs/individual/01-special.gb";
+	runBlargTest = true;
+	currentBlargTest = "tests/gb-test-roms-master/cpu_instrs/individual/01-special.gb";
 	bootRomPath = "DMG_ROM.bin";
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }

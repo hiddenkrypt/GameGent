@@ -37,7 +37,7 @@ typedef enum directionEnum{
 } direction;
 
 void handleStaticFlagEffects( instruction opcode );
-void instructionSwitch( uint8_t codePoint );
+bool instructionSwitch( uint8_t codePoint );
 void prefixInstructionSwitch();
 
 void load_16bitRegister_DirectWord( uint16_t* targetRegister );
@@ -78,9 +78,9 @@ void stack_load_HL_SPWithDirectByteOffset();
 void stack_load_SP_HL();
 void stack_return( flagConditional condition );
 void stack_call( flagConditional condition );
-void jump_relativeByte( flagConditional condition );
-void jump_toAddressWord( flagConditional condition );
-void jump_toHL();
+bool jump_relativeByte( flagConditional condition );
+bool jump_toAddressWord( flagConditional condition );
+bool jump_toHL();
 void shift( uint8_t* value, direction leftOrRight, significantBitPolicy plan );
 void shift_memory( direction leftOrRight, significantBitPolicy plan );
 void swapMemoryNibbles();
@@ -89,5 +89,5 @@ void bit_read( bitmask targetBit, uint8_t* targetByte );
 void bit_set( bitmask targetBit, uint8_t* targetByte );
 void bit_reset( bitmask targetBit, uint8_t* targetByte );
 void bit_memoryRead( bitmask targetBit );
-void bit_memorySet( bitmask targetBit );
 void bit_memoryReset( bitmask targetBit );
+void bit_memorySet( bitmask targetBit );

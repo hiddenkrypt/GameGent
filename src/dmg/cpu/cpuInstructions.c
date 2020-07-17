@@ -16,7 +16,10 @@
 
 
 inline void executeInstruction( instruction opcode ){
-	instructionSwitch( MMU_readByte(cpuRegisters.pc) );
+	bool jump = instructionSwitch( MMU_readByte(cpuRegisters.pc) );
+	if( !jump ){
+        cpuRegisters.pc = cpuRegisters.pc + opcode.length;
+	}
 	handleStaticFlagEffects( opcode );
 }
 inline void handleStaticFlagEffects( instruction opcode ){
@@ -52,7 +55,7 @@ inline void handleStaticFlagEffects( instruction opcode ){
 
 
 
-inline void instructionSwitch( uint8_t codePoint ){
+inline bool instructionSwitch( uint8_t codePoint ){
 	switch( codePoint ){
 		case 0x00:
 			CPU_noop();
@@ -127,7 +130,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			rotate_8bitRegister( &cpuRegisters.a, LEFT, THROUGH_CARRY );
 			break;
 		case 0x18:
-			jump_relativeByte( CONDITION_ALWAYS );
+			return jump_relativeByte( CONDITION_ALWAYS );
 			break;
 		case 0x19:
 			add_16bitRegister( cpuRegisters.de );
@@ -151,7 +154,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			rotate_8bitRegister( &cpuRegisters.a, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
-			jump_relativeByte( CONDITION_NO_ZERO );
+			return jump_relativeByte( CONDITION_NO_ZERO );
 			break;
 		case 0x21:
 			load_16bitRegister_DirectWord( &cpuRegisters.hl );
@@ -176,7 +179,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			accumulator_decimalAdjustment();
 			break;
 		case 0x28:
-			jump_relativeByte( CONDITION_ZERO );
+			return jump_relativeByte( CONDITION_ZERO );
 			break;
 		case 0x29:
 			add_16bitRegister( cpuRegisters.hl );
@@ -201,7 +204,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			accumulator_complement();
 			break;
 		case 0x30:
-			jump_relativeByte( CONDITION_NO_CARRY );
+			return jump_relativeByte( CONDITION_NO_CARRY );
 			break;
 		case 0x31:
 			load_16bitRegister_DirectWord( &cpuRegisters.sp );
@@ -226,7 +229,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			CPU_setCarryFlag();
 			break;
 		case 0x38:
-			jump_relativeByte( CONDITION_CARRY );
+			return jump_relativeByte( CONDITION_CARRY );
 			break;
 		case 0x39:
 			add_16bitRegister( cpuRegisters.sp );
@@ -641,10 +644,10 @@ inline void instructionSwitch( uint8_t codePoint ){
 			stack_pop( &cpuRegisters.bc );
 			break;
 		case 0xc2:
-			jump_toAddressWord( CONDITION_NO_ZERO );
+			return jump_toAddressWord( CONDITION_NO_ZERO );
 			break;
 		case 0xc3:
-			jump_toAddressWord( CONDITION_ALWAYS );
+			return jump_toAddressWord( CONDITION_ALWAYS );
 			break;
 		case 0xc4:
 			stack_call( CONDITION_NO_ZERO );
@@ -665,7 +668,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			stack_return( CONDITION_ALWAYS );
 			break;
 		case 0xca:
-			jump_toAddressWord( CONDITION_ZERO );
+			return jump_toAddressWord( CONDITION_ZERO );
 			break;
 		case 0xcb:
 			prefixInstructionSwitch();
@@ -689,7 +692,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			stack_pop( &cpuRegisters.de );
 			break;
 		case 0xd2:
-			jump_toAddressWord( CONDITION_NO_CARRY );
+			return jump_toAddressWord( CONDITION_NO_CARRY );
 			break;
 		case 0xd3:
 			break;
@@ -713,7 +716,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			CPU_enableInterrupts();
 			break;
 		case 0xda:
-			jump_toAddressWord( CONDITION_CARRY );
+			return jump_toAddressWord( CONDITION_CARRY );
 			break;
 		case 0xdb:
 			break;
@@ -754,7 +757,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			stack_addDirectByteToSP();
 			break;
 		case 0xe9:
-			jump_toHL();
+			return jump_toHL();
 			break;
 		case 0xea:
 			load_memoryAtDirectWord_A();
@@ -817,6 +820,7 @@ inline void instructionSwitch( uint8_t codePoint ){
 			stack_restart( 0x38 );
 			break;
 	}
+	return false;
 }
 
 inline void prefixInstructionSwitch(){
@@ -1889,18 +1893,23 @@ inline void stack_call( flagConditional condition ){
 	}
 }
 
-inline void jump_relativeByte( flagConditional condition ){
+inline bool jump_relativeByte( flagConditional condition ){
 	if( condition ){
 		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 );
+		return true;
 	}
+	return false;
 }
-inline void jump_toAddressWord( flagConditional condition ){
+inline bool jump_toAddressWord( flagConditional condition ){
 	if( condition ){
 		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc + 1 );
+		return true;
 	}
+	return false;
 }
-inline void jump_toHL(){
+inline bool jump_toHL(){
 	cpuRegisters.pc = cpuRegisters.hl;
+	return true;
 }
 inline void shift_memory( direction leftOrRight, significantBitPolicy plan ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
