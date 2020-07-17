@@ -12,7 +12,7 @@ typedef enum dmgCoreStateEnum{
 } dmgCoreState;
 
 void DMG_init();
-void DMG_LoadRom(char const * path);
+void DMG_loadRom(char const* path);
 void DMG_startEmulation();
 void DMG_haltEmulation();
 void DMG_stopEmulation();

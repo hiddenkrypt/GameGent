@@ -63,7 +63,7 @@ static void activateItem( int i ){
 			printf("No rom selected.");
 		} else {
 			printf("\nRom Load path: %s\n", romFilePath);
-			DMG_LoadRom(romFilePath);
+			DMG_loadRom( romFilePath );
 		}
 	}
 	if( i == recentRoms.number+1 ){

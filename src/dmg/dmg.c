@@ -13,21 +13,28 @@
 
 dmgCoreState state = STOPPED;
 
-void loadBootRom(char* path){
-	printf("loading bootrom\n");
-	FILE* bootRom = fopen(path, "r");
-	if( bootRom == NULL ){
-		printf("Bootrom failed to open, make sure bootrom exists at %s\n", path);
+/** \brief loads a rom into DMG ram
+ * opens a rom file and copies it's contents (the first 0x3fff bytes, at least) into the MMU.
+ * @todo: support Memory Mappers
+ */
+void DMG_loadRom(char const* path){
+	printf("loading rom %s\n", path);
+	FILE* rom = fopen(path, "r");
+	if( rom == NULL ){
+		printf("Rom failed to open, make sure rom exists at %s\n", path);
 		/**\todo reset registers as they should be post-bootup*/
 		return;
 	}
-	uint8_t bootRomData[0xff];
-	fread(bootRomData, 1, 0xff, bootRom);
-	bool success = MMU_loadRange( 0x0000, 0xff, bootRomData );
+	uint8_t romDataBuffer[0xefff];
+	int count = fread( romDataBuffer, sizeof( uint8_t ), 0xefff, rom);
+	printf("read %d bytes \n", count);
+	bool success = MMU_loadRange( 0x0000, count, romDataBuffer );
 	if( !success ){
 		printf("MMU load bootrom failure.\n");
+	} else {
+        printf("Loaded rom to memory \n");
 	}
-	fclose( bootRom );
+	fclose( rom );
 }
 
 
@@ -38,21 +45,14 @@ void DMG_init(){
 	MMU_init();
 	CPU_init();
 	if( Settings_get_runBootRom() ){
-		loadBootRom( Settings_get_bootRomPath() );
+		DMG_loadRom( Settings_get_bootRomPath() );
 	}
+    if( Settings_getRunBlargTest() ){
+        //overwrites bootrom
+        DMG_loadRom( Settings_getCurrentBlargTest() );
+    }
 	state = RUNNING;
 }
-
-/** \brief loads a game cartridge into the DMG
- * fetches rom information, parses rom metadata, and configures DMG appropriately.
- * \param path filepath to find the game rom.
- */
-void DMG_LoadRom( char const * path){
-
-}
-
-
-
 
 /** \brief gives the DMG some time to execute emulation
  *
