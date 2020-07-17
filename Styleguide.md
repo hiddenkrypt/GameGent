@@ -31,8 +31,12 @@ Non-shared functions must / should be `static`, the only exception being main() 
 
 Static global variables must be defined at the top of the file after includes
 
-Shared (header defined) functions are always prefixed with the name of the translation unit in **CapitalCase** and an underline
+Shared (header defined) functions are always prefixed with the name of the translation unit in **CapitalCase** and an underscore
 * Example: Gui_draw(), MainMenu_getMenu()
+
+Getter / Setter functions are (as they are shared functions) named with the module name first, then an underscore, then the word "get" or "set" prefixing the rest of the name in camelCase
+* Example: MainMenu_getMenu(), CPU_setPC( 0x100 )
+
 
 *Declare* local functions at the top of the file, after global variables
 
