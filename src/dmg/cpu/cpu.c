@@ -50,9 +50,6 @@ static instruction fetchDecode(){
 		opcode = MMU_readByte( cpuRegisters.pc+1 );
 		currentInstruction = prefixCodeTable[ opcode ];
 	}
-    if (cpuRegisters.pc >= 0x0b){
-        CPU_crash("test 0x11");
-    }
 	if( Settings_getDebugFlag() ){
 		cpuInstructionDebug( currentInstruction );
 	}
@@ -83,6 +80,12 @@ void CPU_init(){ //serves as a restart
 void CPU_tick(){
     /** @todo check interrupts, come out of halt/stop */
     if( cpuState == NORMAL_OPERATION ){
+        //    blarggs test - serial output
+        if ( Settings_getRunBlargTest() && MMU_readByte( 0xff02 ) == 0x81 ) {
+            char c = MMU_readByte( 0xff01 );
+            printf("%c", c);
+            MMU_loadByte( 0xff02, 0x0 );
+        }
         instruction currentInstruction = fetchDecode();
         executeInstruction( currentInstruction );
         cpuRegisters.pc = cpuRegisters.pc + currentInstruction.length;

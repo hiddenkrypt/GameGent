@@ -5,8 +5,10 @@
 
 
 static char* bootRomPath;
+static char* currentBlargTest;
 static bool runBootRom;
 static bool debugFlag;
+static bool runBlargTest;
 static double cpuSpeedMultiplier;
 /** \brief setup the settings module
  * gathers info on the saved settings of GameGent, and sets up default keybinds
@@ -15,11 +17,18 @@ static double cpuSpeedMultiplier;
 void Settings_init(){
 	//set defaults on init
 	debugFlag = false;
-	runBootRom = true;
+	runBootRom = false;
+	runBlargTest = false;
+	currentBlargTest = "tools/gb-test-roms-master/cpu_instrs/individual/01-special.gb";
 	bootRomPath = "DMG_ROM.bin";
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
-
+bool Settings_getRunBlargTest(){
+    return runBlargTest;
+}
+char* Settings_getCurrentBlargTest(){
+    return currentBlargTest;
+}
 /** \brief this flag determines if various subsystems should be printing to the screen or not
  * @todo possibly add a whole dedicated debug module for debug mode, which opens a console window in release mode, etc.
  * \return true to enable print statements

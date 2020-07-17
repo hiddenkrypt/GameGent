@@ -11,4 +11,7 @@ void Settings_init();
 bool Settings_get_runBootRom();
 char* Settings_get_bootRomPath();
 
+bool Settings_getRunBlargTest();
+char* Settings_getCurrentBlargTest();
+
 recentRomList Settings_get_recentRoms();
