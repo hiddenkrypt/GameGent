@@ -7,21 +7,27 @@
 static char* bootRomPath;
 static bool runBootRom;
 static bool debugFlag;
-
+static double cpuSpeedMultiplier;
 /** \brief setup the settings module
  * gathers info on the saved settings of GameGent, and sets up default keybinds
  * @todo load setting from a saved file
  */
 void Settings_init(){
 	//set defaults on init
-	debugFlag = true;
+	debugFlag = false;
 	runBootRom = true;
 	bootRomPath = "DMG_ROM.bin";
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
+
+/** \brief this flag determines if various subsystems should be printing to the screen or not
+ * @todo possibly add a whole dedicated debug module for debug mode, which opens a console window in release mode, etc.
+ * \return true to enable print statements
+ */
 bool Settings_getDebugFlag(){
 	return debugFlag;
 }
+
 /** \brief return if a bootrom should be used
  * @todo bootrom use should be off by default in a proper release
  * \return true to have the emulator core use the bootrom, false to skip it
@@ -60,7 +66,6 @@ void Settings_load(){
  * \return a list of recentRom pairs
  *
  */
-
 recentRomList Settings_get_recentRoms(){
 	recentRomList list;
 	list.number = 2;
