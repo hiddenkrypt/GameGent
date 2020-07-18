@@ -8,6 +8,7 @@
 #include "opcodes.h"
 #include "cpuInstructions.h"
 #include "codeTables.h"
+#include "debugger.h"
 #include "cpu.h"
 
 /** @todo cpu halt and stop
@@ -22,7 +23,7 @@ cpuStateStatus cpuState;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
 static void cpuInstructionDebug( instruction currentInstruction ){
-	if ( cpuRegisters.pc >= 0xc000 ){
+	if ( cpuRegisters.pc >= 0x100 ){
         CPU_crash( "force crash at  for Debug" );
 	}
 	printf("%#06x|  %#04x %s", cpuRegisters.pc, currentInstruction.codePoint, currentInstruction.mnemonic);
@@ -106,27 +107,8 @@ void CPU_crash( char* reason ){
 	DMG_stopEmulation();
 	printf( "\n\n=======CPU CRASH=======\n" );
 	printf( reason );
-	printf( "\n\n   register dump \n" );
-	printf( "   -------------------\n" );
-	printf( " A |  %#04x  |  %#04x  | F\n", cpuRegisters.a, cpuRegisters.f );
-	printf( " B |  %#04x  |  %#04x  | C\n", cpuRegisters.b, cpuRegisters.c );
-	printf( " D |  %#04x  |  %#04x  | E\n", cpuRegisters.d, cpuRegisters.e );
-	printf( " H |  %#04x  |  %#04x  | L\n", cpuRegisters.h, cpuRegisters.l );
-	printf( "   -------------------\n");
-	printf( "PC | %#06x | %#06x | SP\n", cpuRegisters.pc, cpuRegisters.sp  );
-	printf( "   -------------------\n");
-	printf( "  IME: %d \n\n", cpuRegisters.ime );
-	printf( " memory dump \n");
-	uint16_t position = cpuRegisters.pc-5;
-	if( position < 0 ){ position = 0; }
-	for(uint16_t i = position; i < cpuRegisters.pc+10; i++){
-		if( cpuRegisters.pc == i){
-			printf("PC==>");
-		}else{
-			printf("     ");
-		}
-		printf("%#06x -- %#04x\n", i, MMU_readByte( i ));
-	}
+	printf( "\n=======---------=======" );
+	Debugger_break();
 }
 
 void CPU_noop(){}
