@@ -8,10 +8,61 @@
 #include "cpu.h"
 #include "codeTables.h"
 #include "debugger.h"
+
 char* stringifyInstruction( uint16_t addr, instruction details );
+void printStatus();
+void printPrompt();
+void memDump( uint16_t addr );
+void handleInput();
+
+char input = '\0';
+uint16_t memoryDumpIndex = 0;
+
 void Debugger_break(){
     system("cls");
-	printf( "\n\n   =======BREAK=======\n" );
+    printStatus();
+	handleInput();
+    printPrompt();
+	input = getch();
+	if( memoryDumpIndex == 0 ){
+        memoryDumpIndex = cpuRegisters.pc;
+	}
+}
+void printPrompt(){
+    printf("What do? \n");
+    printf("[m]memdump at pc  [<] memdump -5 [>] memdump +5 [?] memdump at position\n");
+    printf("[q] step forward [w] continue running [k] kill program");
+}
+
+void handleInput(){
+    switch( input ){
+        case 'm': case 'M':
+            memDump( cpuRegisters.pc );
+            break;
+        case '<':
+            memoryDumpIndex = memoryDumpIndex - 5;
+            memDump( memoryDumpIndex );
+            break;
+        case '>':
+            memoryDumpIndex = memoryDumpIndex + 5;
+            memDump( memoryDumpIndex );
+            break;
+        case '?':
+            break;
+        case 'q': case 'Q':
+            break;
+        case 'w': case 'W':
+            break;
+        case 'k': case 'K':
+            break;
+        case '\0':
+            break;
+        default:
+            printf("bad input");
+    }
+}
+void printStatus(){
+    printf( "\n   =======BREAK=======\n" );
 	printf( "   ------------------------\n" );
 	printf( " AF| %#06x |  BC| %#06x |\n", cpuRegisters.af, cpuRegisters.bc );
 	printf( " DE| %#06x |  HL| %#06x |\n", cpuRegisters.de, cpuRegisters.hl );
@@ -25,17 +76,7 @@ void Debugger_break(){
         printf( "%#06x %s\n", workAddress, instructionString );
         workAddress = workAddress + currentInstruction.length;
     }
-    printf("raw memdump\n");
-
-    for( int i = 0 ; i<10; i++ ){
-        printf( "[%#06x] %#04x \n", cpuRegisters.pc+i, MMU_readByte( cpuRegisters.pc+i ) );
-    }
-	printf("what do\n");
-	char in;
-	in = getch();
-	printf("\nok %c\n",in);
 }
-
 char* stringifyInstruction( uint16_t addr, instruction details ){
     char* buff = (char*) malloc( 30 * sizeof(char) );
     char* arg1String = (char*) malloc( 10 * sizeof(char) );
@@ -77,4 +118,10 @@ char* stringifyInstruction( uint16_t addr, instruction details ){
     }
     sprintf( buff, "[0x%02x]%s %s %s", details.codePoint, details.mnemonic, arg1String, arg2String );
     return buff;
+}
+void memDump( uint16_t addr ){
+    printf("raw memdump\n");
+    for( int i = 0 ; i<10; i++ ){
+        printf( "[%#06x] %#04x \n", addr+i, MMU_readByte( addr+i ) );
+    }
 }
