@@ -63,6 +63,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/cpu/cpuInstructions.h" />
+		<Unit filename="src/dmg/cpu/debugger.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dmg/cpu/debugger.h" />
 		<Unit filename="src/dmg/cpu/opcodes.h" />
 		<Unit filename="src/dmg/cpu/registers.h" />
 		<Unit filename="src/dmg/dmg.c">
