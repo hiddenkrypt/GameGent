@@ -17,7 +17,9 @@ void handleInput();
 
 char input = '\0';
 uint16_t memoryDumpIndex = 0;
+void Debugger_init(){
 
+}
 void Debugger_break(){
     system("cls");
     printStatus();
@@ -72,6 +74,10 @@ void printStatus(){
     uint16_t workAddress = cpuRegisters.pc;
     for( int i = 0 ; i<6; i++ ){
         instruction currentInstruction = codeTable[ MMU_readByte( workAddress ) ];
+        if( currentInstruction.codePoint == 0xCB ){
+            workAddress = workAddress + 1;
+            currentInstruction = prefixCodeTable[ MMU_readByte( workAddress ) ];
+        }
         char* instructionString = stringifyInstruction( workAddress + 1, currentInstruction );
         printf( "%#06x %s\n", workAddress, instructionString );
         workAddress = workAddress + currentInstruction.length;
@@ -120,8 +126,8 @@ char* stringifyInstruction( uint16_t addr, instruction details ){
     return buff;
 }
 void memDump( uint16_t addr ){
-    printf("raw memdump\n");
-    for( int i = 0 ; i<10; i++ ){
+    printf("raw memdump centered on %#06x\n", addr);
+    for( int i = -5 ; i<6; i++ ){
         printf( "[%#06x] %#04x \n", addr+i, MMU_readByte( addr+i ) );
     }
 }
