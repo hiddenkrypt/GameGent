@@ -161,6 +161,8 @@ static char* stringifyInstruction( uint16_t addr, instruction details ){
     }
     if( strcmp( details.arg2, "" ) != 0){
         if( strcmp( details.arg2, "(a16)" ) == 0 ){
+            sprintf( arg2String, "(%#06x)%#06x", MMU_readWord( addr ), MMU_readWord( MMU_readWord( addr ) ) );
+        } else if( strcmp( details.arg2, "a16" ) == 0 ){
             sprintf( arg2String, "(%#06x)", MMU_readWord( addr ) );
         } else if( strcmp( details.arg2, "d8" ) == 0){
             sprintf( arg2String, "%#04x", MMU_readByte( addr ) );
