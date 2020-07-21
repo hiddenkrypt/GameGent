@@ -22,10 +22,24 @@ DmgRegisters cpuRegisters;
 cpuStateStatus cpuState;
 static const uint8_t PREFIX_INDICATOR = 0xCB;
 
+/** \brief sets up CPU initial state
+ * configures internal registers to initial state, serving as a CPU restart option
+ * \todo pick state based on presence or absence of bootloader rom.
+ */
+void CPU_init(){ //serves as a restart
+	cpuRegisters.af = 0x1180;
+	cpuRegisters.bc = 0x0000;
+	cpuRegisters.de = 0xff56;
+	cpuRegisters.hl = 0x000d;
+	cpuRegisters.pc = 0x0100;
+	cpuRegisters.sp = 0xfffe;
+	cpuRegisters.ime = true;
+	Debugger_init();
+    cpuState = NORMAL_OPERATION;
+}
+
+
 static void cpuInstructionDebug( instruction currentInstruction ){
-	if ( cpuRegisters.pc >= 0x100 ){
-        CPU_crash( "force crash at  for Debug" );
-	}
 	printf("%#06x|  %#04x %s", cpuRegisters.pc, currentInstruction.codePoint, currentInstruction.mnemonic);
 	if(currentInstruction.length > 1 ){
 		printf(" %s",currentInstruction.arg1);
@@ -51,27 +65,10 @@ static instruction fetchDecode(){
 		opcode = MMU_readByte( cpuRegisters.pc+1 );
 		currentInstruction = prefixCodeTable[ opcode ];
 	}
-	if( Settings_getDebugFlag() ){
-		cpuInstructionDebug( currentInstruction );
-	}
 	return currentInstruction;
 }
 
 
-/** \brief sets up CPU initial state
- * configures internal registers to initial state, serving as a CPU restart option
- * \todo pick state based on presence or absence of bootloader rom.
- */
-void CPU_init(){ //serves as a restart
-	cpuRegisters.af = 0x0000;
-	cpuRegisters.bc = 0x0000;
-	cpuRegisters.de = 0x0000;
-	cpuRegisters.hl = 0x0000;
-	cpuRegisters.pc = 0x0000;
-	cpuRegisters.sp = 0x0000;
-	cpuRegisters.ime = true;
-    cpuState = NORMAL_OPERATION;
-}
 
 
 
@@ -87,7 +84,11 @@ void CPU_tick(){
             printf("%c", c);
             MMU_loadByte( 0xff02, 0x0 );
         }
+        if( Debugger_checkBreakpoint( cpuRegisters.pc ) ){
+            Debugger_break();
+        }
         instruction currentInstruction = fetchDecode();
+        cpuInstructionDebug( currentInstruction );
         executeInstruction( currentInstruction );
     }
 }

@@ -3,40 +3,77 @@
 #include <stdio.h>
 #include <string.h>
 #include <conio.h>
+#include "../../GameGent.h"
 #include "../mmu/mmu.h"
 #include "registers.h"
 #include "cpu.h"
 #include "codeTables.h"
 #include "debugger.h"
 
-char* stringifyInstruction( uint16_t addr, instruction details );
-void printStatus();
-void printPrompt();
-void memDump( uint16_t addr );
-void handleInput();
+static char* stringifyInstruction( uint16_t addr, instruction details );
+static void printPrompt();
+static void printStatus();
+static void memDump( uint16_t addr );
+static void handleInput( char input );
+static void pushBreakpoint(uint16_t breakpoint);
+static void spliceBreakpoint( uint16_t breakpoint, uint16_t replace);
 
-char input = '\0';
-uint16_t memoryDumpIndex = 0;
+uint16_t breakpoints[20];
+static uint16_t memoryDumpIndex = 0;
+bool alwaysBreak = false;
+
 void Debugger_init(){
-
+    for(int i = 0; i < 20 ; i++){
+        breakpoints[i] = 0;
+    }
+    pushBreakpoint( 0x100 );
+    pushBreakpoint( 0x200 );
 }
 void Debugger_break(){
-    system("cls");
     printStatus();
-	handleInput();
     printPrompt();
-	input = getch();
+    char input = getch();
+	handleInput( input );
 	if( memoryDumpIndex == 0 ){
         memoryDumpIndex = cpuRegisters.pc;
 	}
 }
-void printPrompt(){
-    printf("What do? \n");
-    printf("[m]memdump at pc  [<] memdump -5 [>] memdump +5 [?] memdump at position\n");
-    printf("[q] step forward [w] continue running [k] kill program");
+bool Debugger_checkBreakpoint( uint16_t addr ){
+    if( alwaysBreak ){
+        return alwaysBreak;
+    }
+    if( addr == 0 ){
+        return false;
+    }
+    for(int i = 0; i < 20 ; i++){
+        if( breakpoints[i] == addr ){
+            return true;
+        }
+    }
+    return false;
 }
 
-void handleInput(){
+static void pushBreakpoint( uint16_t breakpoint ){
+    for(int i = 20; i > 0 ; i--){
+        breakpoints[i] = breakpoints[i-1];
+    }
+    breakpoints[0] = breakpoint;
+}
+static void spliceBreakpoint( uint16_t breakpoint, uint16_t replace){
+    for(int i = 0; i < 20 ; i++){
+        if(breakpoints[i] == breakpoint){
+            breakpoints[i] = replace;
+            return;
+        }
+    }
+}
+static void printPrompt(){
+    printf("What do? \n");
+    printf("[m]memdump at pc  [<] memdump -5 [>] memdump +5 [?] memdump at position\n");
+    printf("[q] step forward [w] run to next break [k] kill program");
+}
+
+static void handleInput( char input ){
     switch( input ){
         case 'm': case 'M':
             memDump( cpuRegisters.pc );
@@ -50,20 +87,33 @@ void handleInput(){
             memDump( memoryDumpIndex );
             break;
         case '?':
+            printf("Memdump at what address?");
+            int in;
+            scanf ("%x",&in);
+            in = in % 0xffff;
+            memoryDumpIndex = in;
+            memDump( in );
             break;
         case 'q': case 'Q':
+            printf("step: %#06x\n", cpuRegisters.pc);
+            alwaysBreak = true;
+            spliceBreakpoint( cpuRegisters.pc, 0 );
             break;
         case 'w': case 'W':
+            printf("run to next breakpoint: %#06x\n", cpuRegisters.pc);
+            spliceBreakpoint( cpuRegisters.pc, 0 );
+            alwaysBreak = false;
             break;
         case 'k': case 'K':
+            GameGent_shutdown();
             break;
         case '\0':
             break;
         default:
-            printf("bad input");
+            printf("\n\nbad input\n\n");
     }
 }
-void printStatus(){
+static void printStatus(){
     printf( "\n   =======BREAK=======\n" );
 	printf( "   ------------------------\n" );
 	printf( " AF| %#06x |  BC| %#06x |\n", cpuRegisters.af, cpuRegisters.bc );
@@ -83,7 +133,7 @@ void printStatus(){
         workAddress = workAddress + currentInstruction.length;
     }
 }
-char* stringifyInstruction( uint16_t addr, instruction details ){
+static char* stringifyInstruction( uint16_t addr, instruction details ){
     char* buff = (char*) malloc( 30 * sizeof(char) );
     char* arg1String = (char*) malloc( 10 * sizeof(char) );
     char* arg2String = (char*) malloc( 14 * sizeof(char) );
@@ -125,9 +175,9 @@ char* stringifyInstruction( uint16_t addr, instruction details ){
     sprintf( buff, "[0x%02x]%s %s %s", details.codePoint, details.mnemonic, arg1String, arg2String );
     return buff;
 }
-void memDump( uint16_t addr ){
+static void memDump( uint16_t addr ){
     printf("raw memdump centered on %#06x\n", addr);
     for( int i = -5 ; i<6; i++ ){
-        printf( "[%#06x] %#04x \n", addr+i, MMU_readByte( addr+i ) );
+        printf( "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
     }
 }
