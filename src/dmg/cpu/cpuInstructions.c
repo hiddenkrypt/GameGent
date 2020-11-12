@@ -1894,10 +1894,14 @@ inline void stack_call( flagConditional condition ){
 		cpuRegisters.pc = MMU_readWord( cpuRegisters.pc +1 );
 	}
 }
-
+/**
+ * \param conditional execution value
+ * \return true if jumped, false if not
+ * @todo bit hackish fix of the PC jump value. The PC should increment by the length of the jump opcode before calculating jump vector, I think?
+ */
 inline bool jump_relativeByte( flagConditional condition ){
 	if( condition ){
-		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 ) + 2; //value of pc needs to take the jump opcode in first
+		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 ) + 2; //(little hacky) value of pc needs to take the jump opcode in first
 		return true;
 	}
 	return false;
