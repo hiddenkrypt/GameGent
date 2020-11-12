@@ -1643,16 +1643,18 @@ inline void decrement_16bitRegister( uint16_t* targetRegister ){
 	*targetRegister = *targetRegister-1;
 }
 inline void increment_8bitRegister( uint8_t* targetRegister ){
-	if( !( *targetRegister & 0x0F ) ) {
+	*targetRegister = *targetRegister + 1;
+    if( *targetRegister && 0x0F  ) {
+        CPU_clearHalfCarryFlag();
+	} else {
 		CPU_setHalfCarryFlag();
 	}
-	*targetRegister = *targetRegister + 1;
 	if( *targetRegister == 0 ){
 		CPU_setZeroFlag();
+	} else {
+        CPU_clearZeroFlag();
 	}
-	if( !( *targetRegister & 0x0F ) ) {
-		CPU_setHalfCarryFlag();
-	}
+    CPU_clearSubtractFlag();
 }
 inline void decrement_8bitRegister( uint8_t* targetRegister ){
 	*targetRegister = *targetRegister-1;
