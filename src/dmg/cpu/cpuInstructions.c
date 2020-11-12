@@ -1897,7 +1897,7 @@ inline void stack_call( flagConditional condition ){
 
 inline bool jump_relativeByte( flagConditional condition ){
 	if( condition ){
-		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 );
+		cpuRegisters.pc = cpuRegisters.pc + (int8_t)MMU_readByte( cpuRegisters.pc + 1 ) + 2; //value of pc needs to take the jump opcode in first
 		return true;
 	}
 	return false;
