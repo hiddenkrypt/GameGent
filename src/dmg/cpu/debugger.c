@@ -164,8 +164,13 @@ static char* stringifyInstruction( uint16_t addr, instruction details ){
             sprintf( arg2String, "(%#06x)%#06x", MMU_readWord( addr ), MMU_readWord( MMU_readWord( addr ) ) );
         } else if( strcmp( details.arg2, "a16" ) == 0 ){
             sprintf( arg2String, "(%#06x)", MMU_readWord( addr ) );
-        } else if( strcmp( details.arg2, "d8" ) == 0){
+        } else if( strcmp( details.arg2, "d8" ) == 0 ){
             sprintf( arg2String, "%#04x", MMU_readByte( addr ) );
+        } else if( strcmp( details.arg2, "r8" ) == 0 ){
+            int8_t relativeAddressValue= (int8_t)MMU_readByte( addr );
+            sprintf( arg2String, "%+d", relativeAddressValue );
+        } else if( strcmp( details.arg2, "d16" ) == 0 ){
+            sprintf( arg2String, "%#04x", MMU_readWord( addr ) );
         } else if( strcmp( details.arg2, "(a8)" ) == 0 ){
             sprintf( arg2String, "(%#06x)%#04x", 0xff00|MMU_readByte( addr ), MMU_readByte( 0xff00|MMU_readByte( addr ) ) );
         } else if( strcmp( details.arg2, "(HL)" ) == 0 || strcmp( details.arg2, "(HL+)" ) == 0 || strcmp( details.arg2, "(HL-)" ) == 0 ){
