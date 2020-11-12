@@ -114,11 +114,33 @@ static void handleInput( char input ){
     }
 }
 static void printStatus(){
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system ("clear");
+    #endif
+    char zeroFlag = ' ';
+    char carryFlag = ' ';
+    char subFlag = ' ';
+    char halfCarryFlag = ' ';
+    if( CPU_getZeroFlag() ){
+        zeroFlag = 'Z';
+    }
+    if( CPU_getCarryFlag() ){
+        carryFlag = 'C';
+    }
+    if( CPU_getSubtractFlag() ){
+        subFlag = 'N';
+    }
+    if( CPU_getHalfCarryFlag() ){
+        halfCarryFlag = 'H';
+    }
     printf( "\n   =======BREAK=======\n" );
 	printf( "   ------------------------\n" );
-	printf( " AF| %#06x |  BC| %#06x |\n", cpuRegisters.af, cpuRegisters.bc );
-	printf( " DE| %#06x |  HL| %#06x |\n", cpuRegisters.de, cpuRegisters.hl );
-	printf( " PC| %#06x |  SP| %#06x |\n", cpuRegisters.pc, cpuRegisters.sp );
+	printf( " AF| %#06x | PC| %#06x |\n", cpuRegisters.af, cpuRegisters.pc  );
+	printf( " BC| %#06x | SP| %#06x |\n", cpuRegisters.bc, cpuRegisters.sp  );
+	printf( " DE| %#06x | %c %c |\n", cpuRegisters.de, zeroFlag, subFlag );
+	printf( " HL| %#06x | %c %c |\n", cpuRegisters.hl, carryFlag, halfCarryFlag );
 	printf( "   ------------------------\n");
 	printf( " Code: \n");
     uint16_t workAddress = cpuRegisters.pc;
