@@ -39,7 +39,7 @@ typedef struct{
 	uint8_t cyclesAbort;	/**< some branching/conditional instructions may take a different number of cycles depending on the condition/branch.  */
 	flagEffects flags;		/**< A ::flagEffects struct holding the ::flagEffect enum representing the effect this instruction has on each flag*/
 	char mnemonic[6];		/**< A human readable asm mnemonic for this instruction. Useful for debugging. */
-	char arg1[5];			/**< the mnemonic representation of the first arg, if applicable */
-	char arg2[5];			/**< the mnemonic representation of the second arg, if applicable */
+	char arg1[6];			/**< the mnemonic representation of the first arg, if applicable */
+	char arg2[6];			/**< the mnemonic representation of the second arg, if applicable */
 } instruction;
 

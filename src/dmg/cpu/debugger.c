@@ -134,6 +134,10 @@ static void printStatus(){
     }
 }
 static char* stringifyInstruction( uint16_t addr, instruction details ){
+    if( addr == 0x00){
+        printf("stop");
+    }
+
     char* buff = (char*) malloc( 30 * sizeof(char) );
     char* arg1String = (char*) malloc( 10 * sizeof(char) );
     char* arg2String = (char*) malloc( 14 * sizeof(char) );
@@ -173,8 +177,8 @@ static char* stringifyInstruction( uint16_t addr, instruction details ){
             sprintf( arg2String, "%#04x", MMU_readWord( addr ) );
         } else if( strcmp( details.arg2, "(a8)" ) == 0 ){
             sprintf( arg2String, "(%#06x)%#04x", 0xff00|MMU_readByte( addr ), MMU_readByte( 0xff00|MMU_readByte( addr ) ) );
-        } else if( strcmp( details.arg2, "(HL)" ) == 0 || strcmp( details.arg2, "(HL+)" ) == 0 || strcmp( details.arg2, "(HL-)" ) == 0 ){
-            sprintf( arg2String, "(HL)%#04x", MMU_readByte( cpuRegisters.hl ) );
+        } else if( strcmp( details.arg2, "(HL)"  ) == 0 || strcmp( details.arg2, "(HL+)" ) == 0 || strcmp( details.arg2, "(HL-)" ) == 0 ){
+            sprintf( arg2String, "%s%#04x", details.arg2, MMU_readByte( cpuRegisters.hl ) );
         } else {
             sprintf( arg2String, "%s", details.arg2 );
         }
