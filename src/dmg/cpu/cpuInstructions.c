@@ -47,9 +47,6 @@ inline void handleStaticFlagEffects( instruction opcode ){
 	if( opcode.flags.carry == EFFECT_CLEARED ){
 		CPU_clearSubtractFlag();
 	}
-	if( opcode.flags.zero == EFFECT_APPLIED && cpuRegisters.a == 0x00 ){
-		CPU_setZeroFlag();
-	}
 }
 
 
@@ -1644,44 +1641,55 @@ inline void decrement_16bitRegister( uint16_t* targetRegister ){
 }
 inline void increment_8bitRegister( uint8_t* targetRegister ){
 	*targetRegister = *targetRegister + 1;
-    if( *targetRegister && 0x0F  ) {
-        CPU_clearHalfCarryFlag();
-	} else {
+    if( *targetRegister && 0x0F == 0x00 ) {
 		CPU_setHalfCarryFlag();
+	} else {
+        CPU_clearHalfCarryFlag();
 	}
 	if( *targetRegister == 0 ){
 		CPU_setZeroFlag();
 	} else {
         CPU_clearZeroFlag();
 	}
-    CPU_clearSubtractFlag();
 }
 inline void decrement_8bitRegister( uint8_t* targetRegister ){
 	*targetRegister = *targetRegister-1;
-	if( ( *targetRegister & 0x0f ) == 0x0f ){
+    if( *targetRegister && 0x0F == 0x0F  ) {
 		CPU_setHalfCarryFlag();
+	} else {
+        CPU_clearHalfCarryFlag();
 	}
 	if( *targetRegister == 0 ){
 		CPU_setZeroFlag();
+	} else {
+        CPU_clearZeroFlag();
 	}
 }
 inline void increment_memoryValue(){
 	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
+	} else {
+        CPU_clearCarryFlag();
 	}
-	if( !( MMU_readByte( cpuRegisters.hl ) & 0x0F ) ) {
+	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0F ) == 0x00 ) {
 		CPU_setHalfCarryFlag();
-	}
+	} else {
+        CPU_clearHalfCarryFlag();
+    }
 }
 inline void decrement_memoryValue(){
 	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
+	} else {
+        CPU_clearCarryFlag();
 	}
-	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0f ) == 0x0f ){
+	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0F ) == 0x0F ) {
 		CPU_setHalfCarryFlag();
-	}
+	} else {
+        CPU_clearHalfCarryFlag();
+    }
 }
 
 inline void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry ){
@@ -1777,6 +1785,11 @@ inline void accumulator_decimalAdjustment(){
 		CPU_setCarryFlag();
 	}
 	cpuRegisters.a = workingValue & 0xff;
+    if( cpuRegisters.a == 0 ){
+		CPU_setZeroFlag();
+	} else {
+        CPU_clearZeroFlag();
+	}
 }
 inline void accumulator_complement(){
 	cpuRegisters.a = ~cpuRegisters.a;

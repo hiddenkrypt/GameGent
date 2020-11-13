@@ -88,7 +88,7 @@ void CPU_tick(){
             Debugger_break();
         }
         instruction currentInstruction = fetchDecode();
-        cpuInstructionDebug( currentInstruction );
+       // cpuInstructionDebug( currentInstruction );
         executeInstruction( currentInstruction );
     }
 }

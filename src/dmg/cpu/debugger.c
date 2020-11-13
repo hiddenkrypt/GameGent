@@ -26,8 +26,8 @@ void Debugger_init(){
     for(int i = 0; i < 20 ; i++){
         breakpoints[i] = 0;
     }
-    pushBreakpoint( 0x100 );
-    pushBreakpoint( 0x200 );
+    pushBreakpoint( 0x206 );
+    pushBreakpoint( 0x20b );
 }
 void Debugger_break(){
     printStatus();
@@ -67,10 +67,18 @@ static void spliceBreakpoint( uint16_t breakpoint, uint16_t replace){
         }
     }
 }
+static uint16_t nextBreakpoint(){
+    for(int i = 20; i < 0 ; i--){
+        if(breakpoints[i] >= cpuRegisters.pc){
+            return breakpoints[i];
+        }
+    }
+    return 0;
+}
 static void printPrompt(){
     printf("What do? \n");
     printf("[m]memdump at pc  [<] memdump -5 [>] memdump +5 [?] memdump at position\n");
-    printf("[q] step forward [w] run to next break [k] kill program");
+    printf("[q] step forward [w] run to next break [k] kill program\n");
 }
 
 static void handleInput( char input ){
@@ -87,7 +95,7 @@ static void handleInput( char input ){
             memDump( memoryDumpIndex );
             break;
         case '?':
-            printf("Memdump at what address?");
+            printf("Memdump at what address?\n");
             int in;
             scanf ("%x",&in);
             in = in % 0xffff;
@@ -100,8 +108,8 @@ static void handleInput( char input ){
             spliceBreakpoint( cpuRegisters.pc, 0 );
             break;
         case 'w': case 'W':
-            printf("run to next breakpoint: %#06x\n", cpuRegisters.pc);
             spliceBreakpoint( cpuRegisters.pc, 0 );
+            printf("run to next breakpoint: %#06x\n", nextBreakpoint());
             alwaysBreak = false;
             break;
         case 'k': case 'K':
