@@ -10,7 +10,7 @@
 #include "codeTables.h"
 #include "debugger.h"
 
-static char* stringifyInstruction( uint16_t addr, instruction details );
+static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, instruction details );
 static void printPrompt();
 static void printStatus();
 static void memDump( uint16_t addr );
@@ -158,20 +158,21 @@ static void printStatus(){
             workAddress = workAddress + 1;
             currentInstruction = prefixCodeTable[ MMU_readByte( workAddress ) ];
         }
-        char* instructionString = stringifyInstruction( workAddress + 1, currentInstruction );
+        char* instructionString = (char*) malloc( 30 * sizeof(char) );
+        stringifyInstruction( instructionString, workAddress + 1, currentInstruction );
         printf( "%#06x %s\n", workAddress, instructionString );
+        free( instructionString );
         workAddress = workAddress + currentInstruction.length;
     }
 }
-static char* stringifyInstruction( uint16_t addr, instruction details ){
+static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, instruction details ){
     if( addr == 0x00){
         printf("stop");
     }
 
-    char* buff = (char*) malloc( 30 * sizeof(char) );
     char* arg1String = (char*) malloc( 10 * sizeof(char) );
     char* arg2String = (char*) malloc( 14 * sizeof(char) );
-    buff[0] = '\0';
+    instructionStringBuffer[0] = '\0';
     arg1String[0] = '\0';
     arg2String[0] = '\0';
     if( strcmp( details.arg1, "" ) != 0 ){
@@ -213,8 +214,9 @@ static char* stringifyInstruction( uint16_t addr, instruction details ){
             sprintf( arg2String, "%s", details.arg2 );
         }
     }
-    sprintf( buff, "[0x%02x]%s %s %s", details.codePoint, details.mnemonic, arg1String, arg2String );
-    return buff;
+    sprintf( instructionStringBuffer, "[0x%02x]%s %s %s", details.codePoint, details.mnemonic, arg1String, arg2String );
+    free( arg1String );
+    free( arg2String );
 }
 static void memDump( uint16_t addr ){
     printf("raw memdump centered on %#06x\n", addr);
