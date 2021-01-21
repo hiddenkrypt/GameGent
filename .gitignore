@@ -7,3 +7,4 @@ tests
 GameGent.cscope_file_list
 GameGent.depend
 GameGent.layout
+lib/SDL2
