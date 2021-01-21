@@ -10,6 +10,8 @@
 #include "codeTables.h"
 #include "debugger.h"
 
+#define BREAKPOINT_CAPACITY 20
+
 static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, instruction details );
 static void printPrompt();
 static void printStatus();
@@ -17,12 +19,14 @@ static void memDump( uint16_t addr );
 static bool handleInput( char input );
 static void pushBreakpoint( uint16_t breakpoint );
 static void deleteBreakpoint( uint16_t breakpoint );
-#define BREAKPOINT_CAPACITY 20
+
+char debugPrintout[0x1000];
 uint16_t breakpoints[BREAKPOINT_CAPACITY];
 static uint16_t memoryDumpIndex = 0;
 bool alwaysBreak = false;
 
 void Debugger_init(){
+    debugPrintout[0] = '\0';
     for(int i = 0; i < 20 ; i++){
         breakpoints[i] = 0x0000;
     }
@@ -80,6 +84,10 @@ static uint16_t nextBreakpoint(){
     return 0;
 }
 static void printPrompt(){
+    if( strlen( debugPrintout ) > 0 ){
+        printf( debugPrintout );
+        debugPrintout[0] = '\0';
+    }
     printf("What do? \n");
     printf("[m]Memdump at pc  [<] Memdump -5 [>] Memdump +5 [?] Memdump at position...\n");
     printf("[q] Step forward [w] Run to next [d] Delete Breakpoint [f] print breaks\n");
@@ -112,22 +120,26 @@ static bool handleInput( char input ){
             return true;
             break;
         case 'q': case 'Q':
-            printf( "step: %#06x\n", cpuRegisters.pc );
+            sprintf( debugPrintout, "step: %#06x\n", cpuRegisters.pc );
             alwaysBreak = true;
             break;
         case 'w': case 'W':
-            printf( "run to next breakpoint: %#06x\n", nextBreakpoint() );
+            sprintf( debugPrintout, "run to next breakpoint: %#06x\n", nextBreakpoint() );
             alwaysBreak = false;
             break;
         case 'd': case 'D':
-            printf( "Deleting breakpoint %#06x,  next breakpoint: %#06x\n", cpuRegisters.pc, nextBreakpoint() );
+            sprintf( debugPrintout, "Deleting breakpoint %#06x,  next breakpoint: %#06x\n", cpuRegisters.pc, nextBreakpoint() );
             deleteBreakpoint( cpuRegisters.pc );
             return true;
             break;
         case 'f': case 'F':
-            printf( "Breakpoints:");
+            sprintf( debugPrintout, "Breakpoints:\n");
+            char breakpointLine[0xf];
             for( int i = 0; i < BREAKPOINT_CAPACITY; i++ ){
-                printf( "%02d--%#06x\n", i, breakpoints[i] );
+                if( breakpoints[i] != 0 ){
+                    sprintf( breakpointLine, "%02d--%#06x\n", i, breakpoints[i] );
+                    strcat( debugPrintout, breakpointLine );
+                }
             }
             return true;
             break;
@@ -137,7 +149,8 @@ static bool handleInput( char input ){
         case '\0':
             break;
         default:
-            printf( "\n\nbad input\n\n" );
+            sprintf( debugPrintout, "\n\nbad input\n\n" );
+            getchar();
             return true;
     }
     return false;
@@ -241,8 +254,10 @@ static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, 
     free( arg2String );
 }
 static void memDump( uint16_t addr ){
-    printf("raw memdump centered on %#06x\n", addr);
+    sprintf(debugPrintout, "raw memdump centered on %#06x\n", addr);
+    char memDumpLine[0x1f];
     for( int i = -5 ; i<6; i++ ){
-        printf( "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+        sprintf( memDumpLine, "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+        strcat( debugPrintout, memDumpLine );
     }
 }
