@@ -14,26 +14,26 @@ static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, 
 static void printPrompt();
 static void printStatus();
 static void memDump( uint16_t addr );
-static void handleInput( char input );
-static void pushBreakpoint(uint16_t breakpoint);
-static void spliceBreakpoint( uint16_t breakpoint, uint16_t replace);
-
-uint16_t breakpoints[20];
+static bool handleInput( char input );
+static void pushBreakpoint( uint16_t breakpoint );
+static void deleteBreakpoint( uint16_t breakpoint );
+#define BREAKPOINT_CAPACITY 20
+uint16_t breakpoints[BREAKPOINT_CAPACITY];
 static uint16_t memoryDumpIndex = 0;
 bool alwaysBreak = false;
 
 void Debugger_init(){
     for(int i = 0; i < 20 ; i++){
-        breakpoints[i] = 0;
+        breakpoints[i] = 0x0000;
     }
-    pushBreakpoint( 0x206 );
-    pushBreakpoint( 0x20b );
+    pushBreakpoint( 0x0206 );
+    pushBreakpoint( 0x020b );
 }
-void Debugger_break(){
+bool Debugger_break(){
     printStatus();
     printPrompt();
     char input = getch();
-	handleInput( input );
+	return handleInput( input );
 	if( memoryDumpIndex == 0 ){
         memoryDumpIndex = cpuRegisters.pc;
 	}
@@ -45,7 +45,7 @@ bool Debugger_checkBreakpoint( uint16_t addr ){
     if( addr == 0 ){
         return false;
     }
-    for(int i = 0; i < 20 ; i++){
+    for(int i = 0; i < BREAKPOINT_CAPACITY ; i++){
         if( breakpoints[i] == addr ){
             return true;
         }
@@ -54,16 +54,20 @@ bool Debugger_checkBreakpoint( uint16_t addr ){
 }
 
 static void pushBreakpoint( uint16_t breakpoint ){
-    for(int i = 20; i > 0 ; i--){
+    for(int i = BREAKPOINT_CAPACITY; i > 0 ; i--){
         breakpoints[i] = breakpoints[i-1];
     }
     breakpoints[0] = breakpoint;
 }
-static void spliceBreakpoint( uint16_t breakpoint, uint16_t replace){
-    for(int i = 0; i < 20 ; i++){
-        if(breakpoints[i] == breakpoint){
-            breakpoints[i] = replace;
-            return;
+static void deleteBreakpoint( uint16_t breakpoint ){
+    for(int i = 0; i < BREAKPOINT_CAPACITY ; i++){
+        if(breakpoints[i] == breakpoint && i != BREAKPOINT_CAPACITY){
+            breakpoints[i] ^= breakpoints[i+1];
+            breakpoints[i+1] ^= breakpoints[i];
+            breakpoints[i] ^= breakpoints[i+1];
+        }
+        if(breakpoints[i] == breakpoint && i == BREAKPOINT_CAPACITY){
+            breakpoints[i] = 0x00;
         }
     }
 }
@@ -77,40 +81,55 @@ static uint16_t nextBreakpoint(){
 }
 static void printPrompt(){
     printf("What do? \n");
-    printf("[m]memdump at pc  [<] memdump -5 [>] memdump +5 [?] memdump at position\n");
-    printf("[q] step forward [w] run to next break [k] kill program\n");
+    printf("[m]Memdump at pc  [<] Memdump -5 [>] Memdump +5 [?] Memdump at position...\n");
+    printf("[q] Step forward [w] Run to next [d] Delete Breakpoint [f] print breaks\n");
+    printf("[k] kill program\n");
 }
 
-static void handleInput( char input ){
+static bool handleInput( char input ){
     switch( input ){
         case 'm': case 'M':
             memDump( cpuRegisters.pc );
+            return true;
             break;
         case '<':
             memoryDumpIndex = memoryDumpIndex - 5;
             memDump( memoryDumpIndex );
+            return true;
             break;
         case '>':
             memoryDumpIndex = memoryDumpIndex + 5;
             memDump( memoryDumpIndex );
+            return true;
             break;
         case '?':
-            printf("Memdump at what address?\n");
+            printf( "Memdump at what address?\n" );
             int in;
-            scanf ("%x",&in);
+            scanf ( "%x", &in );
             in = in % 0xffff;
             memoryDumpIndex = in;
             memDump( in );
+            return true;
             break;
         case 'q': case 'Q':
-            printf("step: %#06x\n", cpuRegisters.pc);
+            printf( "step: %#06x\n", cpuRegisters.pc );
             alwaysBreak = true;
-            spliceBreakpoint( cpuRegisters.pc, 0 );
             break;
         case 'w': case 'W':
-            spliceBreakpoint( cpuRegisters.pc, 0 );
-            printf("run to next breakpoint: %#06x\n", nextBreakpoint());
+            printf( "run to next breakpoint: %#06x\n", nextBreakpoint() );
             alwaysBreak = false;
+            break;
+        case 'd': case 'D':
+            printf( "Deleting breakpoint %#06x,  next breakpoint: %#06x\n", cpuRegisters.pc, nextBreakpoint() );
+            deleteBreakpoint( cpuRegisters.pc );
+            return true;
+            break;
+        case 'f': case 'F':
+            printf( "Breakpoints:");
+            for( int i = 0; i < BREAKPOINT_CAPACITY; i++ ){
+                printf( "%02d--%#06x\n", i, breakpoints[i] );
+            }
+            return true;
             break;
         case 'k': case 'K':
             GameGent_shutdown();
@@ -118,8 +137,10 @@ static void handleInput( char input ){
         case '\0':
             break;
         default:
-            printf("\n\nbad input\n\n");
+            printf( "\n\nbad input\n\n" );
+            return true;
     }
+    return false;
 }
 static void printStatus(){
     #ifdef _WIN32
@@ -127,28 +148,29 @@ static void printStatus(){
     #else
         system ("clear");
     #endif
-    char zeroFlag = ' ';
-    char carryFlag = ' ';
-    char subFlag = ' ';
-    char halfCarryFlag = ' ';
+
+    char zeroFlag = '0';
+    char carryFlag = '0';
+    char subFlag = '0';
+    char halfCarryFlag = '0';
     if( CPU_getZeroFlag() ){
-        zeroFlag = 'Z';
+        zeroFlag = '1';
     }
     if( CPU_getCarryFlag() ){
-        carryFlag = 'C';
+        carryFlag = '1';
     }
     if( CPU_getSubtractFlag() ){
-        subFlag = 'N';
+        subFlag = '1';
     }
     if( CPU_getHalfCarryFlag() ){
-        halfCarryFlag = 'H';
+        halfCarryFlag = '1';
     }
     printf( "\n   =======BREAK=======\n" );
 	printf( "   ------------------------\n" );
 	printf( " AF| %#06x | PC| %#06x |\n", cpuRegisters.af, cpuRegisters.pc  );
 	printf( " BC| %#06x | SP| %#06x |\n", cpuRegisters.bc, cpuRegisters.sp  );
-	printf( " DE| %#06x | %c %c |\n", cpuRegisters.de, zeroFlag, subFlag );
-	printf( " HL| %#06x | %c %c |\n", cpuRegisters.hl, carryFlag, halfCarryFlag );
+	printf( " DE| %#06x | ZNHC |\n", cpuRegisters.de );
+	printf( " HL| %#06x | %c%c%c%c |\n", cpuRegisters.hl, zeroFlag, subFlag, halfCarryFlag, carryFlag );
 	printf( "   ------------------------\n");
 	printf( " Code: \n");
     uint16_t workAddress = cpuRegisters.pc;

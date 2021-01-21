@@ -38,17 +38,6 @@ void CPU_init(){ //serves as a restart
     cpuState = NORMAL_OPERATION;
 }
 
-
-static void cpuInstructionDebug( instruction currentInstruction ){
-	printf("%#06x|  %#04x %s", cpuRegisters.pc, currentInstruction.codePoint, currentInstruction.mnemonic);
-	if(currentInstruction.length > 1 ){
-		printf(" %s",currentInstruction.arg1);
-	}
-	if(currentInstruction.length > 2 ){
-		printf(" %s",currentInstruction.arg2);
-	}
-	printf("\n");
-}
 /** \brief return the current instruction
  * The fetch and decode steps of the fetch-decode-execute cycle. Finds the current instruction
  * opcode in DMG memory, and returns the appropriate instruction object.
@@ -84,12 +73,14 @@ void CPU_tick(){
             printf("%c", c);
             MMU_loadByte( 0xff02, 0x0 );
         }
+        bool hold = false;
         if( Debugger_checkBreakpoint( cpuRegisters.pc ) ){
-            Debugger_break();
+            hold = Debugger_break();
         }
-        instruction currentInstruction = fetchDecode();
-       // cpuInstructionDebug( currentInstruction );
-        executeInstruction( currentInstruction );
+        if( !hold ){
+            instruction currentInstruction = fetchDecode();
+            executeInstruction( currentInstruction );
+        }
     }
 }
 
