@@ -17,8 +17,9 @@ static void printPrompt();
 static void printStatus();
 static void memDump( uint16_t addr );
 static bool handleInput( char input );
-static void pushBreakpoint( uint16_t breakpoint );
+static void addBreakpoint( uint16_t breakpoint );
 static void deleteBreakpoint( uint16_t breakpoint );
+static void printBreakpoints();
 
 char debugPrintout[0x1000];
 uint16_t breakpoints[BREAKPOINT_CAPACITY];
@@ -30,8 +31,8 @@ void Debugger_init(){
     for(int i = 0; i < 20 ; i++){
         breakpoints[i] = 0x0000;
     }
-    pushBreakpoint( 0x0206 );
-    pushBreakpoint( 0x020b );
+    addBreakpoint( 0x0206 );
+//    addBreakpoint( 0x020b );
 }
 bool Debugger_break(){
     printStatus();
@@ -56,23 +57,52 @@ bool Debugger_checkBreakpoint( uint16_t addr ){
     }
     return false;
 }
-
-static void pushBreakpoint( uint16_t breakpoint ){
-    for(int i = BREAKPOINT_CAPACITY; i > 0 ; i--){
-        breakpoints[i] = breakpoints[i-1];
-    }
-    breakpoints[0] = breakpoint;
-}
-static void deleteBreakpoint( uint16_t breakpoint ){
-    for(int i = 0; i < BREAKPOINT_CAPACITY ; i++){
-        if(breakpoints[i] == breakpoint && i != BREAKPOINT_CAPACITY){
-            breakpoints[i] ^= breakpoints[i+1];
-            breakpoints[i+1] ^= breakpoints[i];
-            breakpoints[i] ^= breakpoints[i+1];
+/** \brief adds a new breakpoint to the list
+ * List order does not matter, so this function looks for the first available
+ * slot (a slot with a value of 0x00, the only invalid breakpoint). If there
+ * are no 0's in the list, the lowest valued breakpoint is bumped off. We
+ * assume that if a new breakpoint is called for, it's more important than any
+ * older breakpoints.
+ * \param newBreakpoint is a 16 bit address of where the debugger should break
+ * \return void
+ */
+static void addBreakpoint( uint16_t newBreakpoint ){
+    uint16_t lowest = 0xffff;
+    int lowestIndex = 0x00;
+    for( int i = 0; i<BREAKPOINT_CAPACITY; i++ ){
+        if( breakpoints[i] == 0x00 ){
+            breakpoints[i] = newBreakpoint;
+            return;
         }
-        if(breakpoints[i] == breakpoint && i == BREAKPOINT_CAPACITY){
+        if( breakpoints[i] != 0x00 && breakpoints[i] < lowest ){
+            lowest = breakpoints[i];
+            lowestIndex = i;
+        }
+    }
+    breakpoints[lowestIndex] = newBreakpoint;
+
+}
+
+/** \brief deletes the indicated breakpoint from the list
+ * Takes a 16 bit address and searches the breakpoints list for it.
+ * When found, that breakpoint is set to invalid (0x00). If no more
+ * valid (non 0x00) breakpoints exist, alwaysBreak is set to true.
+ * The user can then continue to next break if they want to roll forever.
+ * \param breakpoint uint16_t address to break on
+ * \return void
+ */
+static void deleteBreakpoint( uint16_t breakpoint ){
+    bool validBreakpointFound = false;
+    for(int i = 0; i < BREAKPOINT_CAPACITY ; i++){
+        if(breakpoints[i] == breakpoint){
             breakpoints[i] = 0x00;
         }
+        if( breakpoints[i] != 0x00 ){
+            validBreakpointFound = true;
+        }
+    }
+    if( !validBreakpointFound ){
+        alwaysBreak = true;
     }
 }
 static uint16_t nextBreakpoint(){
@@ -82,6 +112,17 @@ static uint16_t nextBreakpoint(){
         }
     }
     return 0;
+}
+static void printBreakpoints(){
+
+    sprintf( debugPrintout, "Breakpoints:\n");
+    char breakpointLine[0xf];
+    for( int i = 0; i < BREAKPOINT_CAPACITY; i++ ){
+        if( breakpoints[i] != 0 ){
+            sprintf( breakpointLine, "BP-%#06x\n", breakpoints[i] );
+            strcat( debugPrintout, breakpointLine );
+        }
+    }
 }
 static void printPrompt(){
     if( strlen( debugPrintout ) > 0 ){
@@ -95,6 +136,7 @@ static void printPrompt(){
 }
 
 static bool handleInput( char input ){
+    int in;
     switch( input ){
         case 'm': case 'M':
             memDump( cpuRegisters.pc );
@@ -112,7 +154,6 @@ static bool handleInput( char input ){
             break;
         case '?':
             printf( "Memdump at what address?\n" );
-            int in;
             scanf ( "%x", &in );
             in = in % 0xffff;
             memoryDumpIndex = in;
@@ -124,23 +165,25 @@ static bool handleInput( char input ){
             alwaysBreak = true;
             break;
         case 'w': case 'W':
-            sprintf( debugPrintout, "run to next breakpoint: %#06x\n", nextBreakpoint() );
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system ("clear");
+            #endif
             alwaysBreak = false;
             break;
         case 'd': case 'D':
-            sprintf( debugPrintout, "Deleting breakpoint %#06x,  next breakpoint: %#06x\n", cpuRegisters.pc, nextBreakpoint() );
-            deleteBreakpoint( cpuRegisters.pc );
+            printBreakpoints();
+            printf( debugPrintout );
+            printf("Delete which? (by addr)");
+            scanf ( "%x", &in );
+            in = in % 0xffff;
+            deleteBreakpoint( in );
+            sprintf( debugPrintout, "Deleting breakpoint %#06x,  next breakpoint: %#06x\n", in, nextBreakpoint() );
             return true;
             break;
         case 'f': case 'F':
-            sprintf( debugPrintout, "Breakpoints:\n");
-            char breakpointLine[0xf];
-            for( int i = 0; i < BREAKPOINT_CAPACITY; i++ ){
-                if( breakpoints[i] != 0 ){
-                    sprintf( breakpointLine, "%02d--%#06x\n", i, breakpoints[i] );
-                    strcat( debugPrintout, breakpointLine );
-                }
-            }
+            printBreakpoints();
             return true;
             break;
         case 'k': case 'K':
@@ -155,6 +198,12 @@ static bool handleInput( char input ){
     }
     return false;
 }
+/** \brief prints the current cpu state and a disASM dump of a few instructions around PC
+ * Prints a detailed look at the internal state of the DMG CPU, including
+ * registers, human readable flags, and a disassembly of the code starting with the
+ * current instruction (PC) and going forward 6 instructions
+ * \return void
+ */
 static void printStatus(){
     #ifdef _WIN32
         system("cls");
@@ -257,7 +306,11 @@ static void memDump( uint16_t addr ){
     sprintf(debugPrintout, "raw memdump centered on %#06x\n", addr);
     char memDumpLine[0x1f];
     for( int i = -5 ; i<6; i++ ){
-        sprintf( memDumpLine, "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+        if ( i == 0 ){
+            sprintf( memDumpLine, "  [%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+        } else {
+            sprintf( memDumpLine, "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+        }
         strcat( debugPrintout, memDumpLine );
     }
 }
