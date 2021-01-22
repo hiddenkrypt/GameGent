@@ -9,7 +9,7 @@ static char* currentBlargTest;
 static bool runBootRom;
 static bool debugFlag;
 static bool runBlargTest;
-static double cpuSpeedMultiplier;
+
 /** \brief setup the settings module
  * gathers info on the saved settings of GameGent, and sets up default keybinds
  * @todo load setting from a saved file
@@ -19,7 +19,7 @@ void Settings_init(){
 	debugFlag = true;
 	runBootRom = false;
 	runBlargTest = true;
-	currentBlargTest = "tests/gb-test-roms-master/cpu_instrs/individual/01-special.gb";
+	currentBlargTest = "tests/gb-test-roms-master/cpu_instrs/individual/11-op a,(hl).gb";
 	bootRomPath = "DMG_ROM.bin";
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
