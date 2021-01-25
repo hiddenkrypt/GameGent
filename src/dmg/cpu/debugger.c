@@ -131,7 +131,8 @@ static void printPrompt(){
     }
     printf("What do? \n");
     printf("[m]Memdump at pc  [<] Memdump -5 [>] Memdump +5 [?] Memdump at position...\n");
-    printf("[q] Step forward [w] Run to next [d] Delete Breakpoint [f] print breaks\n");
+    printf("[q] Step forward [w] Run to next break\n");
+    printf("[a]Add breakpoint... [d] Delete Breakpoint... [f] print breaks\n");
     printf("[k] kill program\n");
 }
 
@@ -143,12 +144,12 @@ static bool handleInput( char input ){
             return true;
             break;
         case '<':
-            memoryDumpIndex = memoryDumpIndex - 5;
+            memoryDumpIndex = memoryDumpIndex - 0x10;
             memDump( memoryDumpIndex );
             return true;
             break;
         case '>':
-            memoryDumpIndex = memoryDumpIndex + 5;
+            memoryDumpIndex = memoryDumpIndex + 0x10;
             memDump( memoryDumpIndex );
             return true;
             break;
@@ -172,6 +173,14 @@ static bool handleInput( char input ){
             #endif
             alwaysBreak = false;
             break;
+        case 'a': case 'A':
+            //add breakpoint
+            printf("Add breakpoint where? (by addr 16 bit HEX)");
+            scanf ( "%x", &in );
+            in = in % 0xffff;
+            addBreakpoint( in );
+            sprintf( debugPrintout, "Added breakpoint %#06x\n", in );
+            return true;
         case 'd': case 'D':
             printBreakpoints();
             printf( debugPrintout );
@@ -304,13 +313,20 @@ static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, 
 }
 static void memDump( uint16_t addr ){
     sprintf(debugPrintout, "raw memdump centered on %#06x\n", addr);
-    char memDumpLine[0x1f];
-    for( int i = -5 ; i<6; i++ ){
-        if ( i == 0 ){
-            sprintf( memDumpLine, "  [%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
-        } else {
-            sprintf( memDumpLine, "[%#06x] %#04x \n", (addr+i)%0xffff, MMU_readByte( addr+i ) );
+    char memDumpLine[255];
+    for( int i = 0 ; i<6; i++ ){
+        uint16_t lineAddr = (addr / 16 + i) * 16;
+        sprintf( memDumpLine, "  [%#06x]", lineAddr );
+        for( int j = 0;  j < 16; j++){
+            char memDumpValue[4];
+            if( j == 8){
+                sprintf( memDumpValue, "|%02X", MMU_readByte( lineAddr + j ) );
+            } else {
+                sprintf( memDumpValue, " %02X", MMU_readByte( lineAddr + j ) );
+            }
+            strcat( memDumpLine, memDumpValue );
         }
+        strcat( memDumpLine, "\n" );
         strcat( debugPrintout, memDumpLine );
     }
 }
