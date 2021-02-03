@@ -71,7 +71,7 @@ void CPU_tick(){
         if ( Settings_getRunBlargTest() && MMU_readByte( 0xff02 ) == 0x81 ) {
             char c = MMU_readByte( 0xff01 );
             printf("%c", c);
-            MMU_loadByte( 0xff02, 0x0 );
+            MMU_writeByte( 0xff02, 0x0 );
         }
         bool hold = false;
         if( Debugger_checkBreakpoint( cpuRegisters.pc ) ){

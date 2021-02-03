@@ -1606,22 +1606,22 @@ inline void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dat
 	*targetRegister = dataRegister;
 }
 inline void load_memory_directByte(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc + 1 ) );
+	MMU_writeByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.pc + 1 ) );
 }
 inline void load_memoryAtRegisterValue_8bitRegisterData( uint16_t address, uint8_t dataRegister ){
-	MMU_loadByte( address, dataRegister );
+	MMU_writeByte( address, dataRegister );
 }
 inline void load_memoryAtDirectWord_16bitRegister(){
-	MMU_loadWord( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.sp );
+	MMU_writeWord( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.sp );
 }
 inline void load_memoryAtDirectWord_A(){
-	MMU_loadByte( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.a );
+	MMU_writeByte( MMU_readWord( cpuRegisters.pc + 1 ), cpuRegisters.a );
 }
 inline void load_memoryHighDirectOffset_A(){
-	MMU_loadByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ), cpuRegisters.a );
+	MMU_writeByte( 0xff00 + MMU_readByte( cpuRegisters.pc + 1 ), cpuRegisters.a );
 }
 inline void load_memoryHighRegisterOffset_A(){
-	MMU_loadByte( 0xff00 + cpuRegisters.c, cpuRegisters.a );
+	MMU_writeByte( 0xff00 + cpuRegisters.c, cpuRegisters.a );
 }
 inline void load_A_MemoryAtDirectWord(){
 	cpuRegisters.a = MMU_readByte( cpuRegisters.pc + 1 );
@@ -1666,7 +1666,7 @@ inline void decrement_8bitRegister( uint8_t* targetRegister ){
 	}
 }
 inline void increment_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
+	MMU_writeByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) + 1 );
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
 	} else {
@@ -1679,7 +1679,7 @@ inline void increment_memoryValue(){
     }
 }
 inline void decrement_memoryValue(){
-	MMU_loadByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
+	MMU_writeByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
 	} else {
@@ -1695,7 +1695,7 @@ inline void decrement_memoryValue(){
 inline void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry ){
 	uint8_t memoryValue = MMU_readByte( cpuRegisters.hl );
 	rotate_8bitRegister( &memoryValue, leftOrRight, throughCarry );
-	MMU_loadByte( cpuRegisters.hl, memoryValue );
+	MMU_writeByte( cpuRegisters.hl, memoryValue );
 }
 
 inline void rotate_8bitRegister( uint8_t* targetRegister, direction leftOrRight, carryPolicy throughCarry ){
@@ -1860,7 +1860,7 @@ inline void stack_pop( uint16_t* targetRegister ){
 	cpuRegisters.sp = cpuRegisters.sp + 2;
 }
 inline void stack_push( uint16_t valueRegister ){
-	MMU_loadWord( cpuRegisters.sp, valueRegister );
+	MMU_writeWord( cpuRegisters.sp, valueRegister );
 	cpuRegisters.sp = cpuRegisters.sp - 2;
 }
 inline void stack_restart( uint8_t address ){
@@ -1933,7 +1933,7 @@ inline bool jump_toHL(){
 inline void shift_memory( direction leftOrRight, significantBitPolicy plan ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
     shift( &memoryGrabber, leftOrRight, plan );
-    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void shift( uint8_t* value, direction leftOrRight, significantBitPolicy plan ){
     if( leftOrRight == LEFT ){
@@ -1963,7 +1963,7 @@ inline void shift( uint8_t* value, direction leftOrRight, significantBitPolicy p
 inline void swapMemoryNibbles(){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
     swapNibbles( &memoryGrabber );
-    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void swapNibbles( uint8_t* value ){
     uint8_t mostSignificantNibble = *value & 0xf0;
@@ -1989,15 +1989,15 @@ inline void bit_reset( bitmask targetBit, uint8_t* targetByte ){
 inline void bit_memoryRead( bitmask targetBit ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
     bit_read( targetBit, &memoryGrabber );
-    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void bit_memorySet( bitmask targetBit ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
     bit_set( targetBit, &memoryGrabber );
-    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void bit_memoryReset( bitmask targetBit ){
     uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
     bit_reset( targetBit, &memoryGrabber );
-    MMU_loadByte( cpuRegisters.hl, memoryGrabber );
+    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }

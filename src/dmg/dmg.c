@@ -25,15 +25,7 @@ void DMG_loadRom(char const* path){
 		/**\todo reset registers as they should be post-bootup*/
 		return;
 	}
-	uint8_t romDataBuffer[0xefff];
-	int count = fread( romDataBuffer, sizeof( uint8_t ), 0xefff, rom);
-	printf("read %d bytes \n", count);
-	bool success = MMU_loadRange( 0x0000, count, romDataBuffer );
-	if( !success ){
-		printf("MMU load bootrom failure.\n");
-	} else {
-        printf("Loaded rom to memory \n");
-	}
+	MMU_loadRom( rom );
 	fclose( rom );
 }
 

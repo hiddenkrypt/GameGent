@@ -1,6 +1,4 @@
-#include <stdint.h>
 #include <string.h>
-#include <stdbool.h>
 #include "mmu.h"
 
 static uint8_t ram[0xffff];
@@ -11,12 +9,21 @@ static uint8_t ram[0xffff];
  *
  */
 void MMU_init(){
-	for(int i = 0; i < 0xFFFF; i++){
+	for(int i = 0; i < 0xffff; i++){
 		ram[i] = 0;
 	}
-	ram[1] = 0x7b;
 }
-
+void MMU_loadRom( FILE *rom ){
+	uint8_t romDataBuffer[0xffff];
+	int count = fread( romDataBuffer, sizeof( uint8_t ), 0xffff, rom);
+	printf("read %d bytes \n", count);
+	bool success = MMU_loadRange( 0x0000, count, romDataBuffer );
+	if( !success ){
+		printf("MMU load bootrom failure.\n");
+	} else {
+        printf("Loaded rom to memory \n");
+	}
+}
 /** \brief read a byte from DMG ram
  * returns the 8 bit value stored at the given address. Address is a uint16_t so it literally can't be out of bounds.
  *
@@ -33,7 +40,7 @@ uint8_t MMU_readByte( uint16_t address ){
  * \param address location in ram selected for writing
  * \param data 8 bit value to set into the memory cell
  */
-void MMU_loadByte( uint16_t address, uint8_t data ){
+void MMU_writeByte( uint16_t address, uint8_t data ){
 	ram[address] = data;
 }
 
@@ -45,18 +52,20 @@ void MMU_loadByte( uint16_t address, uint8_t data ){
  * \param array of data 8 bit value to set into the memory cells
  * \return bool true if write is successful, false if not.
  */
-bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t* data ){
+bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t *data ){
 	if( ( (uint32_t)startAddress + (uint32_t)countBytes ) > 0xffff ) {
 		return false;
 	}
 	memcpy(ram+startAddress, data, countBytes);
+    printf( "Loaded %#06x bytes into memory", countBytes );
+	getchar();
 	return true;
 }
 
 uint16_t MMU_readWord( uint16_t address ){
 	return ram[address+1] << 8 | ram[address];
 }
-void MMU_loadWord( uint16_t address, uint16_t data ){
+void MMU_writeWord( uint16_t address, uint16_t data ){
 	ram[address] = (uint8_t) ( data >> 8 );
 	ram[address + 1] = (uint8_t) ( data | 0x0f );
 }
