@@ -23,7 +23,7 @@ recentRomList recentRoms = {0, {}};
  * \param the index of the item requested
  * \param a passed char* buffer to put the label into
  **/
-static void getLabel( int i, char* returnBuffer ){
+static void getLabel( int i, char *returnBuffer ){
 	if( i == 0 ){
 		strncpy( returnBuffer, "Load Rom File...", 18 );
 		return;
@@ -49,8 +49,8 @@ static void getLabel( int i, char* returnBuffer ){
 **/
 static void activateItem( int i ){
 	if( i == 0 ){
-		char const * dialogFilterPatterns[2] = { "*.gb", "*.gbc" }; /** @todo add zip support? **/
-		char const * romFilePath;
+		const char *dialogFilterPatterns[2] = { "*.gb", "*.gbc" }; /** @todo add zip support? **/
+		const char *romFilePath;
 		romFilePath = tinyfd_openFileDialog(
 			"Open a Rom file",
 			"",

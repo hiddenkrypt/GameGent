@@ -17,7 +17,7 @@ dmgCoreState state = STOPPED;
  * opens a rom file and copies it's contents (the first 0x3fff bytes, at least) into the MMU.
  * @todo: support Memory Mappers
  */
-void DMG_loadRom(char const* path){
+void DMG_loadRom(const char *path){
 	printf("loading rom %s\n", path);
 	FILE* rom = fopen(path, "r");
 	if( rom == NULL ){

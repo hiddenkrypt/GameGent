@@ -4,13 +4,13 @@
 #include "window.h"
 
 #define RENDERER_COLLECTION_SIZE 50 // currently arbitrary
-static SDL_Window* mainWindow = NULL;
-static SDL_Renderer* rendererCollection[RENDERER_COLLECTION_SIZE];
-static int virtualScreenHeight = 18;
-static int virtualScreenWidth = 20;
-static int windowTileMultiplier = 4;
-static int windowHeight = 8*18*4;
-static int windowWidth = 8*20*4;
+SDL_Window *mainWindow = NULL;
+SDL_Renderer *rendererCollection[RENDERER_COLLECTION_SIZE];
+int virtualScreenHeight = 18;
+int virtualScreenWidth = 20;
+int windowTileMultiplier = 4;
+int windowHeight = 8*18*4;
+int windowWidth = 8*20*4;
 
 void bestFit();
 void resize();
@@ -42,7 +42,7 @@ void Window_init(){
  * @return SDL_Renderer tied to the window if successful, NULL if any error occurred or the renderer collection is full.
  *
  */
-SDL_Renderer* Window_getNewRenderer(){
+SDL_Renderer *Window_getNewRenderer(){
 	int i = 0;
 	while ( i < RENDERER_COLLECTION_SIZE && rendererCollection[i] != NULL ) {
 		i++;

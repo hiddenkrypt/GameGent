@@ -4,12 +4,10 @@
 #include "keyCommands.h"
 #include "keyBinds.h"
 
-static keyBind* keyBindCollection;
-static int keyBindCount = 0;
-
-
-static const int DEFAULT_BIND_COUNT = 9;// always update to size of defaultKeyBinds array
-static const keyBind defaultKeyBinds[] = {
+keyBind* keyBindCollection;
+int keyBindCount = 0;
+const int DEFAULT_BIND_COUNT = 9;// always update to size of defaultKeyBinds array
+const keyBind defaultKeyBinds[] = {
 	{SDLK_x, A},
 	{SDLK_z, B},
 	{SDLK_UP, UP},

@@ -5,7 +5,7 @@
  */
 typedef struct{
 	char name[18];	/**< a user displayed nameof the rom, 18 characters long or less */
-	char* path;		/**< a full absolute path to the rom file */
+	char *path;		/**< a full absolute path to the rom file */
 } recentRom;
 
 /** \brief a list of recent roms

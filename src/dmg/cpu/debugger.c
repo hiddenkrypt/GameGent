@@ -12,7 +12,7 @@
 
 #define BREAKPOINT_CAPACITY 20
 
-static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, instruction details );
+static void stringifyInstruction( char *instructionStringBuffer, uint16_t addr, instruction details );
 static void printPrompt();
 static void printStatus();
 static void memDump( uint16_t addr );
@@ -23,7 +23,7 @@ static void printBreakpoints();
 
 char debugPrintout[0x1000];
 uint16_t breakpoints[BREAKPOINT_CAPACITY];
-static uint16_t memoryDumpIndex = 0;
+uint16_t memoryDumpIndex = 0;
 bool alwaysBreak = false;
 
 void Debugger_init(){
@@ -251,20 +251,20 @@ static void printStatus(){
             workAddress = workAddress + 1;
             currentInstruction = prefixCodeTable[ MMU_readByte( workAddress ) ];
         }
-        char* instructionString = (char*) malloc( 30 * sizeof(char) );
+        char *instructionString = (char*) malloc( 30 * sizeof(char) );
         stringifyInstruction( instructionString, workAddress + 1, currentInstruction );
         printf( "%#06x %s\n", workAddress, instructionString );
         free( instructionString );
         workAddress = workAddress + currentInstruction.length;
     }
 }
-static void stringifyInstruction( char* instructionStringBuffer, uint16_t addr, instruction details ){
+static void stringifyInstruction( char *instructionStringBuffer, uint16_t addr, instruction details ){
     if( addr == 0x00){
         printf("stop");
     }
 
-    char* arg1String = (char*) malloc( 10 * sizeof(char) );
-    char* arg2String = (char*) malloc( 14 * sizeof(char) );
+    char *arg1String = (char*) malloc( 10 * sizeof(char) );
+    char *arg2String = (char*) malloc( 14 * sizeof(char) );
     instructionStringBuffer[0] = '\0';
     arg1String[0] = '\0';
     arg2String[0] = '\0';

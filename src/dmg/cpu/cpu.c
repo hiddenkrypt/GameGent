@@ -20,7 +20,7 @@
 
 DmgRegisters cpuRegisters;
 cpuStateStatus cpuState;
-static const uint8_t PREFIX_INDICATOR = 0xCB;
+const uint8_t PREFIX_INDICATOR = 0xCB;
 
 /** \brief sets up CPU initial state
  * configures internal registers to initial state, serving as a CPU restart option
@@ -95,7 +95,7 @@ void CPU_tick(){
  *
  * \param reason - an explanation of the crash, if possible, to be printed with the debug info
  */
-void CPU_crash( char* reason ){
+void CPU_crash( char *reason ){
 	DMG_stopEmulation();
 	printf( "\n\n=======CPU CRASH=======\n" );
 	printf( reason );

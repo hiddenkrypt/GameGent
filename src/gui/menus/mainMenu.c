@@ -13,15 +13,15 @@ void loadRom(){
 
 static void noop();
 static bool always();
-static char* continueLabel();
-static char* loadRomLabel();
-static char* loadStateLabel();
-static char* saveStateLabel();
-static char* stateNumberLabel();
-static char* optionsLabel();
-static char* exitLabel();
+static char *continueLabel();
+static char *loadRomLabel();
+static char *loadStateLabel();
+static char *saveStateLabel();
+static char *stateNumberLabel();
+static char *optionsLabel();
+static char *exitLabel();
 
-static menuItem menuItems[7] = {
+menuItem menuItems[7] = {
 	{&noop,&DMG_isEmulating,&continueLabel},
 	{&loadRom,&always,&loadRomLabel},
 	{&noop,&DMG_isEmulating,&loadStateLabel},
@@ -30,7 +30,7 @@ static menuItem menuItems[7] = {
 	{&noop,&always,&optionsLabel},
 	{&GameGent_shutdown,&always,&exitLabel}
 };
-static const int MAIN_MENU_ITEMS = 7;
+const int MAIN_MENU_ITEMS = 7;
 
 /** \brief get the text for a menu item
  *
@@ -43,7 +43,7 @@ static const int MAIN_MENU_ITEMS = 7;
  * \param the index of the item requested
  * \param a passed char* buffer to put the label into
  **/
-static void getLabel( int i, char* returnBuffer ){
+static void getLabel( int i, char *returnBuffer ){
 	if(i > MAIN_MENU_ITEMS) {
 		strncpy(returnBuffer, "getLabel FAILURE!",18);
 		return;
@@ -94,20 +94,20 @@ static void activateItem(int i){
 static void noop(){}
 /**\brief Menu item condition: always display  */
 static bool always(){ return true; }
-/**\brief Menu item label: static value  */
-static char* continueLabel(){ return "Continue"; }
-/**\brief Menu item label: static value  */
-static char* loadRomLabel(){ return "Load ROM"; }
-/**\brief Menu item label: static value  */
-static char* loadStateLabel(){ return "Load State"; }
-/**\brief Menu item label: static value  */
-static char* saveStateLabel(){ return "Save State"; }
+/**\brief Menu item label: literal value  */
+static char *continueLabel(){ return "Continue"; }
+/**\brief Menu item label: literal value  */
+static char *loadRomLabel(){ return "Load ROM"; }
+/**\brief Menu item label: literal value  */
+static char *loadStateLabel(){ return "Load State"; }
+/**\brief Menu item label: literal value  */
+static char *saveStateLabel(){ return "Save State"; }
 /**\brief Menu item label: dynamic value, currently unimplemented  */
-static char* stateNumberLabel(){ return "State Number:"; } /** @todo append current state number */
-/**\brief Menu item label: static value  */
-static char* optionsLabel(){ return "Options..."; }
-/**\brief Menu item label: static value  */
-static char* exitLabel(){ return "EXIT"; }
+static char *stateNumberLabel(){ return "State Number:"; } /**@todo append current state number */
+/**\brief Menu item label: literal value  */
+static char *optionsLabel(){ return "Options..."; }
+/**\brief Menu item label: literal value  */
+static char *exitLabel(){ return "EXIT"; }
 
 /** \brief creates the Menu Struct for this menu
  *

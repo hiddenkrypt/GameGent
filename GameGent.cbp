@@ -75,6 +75,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/dmg.h" />
+		<Unit filename="src/dmg/mmu/cartridge.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/dmg/mmu/cartridge.h" />
 		<Unit filename="src/dmg/mmu/mmu.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -19,7 +19,7 @@ const int LCD_HEIGHT = 144;
  * @todo breakout window and SDL init
  * @see Window_init()  about breaking out window and SDL init
  */
-SDL_Renderer* GUI_init () {
+SDL_Renderer *GUI_init () {
 	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		printf( "SDL init video failed: %s\n", SDL_GetError() );
 		return NULL;
@@ -28,7 +28,7 @@ SDL_Renderer* GUI_init () {
 		printf( "Failed to set render scale quality." );
 	}
 	Window_init();
-	SDL_Renderer* mainRenderer = Window_getNewRenderer();
+	SDL_Renderer *mainRenderer = Window_getNewRenderer();
 	if ( SDL_RenderSetLogicalSize( mainRenderer, LCD_WIDTH, LCD_HEIGHT ) != 0 ) {
 		printf( "Renderer logical size not set. SDL Error: %s\n", SDL_GetError() );
 		return NULL;

@@ -4,11 +4,11 @@
 #include "gui/keyBinds.h"
 
 
-static char* bootRomPath;
-static char* currentBlargTest;
-static bool runBootRom;
-static bool debugFlag;
-static bool runBlargTest;
+char *bootRomPath;
+char *currentBlargTest;
+bool runBootRom;
+bool debugFlag;
+bool runBlargTest;
 
 /** \brief setup the settings module
  * gathers info on the saved settings of GameGent, and sets up default keybinds
@@ -26,7 +26,7 @@ void Settings_init(){
 bool Settings_getRunBlargTest(){
     return runBlargTest;
 }
-char* Settings_getCurrentBlargTest(){
+char *Settings_getCurrentBlargTest(){
     return currentBlargTest;
 }
 /** \brief this flag determines if various subsystems should be printing to the screen or not
@@ -50,7 +50,7 @@ bool Settings_get_runBootRom(){
  * \return path to the bootrom file
  *
  */
-char* Settings_get_bootRomPath(){
+char *Settings_get_bootRomPath(){
 	return bootRomPath;
 }
 

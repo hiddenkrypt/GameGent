@@ -8,8 +8,8 @@
 #include "menus/mainMenu.h"
 #include "menuManager.h"
 
-static int menuCursorIndex = 0;
-static menu currentMenu;
+int menuCursorIndex = 0;
+menu currentMenu;
 
 
 /** \brief starts the MenuManager
@@ -30,7 +30,7 @@ void MenuManager_init(){
  * @param the current state of the program
  *
  */
-void MenuManager_draw( SDL_Renderer*  renderer ){
+void MenuManager_draw( SDL_Renderer *renderer ){
 	char menuTitle[4][11] = {
 		{ 148, 159, 159, 159, 159, 159, 159, 159, 159, 149, 0 },
 		{ 158, 144, 145, 'a', 'm', 'e',  32, 146, 147, 158, '\0' },

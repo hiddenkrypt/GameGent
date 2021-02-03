@@ -1,7 +1,7 @@
 #include <string.h>
 #include "mmu.h"
 
-static uint8_t ram[0xffff];
+uint8_t ram[0xffff];
 
 
 /** \brief sets up the memory module, initializing the DMG ram

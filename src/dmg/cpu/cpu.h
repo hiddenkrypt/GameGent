@@ -8,7 +8,7 @@ typedef enum cpuStateEnum{
 
 void CPU_init();
 void CPU_tick();
-void CPU_crash(char* reason);
+void CPU_crash(char *reason);
 void CPU_noop();
 void CPU_stop();
 void CPU_halt();

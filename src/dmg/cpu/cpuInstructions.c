@@ -20,9 +20,9 @@ inline void executeInstruction( instruction opcode ){
 	if( !jump ){
         cpuRegisters.pc = cpuRegisters.pc + opcode.length;
 	}
-	handleStaticFlagEffects( opcode );
+	handleConsistentFlagEffects( opcode );
 }
-inline void handleStaticFlagEffects( instruction opcode ){
+inline void handleConsistentFlagEffects( instruction opcode ){
 	if( opcode.flags.carry == EFFECT_RAISED ){
 		CPU_setCarryFlag();
 	}
@@ -1593,16 +1593,16 @@ inline void prefixInstructionSwitch(){
 	}
 }
 
-inline void load_16bitRegister_DirectWord( uint16_t* targetRegister ){
+inline void load_16bitRegister_DirectWord( uint16_t *targetRegister ){
 	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
 }
-inline void load_8bitRegister_DirectByte( uint8_t* targetRegister ){
+inline void load_8bitRegister_DirectByte( uint8_t *targetRegister ){
 	*targetRegister = MMU_readWord( cpuRegisters.pc + 1 );
 }
-inline void load_8bitRegister_MemoryAtRegisterValue( uint8_t* targetRegister, uint16_t address ){
+inline void load_8bitRegister_MemoryAtRegisterValue( uint8_t *targetRegister, uint16_t address ){
 	*targetRegister = MMU_readWord( address );
 }
-inline void load_8bitRegister_8bitRegister( uint8_t* targetRegister, uint8_t dataRegister ){
+inline void load_8bitRegister_8bitRegister( uint8_t *targetRegister, uint8_t dataRegister ){
 	*targetRegister = dataRegister;
 }
 inline void load_memory_directByte(){
@@ -1633,13 +1633,13 @@ inline void load_A_MemoryHighWithRegisterByteOffset(){
 	cpuRegisters.a = MMU_readByte( 0xff00 + cpuRegisters.c );
 }
 
-inline void increment_16bitRegister( uint16_t* targetRegister ){
+inline void increment_16bitRegister( uint16_t *targetRegister ){
 	*targetRegister = *targetRegister+1;
 }
-inline void decrement_16bitRegister( uint16_t* targetRegister ){
+inline void decrement_16bitRegister( uint16_t *targetRegister ){
 	*targetRegister = *targetRegister-1;
 }
-inline void increment_8bitRegister( uint8_t* targetRegister ){
+inline void increment_8bitRegister( uint8_t *targetRegister ){
 	*targetRegister = *targetRegister + 1;
     if( *targetRegister && 0x0F == 0x00 ) {
 		CPU_setHalfCarryFlag();
@@ -1652,7 +1652,7 @@ inline void increment_8bitRegister( uint8_t* targetRegister ){
         CPU_clearZeroFlag();
 	}
 }
-inline void decrement_8bitRegister( uint8_t* targetRegister ){
+inline void decrement_8bitRegister( uint8_t *targetRegister ){
 	*targetRegister = *targetRegister-1;
     if( *targetRegister && 0x0F == 0x0F  ) {
 		CPU_setHalfCarryFlag();
@@ -1698,7 +1698,7 @@ inline void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry )
 	MMU_writeByte( cpuRegisters.hl, memoryValue );
 }
 
-inline void rotate_8bitRegister( uint8_t* targetRegister, direction leftOrRight, carryPolicy throughCarry ){
+inline void rotate_8bitRegister( uint8_t *targetRegister, direction leftOrRight, carryPolicy throughCarry ){
 	if( leftOrRight == LEFT ){
 		uint8_t msb = *targetRegister >> 7;
 		*targetRegister = *targetRegister << 1;
@@ -1855,7 +1855,7 @@ inline void accumulator_compare( uint8_t value ){
 	}
 }
 
-inline void stack_pop( uint16_t* targetRegister ){
+inline void stack_pop( uint16_t *targetRegister ){
 	*targetRegister = MMU_readWord( cpuRegisters.sp );
 	cpuRegisters.sp = cpuRegisters.sp + 2;
 }
@@ -1935,7 +1935,7 @@ inline void shift_memory( direction leftOrRight, significantBitPolicy plan ){
     shift( &memoryGrabber, leftOrRight, plan );
     MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
-inline void shift( uint8_t* value, direction leftOrRight, significantBitPolicy plan ){
+inline void shift( uint8_t *value, direction leftOrRight, significantBitPolicy plan ){
     if( leftOrRight == LEFT ){
         uint8_t carry = *value & 0x80;
         *value = *value << 1;
@@ -1965,12 +1965,12 @@ inline void swapMemoryNibbles(){
     swapNibbles( &memoryGrabber );
     MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
-inline void swapNibbles( uint8_t* value ){
+inline void swapNibbles( uint8_t *value ){
     uint8_t mostSignificantNibble = *value & 0xf0;
     uint8_t leastSignificantNibble = *value & 0x0f;
     *value = mostSignificantNibble | leastSignificantNibble;
 }
-inline void bit_read( bitmask targetBit, uint8_t* targetByte ){
+inline void bit_read( bitmask targetBit, uint8_t *targetByte ){
 	if( (*targetByte & targetBit) == 0 ){
 		CPU_setZeroFlag();
 	} else {
@@ -1978,10 +1978,10 @@ inline void bit_read( bitmask targetBit, uint8_t* targetByte ){
 	}
 
 }
-inline void bit_set( bitmask targetBit, uint8_t* targetByte ){
+inline void bit_set( bitmask targetBit, uint8_t *targetByte ){
 	*targetByte = *targetByte | targetBit;
 }
-inline void bit_reset( bitmask targetBit, uint8_t* targetByte ){
+inline void bit_reset( bitmask targetBit, uint8_t *targetByte ){
 	*targetByte = *targetByte & !targetBit;
 }
 

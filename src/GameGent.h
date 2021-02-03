@@ -10,5 +10,5 @@ typedef struct {
 	bool inMenu;
 	int FPS;
 	bool quit;
-	SDL_Renderer* renderer;
+	SDL_Renderer *renderer;
 } GameGentState;

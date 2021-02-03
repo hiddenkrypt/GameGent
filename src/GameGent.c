@@ -15,7 +15,7 @@ GameGentState GameGent;
  * Initializes the GameGent state, and calls all subsystem init functions.
  * @todo breakout settings to be initialized in another function, with default values and file stored user options
  */
-GameGentState static init(){
+static GameGentState init(){
 	Settings_init();
 	DMG_init();
 	GameGentState GameGent;
@@ -36,7 +36,7 @@ GameGentState static init(){
  *
  * Calls all subsystem cleanup/shutdown functions.
  */
-void static shutdown(){
+static void shutdown(){
 	GUI_shutdown();
 };
 
@@ -46,7 +46,7 @@ void static shutdown(){
  * @todo limit cpu tick rate to DMG clock speed
  * Main is the program entry point. It calls all the initializers, runs the core program loop, and calls all the sleanup/shutdown functions.
  */
-int main ( int argn, char* args[] ) {
+int main ( int argn, char *args[] ) {
 	GameGent = init();
 	SDL_Event e;
 	while( !GameGent.quit ) {
@@ -54,9 +54,9 @@ int main ( int argn, char* args[] ) {
 			if( e.type == SDL_QUIT ) {
 				GameGent.quit = true;
 			}
-			GUI_handleEvent( e );
+			//GUI_handleEvent( e );
 		}
-		GUI_draw( GameGent );
+		//GUI_draw( GameGent );
 		DMG_tick();
 	}
 
