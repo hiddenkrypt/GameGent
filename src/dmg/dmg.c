@@ -1,6 +1,8 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+
+#include <string.h>
 #include "../settings.h"
 #include "cpu/cpu.h"
 #include "mmu/mmu.h"
@@ -18,15 +20,13 @@ dmgCoreState state = STOPPED;
  * @todo: support Memory Mappers
  */
 void DMG_loadRom(const char *path){
-	printf("loading rom %s\n", path);
-	FILE* rom = fopen(path, "r");
-	if( rom == NULL ){
-		printf("Rom failed to open, make sure rom exists at %s\n", path);
-		/**\todo reset registers as they should be post-bootup*/
-		return;
+	printf( "loading rom %s\n", path );
+	char *romLoadResult = MMU_loadRom( path );
+	if ( strlen( romLoadResult ) != 0 ){
+        /** @todo: pass errors to gui for user information
+         *  @todo: reset dmg after file error
+         */
 	}
-	MMU_loadRom( rom );
-	fclose( rom );
 }
 
 

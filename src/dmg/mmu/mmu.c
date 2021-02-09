@@ -1,4 +1,5 @@
 #include <string.h>
+#include "cartridge.h"
 #include "mmu.h"
 
 uint8_t ram[0xffff];
@@ -13,16 +14,8 @@ void MMU_init(){
 		ram[i] = 0;
 	}
 }
-void MMU_loadRom( FILE *rom ){
-	uint8_t romDataBuffer[0xffff];
-	int count = fread( romDataBuffer, sizeof( uint8_t ), 0xffff, rom);
-	printf("read %d bytes \n", count);
-	bool success = MMU_loadRange( 0x0000, count, romDataBuffer );
-	if( !success ){
-		printf("MMU load bootrom failure.\n");
-	} else {
-        printf("Loaded rom to memory \n");
-	}
+char *MMU_loadRom( const char *romPath ){
+    return Cartridge_load( romPath );
 }
 /** \brief read a byte from DMG ram
  * returns the 8 bit value stored at the given address. Address is a uint16_t so it literally can't be out of bounds.
@@ -31,6 +24,9 @@ void MMU_loadRom( FILE *rom ){
  * \return value of the byte in ram at address
  */
 uint8_t MMU_readByte( uint16_t address ){
+    if( address > 0x0000 && address < 0x4000 ){
+
+    }
 	return ram[address];
 }
 
