@@ -68,7 +68,7 @@ void CPU_tick(){
     /** @todo check interrupts, come out of halt/stop */
     if( cpuState == NORMAL_OPERATION ){
         //    blarggs test - serial output
-        if ( Settings_getRunBlargTest() && MMU_readByte( 0xff02 ) == 0x81 ) {
+        if ( Settings_getRunLastRomOnBoot() && MMU_readByte( 0xff02 ) == 0x81 ) {
             char c = MMU_readByte( 0xff01 );
             printf("%c", c);
             MMU_writeByte( 0xff02, 0x0 );

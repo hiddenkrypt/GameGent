@@ -18,16 +18,19 @@ void Settings_init(){
 	//set defaults on init
 	debugFlag = true;
 	runBootRom = false;
-	runBlargTest = true;
-	currentBlargTest = "tests/gb-test-roms-master/cpu_instrs/individual/11-op a,(hl).gb";
+	runLastRomOnBoot = true;
+	lastRomPath = "tests/gb-test-roms-master/cpu_instrs/individual/11-op a,(hl).gb";
 	bootRomPath = "DMG_ROM.bin";
+
+    //check for local settings file
+    //load file, overwriting defaults
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
 }
-bool Settings_getRunBlargTest(){
-    return runBlargTest;
+bool Settings_getRunLastRomOnBoot(){
+    return lastRom;
 }
-char *Settings_getCurrentBlargTest(){
-    return currentBlargTest;
+char *Settings_getLastRomPath(){
+    return lastRomPath;
 }
 /** \brief this flag determines if various subsystems should be printing to the screen or not
  * @todo possibly add a whole dedicated debug module for debug mode, which opens a console window in release mode, etc.

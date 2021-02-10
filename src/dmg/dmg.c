@@ -39,9 +39,9 @@ void DMG_init(){
 	if( Settings_get_runBootRom() ){
 		DMG_loadRom( Settings_get_bootRomPath() );
 	}
-    if( Settings_getRunBlargTest() ){
+    if( Settings_getRunLastRomOnBoot() ){
         //overwrites bootrom
-        DMG_loadRom( Settings_getCurrentBlargTest() );
+        DMG_loadRom( Settings_getLastRomPath() );
         CPU_setPC( 0x100 );
     }
 	state = RUNNING;
