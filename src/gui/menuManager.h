@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL.h>
 #include "menus/menu.h"
 #include "keyCommands.h"
 
