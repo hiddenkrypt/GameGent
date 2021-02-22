@@ -1,6 +1,6 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
-#include "../settings.h"
 #include "keyCommands.h"
 #include "keyBinds.h"
 
@@ -27,7 +27,7 @@ const keyBind defaultKeyBinds[] = {
 void KeyBinds_init(){
 	//set up keybind collection based on the number of keybind entries found in config file
 	//if the number is 0 or there are any errors in them, fall back to the default
-	if(false){ // config file found keybinds
+	if( false ){ // config file found keybinds
 	} /*! @todo implement options config file for keybinds and other settings, update keybinds init */
 	else{
 		printf("No config keybinds found, using default keybinds.\n");
@@ -61,4 +61,8 @@ keyCommand KeyBinds_parseKeyEvent( SDL_Event event ){
 void KeyBinds_shutdown(){
 	free( keyBindCollection );
 	printf( "Keybinds shutdown." );
+}
+
+void KeyBinds_addKeyBind( keyCommand command, SDL_Keycode key ){
+
 }

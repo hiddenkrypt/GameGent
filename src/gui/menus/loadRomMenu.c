@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "../../../lib/tinyfiledialogs.h"
-#include "../../settings.h"
+#include "../../settings/settings.h"
 #include "../../dmg/dmg.h"
 #include "../menuManager.h"
 #include "mainMenu.h"

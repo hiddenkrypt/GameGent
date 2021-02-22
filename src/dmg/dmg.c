@@ -36,8 +36,8 @@ void DMG_loadRom(const char *path){
 void DMG_init(){
 	MMU_init();
 	CPU_init();
-	if( Settings_get_runBootRom() ){
-		DMG_loadRom( Settings_get_bootRomPath() );
+	if( Settings_getRunBootRom() ){
+		DMG_loadRom( Settings_getBootRomPath() );
 	}
     if( Settings_getRunLastRomOnBoot() ){
         //overwrites bootrom

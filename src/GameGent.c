@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include "gui/gui.h"
 #include "dmg/dmg.h"
-#include "settings.h"
+#include "settings/settings.h"
 #include "GameGent.h"
 
 GameGentState GameGent;
@@ -16,7 +17,7 @@ GameGentState GameGent;
  * @todo breakout settings to be initialized in another function, with default values and file stored user options
  */
 static GameGentState init(){
-	Settings_init();
+	Settings_init( true );
 	DMG_init();
 	GameGentState GameGent;
 	GameGent.quit = false;

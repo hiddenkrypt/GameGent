@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <stdio.h>
-#include "../settings.h"
+#include "../settings/settings.h"
 #include "../GameGent.h"
 #include "window.h"
 #include "tilemap.h"

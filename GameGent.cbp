@@ -120,6 +120,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/settings.h" />
+		<Unit filename="src/settings/settingsFileLineActionStructure.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
