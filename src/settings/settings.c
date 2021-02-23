@@ -97,30 +97,30 @@ static void loadSettingsFromFile(){
         if( value && strlen( value ) && value[0] == ' '){
             value = value + 1;
         }
-        printf("apply %s: %s\n",key,value);
         applySettingFromFile( key, value );
 	}
+	printf("Finished loading settings from file.\n");
 	getchar();
 }
 
 
 static void applySettingFromFile( char *settingName, char *settingValue ){
-#define ACTION_COUNT 5
+#define ACTION_COUNT 14
     settingsFileLineAction actions[ACTION_COUNT] = {
         { "DEBUG_MODE", BOOLEAN, &Settings_setDebugFlag, NULL },
         { "RUN_BOOT_ROM", BOOLEAN, &Settings_setRunBootRom, NULL },
         { "RUN_LAST_ROM_ON_START", BOOLEAN, &Settings_setRunLastRomOnBoot, NULL },
         { "BOOT_ROM_PATH", STRING, NULL, &Settings_setBootRomPath },
-        { "LAST_ROM_PATH", STRING, NULL, &Settings_setLastRomPath }/*,
-        { "KEYBIND_A", SDL_KEY, NULL, NULL },
-        { "KEYBIND_B", SDL_KEY, NULL, NULL },
-        { "KEYBIND_UP", SDL_KEY, NULL, NULL },
-        { "KEYBIND_DOWN", SDL_KEY, NULL, NULL },
-        { "KEYBIND_LEFT", SDL_KEY, NULL, NULL },
-        { "KEYBIND_RIGHT", SDL_KEY, NULL, NULL },
-        { "KEYBIND_SELECT", SDL_KEY, NULL, NULL },
-        { "KEYBIND_START", SDL_KEY, NULL, NULL },
-        { "KEYBIND_MENU", SDL_KEY, NULL, NULL }*//**@todo: implement keybind saving and loading**/
+        { "LAST_ROM_PATH", STRING, NULL, &Settings_setLastRomPath },
+        { "A", SDL_KEY, NULL, NULL },
+        { "B", SDL_KEY, NULL, NULL },
+        { "UP", SDL_KEY, NULL, NULL },
+        { "DOWN", SDL_KEY, NULL, NULL },
+        { "LEFT", SDL_KEY, NULL, NULL },
+        { "RIGHT", SDL_KEY, NULL, NULL },
+        { "SELECT", SDL_KEY, NULL, NULL },
+        { "START", SDL_KEY, NULL, NULL },
+        { "MENU", SDL_KEY, NULL, NULL }
     };
     for( int i = 0; i < ACTION_COUNT; i++ ){
         if( !strcmp( settingName, actions[i].settingName ) ){
@@ -128,6 +128,8 @@ static void applySettingFromFile( char *settingName, char *settingValue ){
                 actions[i].actionChar( settingValue );
             } else if ( actions[i].argType == BOOLEAN ) {
                 actions[i].actionBool( (bool)strcmp( settingValue, "false" ) );
+            } else if ( actions[i].argType == SDL_KEY ) {
+                KeyBinds_addKeyBindFromStrings( settingName, settingValue );
             }
         }
     }

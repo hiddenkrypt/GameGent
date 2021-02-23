@@ -116,10 +116,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/gui/window.h" />
-		<Unit filename="src/settings.c">
+		<Unit filename="src/settings/settings.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src/settings.h" />
+		<Unit filename="src/settings/settings.h" />
 		<Unit filename="src/settings/settingsFileLineActionStructure.h" />
 		<Extensions />
 	</Project>

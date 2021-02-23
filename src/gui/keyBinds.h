@@ -10,4 +10,6 @@ typedef struct _keyBind{
 
 void KeyBinds_init();
 void KeyBinds_shutdown();
+void KeyBinds_addKeyBind( keyCommand command, SDL_KeyCode key );
+void KeyBinds_addKeyBindFromStrings( char *commandString, const char *keyString );
 keyCommand KeyBinds_parseKeyEvent( SDL_Event event );
