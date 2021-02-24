@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdbool.h>
 
 typedef enum argumentTypeEnum {
 	BOOLEAN,
@@ -12,4 +12,4 @@ typedef struct{
     argumentType argType;
 	void (*actionBool) (bool);
 	void (*actionChar) (char*);
-} settingsFileLineAction;
+} configParserAction;

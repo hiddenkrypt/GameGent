@@ -106,7 +106,7 @@ static void loadSettingsFromFile(){
 
 static void applySettingFromFile( char *settingName, char *settingValue ){
 #define ACTION_COUNT 14
-    settingsFileLineAction actions[ACTION_COUNT] = {
+    configParserAction actions[ACTION_COUNT] = {
         { "DEBUG_MODE", BOOLEAN, &Settings_setDebugFlag, NULL },
         { "RUN_BOOT_ROM", BOOLEAN, &Settings_setRunBootRom, NULL },
         { "RUN_LAST_ROM_ON_START", BOOLEAN, &Settings_setRunLastRomOnBoot, NULL },
