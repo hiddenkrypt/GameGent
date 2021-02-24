@@ -14,8 +14,9 @@ Filenames are always **camelCase**
 
 The main entrypoint of the program is in the root directory, and named after the program: "GameGent.c". this is the sole exception to the camelCasing of filenames, due to it's property as the "start" of the code.
 
-Filenames for headers that just define a structure should be named '\<structure typedef label>Structure.h'
-* Example: src/gui/menus/menuStructure.h
+Filenames for headers that just define a structure should be named '\<structure typedef label>Structure.h'.
+* Example: src/gui/menus/menuItemStructure.h
+* Example: src/gui/menus/recentRomStructure.h
 
 All other code belongs in the `/src` directory. Code shall be split into subdirectories based on what system / subsystem they are a part of:
 * `/src/gui` for general gui and related sub-systems
