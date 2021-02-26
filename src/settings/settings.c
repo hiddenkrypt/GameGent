@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../gui/keyBinds.h"
-#include "settingsFileLineActionStructure.h"
+#include "configParserActionStructure.h"
 
 static void applySettingFromFile( char *settingName, char *settingValue );
 static void loadSettingsFromFile();
@@ -25,18 +25,22 @@ static void loadSettingsFromFile();
  */
 void Settings_init( bool loadFromFile ){
 	//set defaults on init
-	debugFlag = true;
+	debugFlag = false;
 	runBootRom = false;
-	runLastRomOnBoot = true;
-	lastRomPath = "tests/gb-test-roms-master/cpu_instrs/individual/11-op a,(hl).gb";
-	bootRomPath = "DMG_ROM.bin";
-
+	runLastRomOnBoot = false;
+	lastRomPath = NULL;
+	bootRomPath = NULL;
     //check for local settings file
     //load file, overwriting defaults
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
     if( loadFromFile ){
         loadSettingsFromFile();
+        printf("Finished loading settings from file.\n");
     }
+}
+void Settings_shutdown(){
+    free( lastRomPath );
+    free( bootRomPath );
 }
 bool  Settings_getRunLastRomOnBoot(){ return runLastRomOnBoot; }
 char *Settings_getLastRomPath(){ return lastRomPath; }
@@ -44,10 +48,29 @@ bool  Settings_getDebugFlag(){ return debugFlag; }
 bool  Settings_getRunBootRom(){	return runBootRom; }
 char *Settings_getBootRomPath(){ return bootRomPath; }
 void Settings_setRunLastRomOnBoot( bool value ){ runLastRomOnBoot = value; }
-void Settings_setLastRomPath( char* path ){ lastRomPath = path; }
 void Settings_setDebugFlag( bool value ){ debugFlag = value; }
 void Settings_setRunBootRom( bool value ){ runBootRom = value; }
-void Settings_setBootRomPath( char *path){ bootRomPath = path; }
+
+void Settings_setLastRomPath( char* path ){
+    free( lastRomPath );
+    char *temp = malloc( strlen( path ) );
+    if( !temp ){
+        printf("allocation of memory failed in setBootRomPath!\n");
+        return;
+    }
+    strcpy( temp, path );
+    lastRomPath = temp;
+}
+void Settings_setBootRomPath( char *path){
+    free( bootRomPath );
+    char *temp = malloc( strlen( path ) );
+    if( !temp ){
+        printf("allocation of memory failed in setBootRomPath!\n");
+        return;
+    }
+    strcpy( temp, path );
+    bootRomPath = temp;
+}
 
 /** \brief unimplemented! save the current settings to disc
  * @todo save the current settings to disc
@@ -99,8 +122,6 @@ static void loadSettingsFromFile(){
         }
         applySettingFromFile( key, value );
 	}
-	printf("Finished loading settings from file.\n");
-	getchar();
 }
 
 

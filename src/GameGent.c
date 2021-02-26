@@ -39,6 +39,7 @@ static GameGentState init(){
  */
 static void shutdown(){
 	GUI_shutdown();
+	Settings_shutdown();
 };
 
 /*!

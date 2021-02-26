@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 #include <SDL.h>
-#include "../gui/menus/recentRomStruct.h"
+#include "../gui/menus/recentRomStructure.h"
 
 bool Settings_getDebugFlag();
 
