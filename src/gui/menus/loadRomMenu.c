@@ -7,8 +7,8 @@
 #include "../menuManager.h"
 #include "mainMenu.h"
 #include "menu.h"
-#include "menuItem.h"
-#include "recentRomStruct.h"
+#include "menuItemStructure.h"
+#include "recentRomStructure.h"
 #include "loadRomMenu.h"
 
 recentRomList recentRoms = {0, {}};
