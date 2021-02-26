@@ -1,11 +1,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "../../settings.h"
+#include "../../settings/settings.h"
 #include "../mmu/mmu.h"
 #include "../dmg.h"
 #include "registers.h"
-#include "opcodes.h"
+#include "instructionStructure.h"
 #include "cpuInstructions.h"
 #include "codeTables.h"
 #include "debugger.h"

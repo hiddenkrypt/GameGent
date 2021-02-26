@@ -1,4 +1,4 @@
-#include "opcodes.h"
+#include "instructionStructure.h"
 #include "codeTables.h"
 
 // GENERATED OPCODE FILE

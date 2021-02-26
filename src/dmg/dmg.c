@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include <string.h>
-#include "../settings.h"
+#include "../settings/settings.h"
 #include "cpu/cpu.h"
 #include "mmu/mmu.h"
 #include "dmg.h"
@@ -39,7 +39,7 @@ void DMG_init(){
 	if( Settings_getRunBootRom() ){
 		DMG_loadRom( Settings_getBootRomPath() );
 	}
-    if( Settings_getRunLastRomOnBoot() ){
+    if( Settings_getRunLastRomOnBoot() && Settings_getLastRomPath() ){
         //overwrites bootrom
         DMG_loadRom( Settings_getLastRomPath() );
         CPU_setPC( 0x100 );

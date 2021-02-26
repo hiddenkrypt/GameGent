@@ -1,5 +1,5 @@
 #pragma once
-#include "opcodes.h"
+#include "instructionStructure.h"
 
 extern instruction codeTable[ 0x100 ];
 
