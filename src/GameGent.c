@@ -22,7 +22,7 @@ static GameGentState init(){
 	GameGentState GameGent;
 	GameGent.quit = false;
 	GameGent.inMenu = false;
-    GameGent.FPS = 30;
+	GameGent.FPS = 30;
 	GameGent.renderer = GUI_init();
 	if ( GameGent.renderer == NULL ) {
 		printf("Window Initialization Failure!");
@@ -56,9 +56,9 @@ int main ( int argn, char *args[] ) {
 			if( e.type == SDL_QUIT ) {
 				GameGent.quit = true;
 			}
-			//GUI_handleEvent( e );
+			GUI_handleEvent( e );
 		}
-		//GUI_draw( GameGent );
+		GUI_draw( GameGent );
 		DMG_tick();
 	}
 

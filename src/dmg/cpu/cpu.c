@@ -35,7 +35,7 @@ void CPU_init(){ //serves as a restart
 	cpuRegisters.sp = 0xfffe;
 	cpuRegisters.ime = true;
 	Debugger_init();
-    cpuState = NORMAL_OPERATION;
+	cpuState = NORMAL_OPERATION;
 }
 
 /** \brief return the current instruction
@@ -65,23 +65,23 @@ static instruction fetchDecode(){
  * Sends the CPU through one instruction cycle. Fetch is handed off to the Opcodes module.
  */
 void CPU_tick(){
-    /** @todo check interrupts, come out of halt/stop */
-    if( cpuState == NORMAL_OPERATION ){
-        //    blarggs test - serial output
-        if ( Settings_getRunLastRomOnBoot() && MMU_readByte( 0xff02 ) == 0x81 ) {
-            char c = MMU_readByte( 0xff01 );
-            printf("%c", c);
-            MMU_writeByte( 0xff02, 0x0 );
-        }
-        bool hold = false;
-        if( Debugger_checkBreakpoint( cpuRegisters.pc ) ){
-            hold = Debugger_break();
-        }
-        if( !hold ){
-            instruction currentInstruction = fetchDecode();
-            executeInstruction( currentInstruction );
-        }
-    }
+	/** @todo check interrupts, come out of halt/stop */
+	if( cpuState == NORMAL_OPERATION ){
+		//	blarggs test - serial output
+		if ( Settings_getRunLastRomOnBoot() && MMU_readByte( 0xff02 ) == 0x81 ) {
+			char c = MMU_readByte( 0xff01 );
+			printf("%c", c);
+			MMU_writeByte( 0xff02, 0x0 );
+		}
+		bool hold = false;
+		if( Debugger_checkBreakpoint( cpuRegisters.pc ) ){
+			hold = Debugger_break();
+		}
+		if( !hold ){
+			instruction currentInstruction = fetchDecode();
+			executeInstruction( currentInstruction );
+		}
+	}
 }
 
 /** \brief stop the cpu and print out some debug information
@@ -177,5 +177,5 @@ void CPU_disableInterrupts(){
 }
 
 void CPU_setPC( uint16_t address ){
-    cpuRegisters.pc = address;
+	cpuRegisters.pc = address;
 };

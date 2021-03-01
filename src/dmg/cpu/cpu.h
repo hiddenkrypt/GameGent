@@ -1,9 +1,9 @@
 #pragma once
 
 typedef enum cpuStateEnum{
-    HALT,
-    STOP,
-    NORMAL_OPERATION
+	HALT,
+	STOP,
+	NORMAL_OPERATION
 } cpuStateStatus;
 
 void CPU_init();

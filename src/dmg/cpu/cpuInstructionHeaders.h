@@ -21,19 +21,19 @@ typedef enum bitSelectionEnum {
 } bitmask;
 
 typedef enum carryPolicyEnum{
-    NO_CARRY = 0,
-    WITH_CARRY = 1,
-    THROUGH_CARRY = 1
+	NO_CARRY = 0,
+	WITH_CARRY = 1,
+	THROUGH_CARRY = 1
 } carryPolicy;
 
 typedef enum significantBitPolicyEnum {
-    RESET_SIGNIFICANT_BIT,
-    NO_RESET_SIGNIFICANT_BIT
+	RESET_SIGNIFICANT_BIT,
+	NO_RESET_SIGNIFICANT_BIT
 } significantBitPolicy;
 
 typedef enum directionEnum{
-    LEFT,
-    RIGHT
+	LEFT,
+	RIGHT
 } direction;
 
 void handleConsistentFlagEffects( instruction opcode );

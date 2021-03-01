@@ -15,7 +15,7 @@ void MMU_init(){
 	}
 }
 char *MMU_loadRom( const char *romPath ){
-    return Cartridge_load( romPath );
+	return Cartridge_load( romPath );
 }
 /** \brief read a byte from DMG ram
  * returns the 8 bit value stored at the given address. Address is a uint16_t so it literally can't be out of bounds.
@@ -24,9 +24,9 @@ char *MMU_loadRom( const char *romPath ){
  * \return value of the byte in ram at address
  */
 uint8_t MMU_readByte( uint16_t address ){
-    if( address > 0x0000 && address < 0x4000 ){
+	if( address > 0x0000 && address < 0x4000 ){
 
-    }
+	}
 	return ram[address];
 }
 
@@ -53,7 +53,7 @@ bool MMU_loadRange( uint16_t startAddress, uint16_t countBytes, uint8_t *data ){
 		return false;
 	}
 	memcpy(ram+startAddress, data, countBytes);
-    printf( "Loaded %#06x bytes into memory", countBytes );
+	printf( "Loaded %#06x bytes into memory", countBytes );
 	getchar();
 	return true;
 }

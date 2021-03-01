@@ -63,48 +63,48 @@ void KeyBinds_shutdown(){
 	free( keyBindCollection );
 	printf( "Keybinds shutdown." );
 }
-    /** @todo check to make sure all commands are bound */
+	/** @todo check to make sure all commands are bound */
 
 void KeyBinds_addKeyBind( keyCommand command, SDL_KeyCode key ){
-    for ( int i = 0; i < keyBindCount; i++ ){
-        if( keyBindCollection[i].key == key ){
-            keyBindCollection[i].command = command;
-            return;
-        }
-    }
-    keyBind *tempKeyBindCollection = malloc( (keyBindCount + 1 ) * sizeof( keyBind ) );
-    for ( int i = 0; i < keyBindCount; i++ ){
-        tempKeyBindCollection[i] = keyBindCollection[i];
-    }
-    keyBind newBind = { command, key };
-    tempKeyBindCollection[ keyBindCount + 1 ] = newBind;
-    keyBindCount++;
+	for ( int i = 0; i < keyBindCount; i++ ){
+		if( keyBindCollection[i].key == key ){
+			keyBindCollection[i].command = command;
+			return;
+		}
+	}
+	keyBind *tempKeyBindCollection = malloc( (keyBindCount + 1 ) * sizeof( keyBind ) );
+	for ( int i = 0; i < keyBindCount; i++ ){
+		tempKeyBindCollection[i] = keyBindCollection[i];
+	}
+	keyBind newBind = { command, key };
+	tempKeyBindCollection[ keyBindCount + 1 ] = newBind;
+	keyBindCount++;
 }
 
 void KeyBinds_addKeyBindFromStrings( char *commandString, const char *keyString ){
-    keyCommand commandToBind = NO_COMMAND;
-    #define KEY_COMMAND_COUNT 10
-    typedef struct _keyCommandStrings{
-        keyCommand command; /**< the GameGent intent to interpret the key as*/
-        char* commandString;
-    } keyCommandStrings;
-    keyCommandStrings keyCommandTable[KEY_COMMAND_COUNT] = {
-        {A,"A"},
-        {B,"B"},
-        {START,"START"},
-        {SELECT,"SELECT"},
-        {UP,"UP"},
-        {DOWN,"DOWN"},
-        {LEFT,"LEFT"},
-        {RIGHT,"RIGHT"},
-        {MENU,"MENU"},
-        {NO_COMMAND,"NO_COMMAND"}
-    };
-    for ( int i = 0; i < KEY_COMMAND_COUNT; i++ ){
-        if( !strcmp( commandString, keyCommandTable[i].commandString ) ){
-            commandToBind = keyCommandTable[i].command;
-        }
-    }
-    SDL_KeyCode keyToBind = SDL_GetKeyFromName( keyString );
-    KeyBinds_addKeyBind( commandToBind, keyToBind );
+	keyCommand commandToBind = NO_COMMAND;
+	#define KEY_COMMAND_COUNT 10
+	typedef struct _keyCommandStrings{
+		keyCommand command; /**< the GameGent intent to interpret the key as*/
+		char* commandString;
+	} keyCommandStrings;
+	keyCommandStrings keyCommandTable[KEY_COMMAND_COUNT] = {
+		{A,"A"},
+		{B,"B"},
+		{START,"START"},
+		{SELECT,"SELECT"},
+		{UP,"UP"},
+		{DOWN,"DOWN"},
+		{LEFT,"LEFT"},
+		{RIGHT,"RIGHT"},
+		{MENU,"MENU"},
+		{NO_COMMAND,"NO_COMMAND"}
+	};
+	for ( int i = 0; i < KEY_COMMAND_COUNT; i++ ){
+		if( !strcmp( commandString, keyCommandTable[i].commandString ) ){
+			commandToBind = keyCommandTable[i].command;
+		}
+	}
+	SDL_KeyCode keyToBind = SDL_GetKeyFromName( keyString );
+	KeyBinds_addKeyBind( commandToBind, keyToBind );
 }

@@ -18,7 +18,7 @@
 inline void executeInstruction( instruction opcode ){
 	bool jump = instructionSwitch( MMU_readByte(cpuRegisters.pc) );
 	if( !jump ){
-        cpuRegisters.pc = cpuRegisters.pc + opcode.length;
+		cpuRegisters.pc = cpuRegisters.pc + opcode.length;
 	}
 	handleConsistentFlagEffects( opcode );
 }
@@ -919,100 +919,100 @@ inline void prefixInstructionSwitch(){
 			rotate_8bitRegister( &cpuRegisters.a, RIGHT, THROUGH_CARRY );
 			break;
 		case 0x20:
-		    shift( &cpuRegisters.b, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.b, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x21:
-		    shift( &cpuRegisters.c, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.c, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x22:
-		    shift( &cpuRegisters.d, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.d, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x23:
-		    shift( &cpuRegisters.e, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.e, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x24:
-		    shift( &cpuRegisters.h, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.h, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x25:
-		    shift( &cpuRegisters.l, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.l, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x26:
-		    shift_memory( LEFT, RESET_SIGNIFICANT_BIT );
+			shift_memory( LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x27:
-		    shift( &cpuRegisters.a, LEFT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.a, LEFT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x28:
-		    shift( &cpuRegisters.b, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.b, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x29:
-		    shift( &cpuRegisters.c, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.c, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2a:
-		    shift( &cpuRegisters.d, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.d, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2b:
-		    shift( &cpuRegisters.e, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.e, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2c:
-		    shift( &cpuRegisters.h, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.h, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2d:
-		    shift( &cpuRegisters.l, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.l, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2e:
-		    shift_memory( RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift_memory( RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x2f:
-		    shift( &cpuRegisters.a, RIGHT, NO_RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.a, RIGHT, NO_RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x30:
-            swapNibbles( &cpuRegisters.b );
+			swapNibbles( &cpuRegisters.b );
 			break;
 		case 0x31:
-            swapNibbles( &cpuRegisters.c );
+			swapNibbles( &cpuRegisters.c );
 			break;
 		case 0x32:
-            swapNibbles( &cpuRegisters.d );
+			swapNibbles( &cpuRegisters.d );
 			break;
 		case 0x33:
-            swapNibbles( &cpuRegisters.e );
+			swapNibbles( &cpuRegisters.e );
 			break;
 		case 0x34:
-            swapNibbles( &cpuRegisters.h );
+			swapNibbles( &cpuRegisters.h );
 			break;
 		case 0x35:
-            swapNibbles( &cpuRegisters.l );
+			swapNibbles( &cpuRegisters.l );
 			break;
 		case 0x36:
-            swapMemoryNibbles();
+			swapMemoryNibbles();
 			break;
 		case 0x37:
-		    swapNibbles( &cpuRegisters.a );
+			swapNibbles( &cpuRegisters.a );
 			break;
 		case 0x38:
-		    shift( &cpuRegisters.b, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.b, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x39:
-		    shift( &cpuRegisters.c, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.c, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3a:
-		    shift( &cpuRegisters.d, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.d, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3b:
-		    shift( &cpuRegisters.e, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.e, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3c:
-		    shift( &cpuRegisters.h, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.h, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3d:
-		    shift( &cpuRegisters.l, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.l, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3e:
-		    shift_memory( RIGHT, RESET_SIGNIFICANT_BIT );
+			shift_memory( RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x3f:
-		    shift( &cpuRegisters.a, RIGHT, RESET_SIGNIFICANT_BIT );
+			shift( &cpuRegisters.a, RIGHT, RESET_SIGNIFICANT_BIT );
 			break;
 		case 0x40:
 			bit_read( BIT_ZERO, &cpuRegisters.b );
@@ -1641,28 +1641,28 @@ inline void decrement_16bitRegister( uint16_t *targetRegister ){
 }
 inline void increment_8bitRegister( uint8_t *targetRegister ){
 	*targetRegister = *targetRegister + 1;
-    if( *targetRegister && 0x0F == 0x00 ) {
+	if( *targetRegister && 0x0F == 0x00 ) {
 		CPU_setHalfCarryFlag();
 	} else {
-        CPU_clearHalfCarryFlag();
+		CPU_clearHalfCarryFlag();
 	}
 	if( *targetRegister == 0 ){
 		CPU_setZeroFlag();
 	} else {
-        CPU_clearZeroFlag();
+		CPU_clearZeroFlag();
 	}
 }
 inline void decrement_8bitRegister( uint8_t *targetRegister ){
 	*targetRegister = *targetRegister-1;
-    if( *targetRegister && 0x0F == 0x0F  ) {
+	if( *targetRegister && 0x0F == 0x0F  ) {
 		CPU_setHalfCarryFlag();
 	} else {
-        CPU_clearHalfCarryFlag();
+		CPU_clearHalfCarryFlag();
 	}
 	if( *targetRegister == 0 ){
 		CPU_setZeroFlag();
 	} else {
-        CPU_clearZeroFlag();
+		CPU_clearZeroFlag();
 	}
 }
 inline void increment_memoryValue(){
@@ -1670,26 +1670,26 @@ inline void increment_memoryValue(){
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
 	} else {
-        CPU_clearCarryFlag();
+		CPU_clearCarryFlag();
 	}
 	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0F ) == 0x00 ) {
 		CPU_setHalfCarryFlag();
 	} else {
-        CPU_clearHalfCarryFlag();
-    }
+		CPU_clearHalfCarryFlag();
+	}
 }
 inline void decrement_memoryValue(){
 	MMU_writeByte( cpuRegisters.hl, MMU_readByte( cpuRegisters.hl ) - 1 );
 	if( MMU_readByte( cpuRegisters.hl ) == 0 ){
 		CPU_setZeroFlag();
 	} else {
-        CPU_clearCarryFlag();
+		CPU_clearCarryFlag();
 	}
 	if( ( MMU_readByte( cpuRegisters.hl ) & 0x0F ) == 0x0F ) {
 		CPU_setHalfCarryFlag();
 	} else {
-        CPU_clearHalfCarryFlag();
-    }
+		CPU_clearHalfCarryFlag();
+	}
 }
 
 inline void rotate_memoryByte( direction leftOrRight, carryPolicy throughCarry ){
@@ -1785,10 +1785,10 @@ inline void accumulator_decimalAdjustment(){
 		CPU_setCarryFlag();
 	}
 	cpuRegisters.a = workingValue & 0xff;
-    if( cpuRegisters.a == 0 ){
+	if( cpuRegisters.a == 0 ){
 		CPU_setZeroFlag();
 	} else {
-        CPU_clearZeroFlag();
+		CPU_clearZeroFlag();
 	}
 }
 inline void accumulator_complement(){
@@ -1931,44 +1931,44 @@ inline bool jump_toHL(){
 	return true;
 }
 inline void shift_memory( direction leftOrRight, significantBitPolicy plan ){
-    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    shift( &memoryGrabber, leftOrRight, plan );
-    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
+	uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+	shift( &memoryGrabber, leftOrRight, plan );
+	MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void shift( uint8_t *value, direction leftOrRight, significantBitPolicy plan ){
-    if( leftOrRight == LEFT ){
-        uint8_t carry = *value & 0x80;
-        *value = *value << 1;
-        if( plan == RESET_SIGNIFICANT_BIT ){
-            *value = *value & 0xfe;
-        }
-        if( carry ){
-            CPU_setCarryFlag();
-        } else{
-            CPU_clearCarryFlag();
-        }
-    } else{
-        uint8_t carry = *value & 0x01;
-        *value = *value >> 1;
-        if( plan == RESET_SIGNIFICANT_BIT ){
-            *value = *value & 0x7F;
-        }
-        if( carry ){
-            CPU_setCarryFlag();
-        } else{
-            CPU_clearCarryFlag();
-        }
-    }
+	if( leftOrRight == LEFT ){
+		uint8_t carry = *value & 0x80;
+		*value = *value << 1;
+		if( plan == RESET_SIGNIFICANT_BIT ){
+			*value = *value & 0xfe;
+		}
+		if( carry ){
+			CPU_setCarryFlag();
+		} else{
+			CPU_clearCarryFlag();
+		}
+	} else{
+		uint8_t carry = *value & 0x01;
+		*value = *value >> 1;
+		if( plan == RESET_SIGNIFICANT_BIT ){
+			*value = *value & 0x7F;
+		}
+		if( carry ){
+			CPU_setCarryFlag();
+		} else{
+			CPU_clearCarryFlag();
+		}
+	}
 }
 inline void swapMemoryNibbles(){
-    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    swapNibbles( &memoryGrabber );
-    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
+	uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+	swapNibbles( &memoryGrabber );
+	MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void swapNibbles( uint8_t *value ){
-    uint8_t mostSignificantNibble = *value & 0xf0;
-    uint8_t leastSignificantNibble = *value & 0x0f;
-    *value = mostSignificantNibble | leastSignificantNibble;
+	uint8_t mostSignificantNibble = *value & 0xf0;
+	uint8_t leastSignificantNibble = *value & 0x0f;
+	*value = mostSignificantNibble | leastSignificantNibble;
 }
 inline void bit_read( bitmask targetBit, uint8_t *targetByte ){
 	if( (*targetByte & targetBit) == 0 ){
@@ -1987,17 +1987,17 @@ inline void bit_reset( bitmask targetBit, uint8_t *targetByte ){
 
 
 inline void bit_memoryRead( bitmask targetBit ){
-    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    bit_read( targetBit, &memoryGrabber );
-    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
+	uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+	bit_read( targetBit, &memoryGrabber );
+	MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void bit_memorySet( bitmask targetBit ){
-    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    bit_set( targetBit, &memoryGrabber );
-    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
+	uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+	bit_set( targetBit, &memoryGrabber );
+	MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }
 inline void bit_memoryReset( bitmask targetBit ){
-    uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
-    bit_reset( targetBit, &memoryGrabber );
-    MMU_writeByte( cpuRegisters.hl, memoryGrabber );
+	uint8_t memoryGrabber = MMU_readByte( cpuRegisters.hl );
+	bit_reset( targetBit, &memoryGrabber );
+	MMU_writeByte( cpuRegisters.hl, memoryGrabber );
 }

@@ -69,7 +69,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/dmg/cpu/debugger.h" />
-		<Unit filename="src/dmg/cpu/opcodes.h" />
+		<Unit filename="src/dmg/cpu/instructionStructure.h" />
 		<Unit filename="src/dmg/cpu/registers.h" />
 		<Unit filename="src/dmg/dmg.c">
 			<Option compilerVar="CC" />
@@ -106,8 +106,12 @@
 		</Unit>
 		<Unit filename="src/gui/menus/mainMenu.h" />
 		<Unit filename="src/gui/menus/menu.h" />
-		<Unit filename="src/gui/menus/menuItem.h" />
-		<Unit filename="src/gui/menus/recentRomStruct.h" />
+		<Unit filename="src/gui/menus/menuItemStructure.h" />
+		<Unit filename="src/gui/menus/recentRomStructure.h" />
+		<Unit filename="src/gui/menus/settingsMenu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gui/menus/settingsMenu.h" />
 		<Unit filename="src/gui/tilemap.c">
 			<Option compilerVar="CC" />
 		</Unit>

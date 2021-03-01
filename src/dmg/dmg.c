@@ -23,9 +23,9 @@ void DMG_loadRom(const char *path){
 	printf( "loading rom %s\n", path );
 	char *romLoadResult = MMU_loadRom( path );
 	if ( strlen( romLoadResult ) != 0 ){
-        /** @todo: pass errors to gui for user information
-         *  @todo: reset dmg after file error
-         */
+		/** @todo: pass errors to gui for user information
+		 *  @todo: reset dmg after file error
+		 */
 	}
 }
 
@@ -39,11 +39,11 @@ void DMG_init(){
 	if( Settings_getRunBootRom() ){
 		DMG_loadRom( Settings_getBootRomPath() );
 	}
-    if( Settings_getRunLastRomOnBoot() && Settings_getLastRomPath() ){
-        //overwrites bootrom
-        DMG_loadRom( Settings_getLastRomPath() );
-        CPU_setPC( 0x100 );
-    }
+	if( Settings_getRunLastRomOnBoot() && Settings_getLastRomPath() ){
+		//overwrites bootrom
+		DMG_loadRom( Settings_getLastRomPath() );
+		CPU_setPC( 0x100 );
+	}
 	state = RUNNING;
 }
 

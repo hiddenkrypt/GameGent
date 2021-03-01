@@ -30,17 +30,17 @@ void Settings_init( bool loadFromFile ){
 	runLastRomOnBoot = false;
 	lastRomPath = NULL;
 	bootRomPath = NULL;
-    //check for local settings file
-    //load file, overwriting defaults
+	//check for local settings file
+	//load file, overwriting defaults
 	KeyBinds_init(); //possibly pass settings config file info for saved binds?
-    if( loadFromFile ){
-        loadSettingsFromFile();
-        printf("Finished loading settings from file.\n");
-    }
+	if( loadFromFile ){
+		loadSettingsFromFile();
+		printf("Finished loading settings from file.\n");
+	}
 }
 void Settings_shutdown(){
-    free( lastRomPath );
-    free( bootRomPath );
+	free( lastRomPath );
+	free( bootRomPath );
 }
 bool  Settings_getRunLastRomOnBoot(){ return runLastRomOnBoot; }
 char *Settings_getLastRomPath(){ return lastRomPath; }
@@ -52,24 +52,24 @@ void Settings_setDebugFlag( bool value ){ debugFlag = value; }
 void Settings_setRunBootRom( bool value ){ runBootRom = value; }
 
 void Settings_setLastRomPath( char* path ){
-    free( lastRomPath );
-    char *temp = malloc( strlen( path ) );
-    if( !temp ){
-        printf("allocation of memory failed in setBootRomPath!\n");
-        return;
-    }
-    strcpy( temp, path );
-    lastRomPath = temp;
+	free( lastRomPath );
+	char *temp = malloc( strlen( path ) );
+	if( !temp ){
+		printf("allocation of memory failed in setBootRomPath!\n");
+		return;
+	}
+	strcpy( temp, path );
+	lastRomPath = temp;
 }
 void Settings_setBootRomPath( char *path){
-    free( bootRomPath );
-    char *temp = malloc( strlen( path ) );
-    if( !temp ){
-        printf("allocation of memory failed in setBootRomPath!\n");
-        return;
-    }
-    strcpy( temp, path );
-    bootRomPath = temp;
+	free( bootRomPath );
+	char *temp = malloc( strlen( path ) );
+	if( !temp ){
+		printf("allocation of memory failed in setBootRomPath!\n");
+		return;
+	}
+	strcpy( temp, path );
+	bootRomPath = temp;
 }
 
 /** \brief unimplemented! save the current settings to disc
@@ -107,51 +107,51 @@ recentRomList Settings_get_recentRoms(){
 static void loadSettingsFromFile(){
 	FILE* settingsFile = fopen( SETTINGS_FILE_PATH, "r" );
 	if( settingsFile == NULL ){
-        printf( "settings file not found, relying on defaults." );
-        return;
+		printf( "settings file not found, relying on defaults." );
+		return;
 	}
-	char line[1024];
+	char line[1024]; /**@todo: fix line length assumption*/
 	while( fgets( line, 1024, settingsFile ) ){
-        if( strlen( line ) == 1 || line[0] == '\n' || line[0] == '#' ){
-            continue;
-        }
-        char *key = strtok( line, " " );
-        char *value = strtok( NULL, "\n" );
-        if( value && strlen( value ) && value[0] == ' '){
-            value = value + 1;
-        }
-        applySettingFromFile( key, value );
+		if( strlen( line ) == 1 || line[0] == '\n' || line[0] == '#' ){
+			continue;
+		}
+		char *key = strtok( line, " " );
+		char *value = strtok( NULL, "\n" );
+		if( value && strlen( value ) && value[0] == ' '){
+			value = value + 1;
+		}
+		applySettingFromFile( key, value );
 	}
 }
 
 
 static void applySettingFromFile( char *settingName, char *settingValue ){
 #define ACTION_COUNT 14
-    configParserAction actions[ACTION_COUNT] = {
-        { "DEBUG_MODE", BOOLEAN, &Settings_setDebugFlag, NULL },
-        { "RUN_BOOT_ROM", BOOLEAN, &Settings_setRunBootRom, NULL },
-        { "RUN_LAST_ROM_ON_START", BOOLEAN, &Settings_setRunLastRomOnBoot, NULL },
-        { "BOOT_ROM_PATH", STRING, NULL, &Settings_setBootRomPath },
-        { "LAST_ROM_PATH", STRING, NULL, &Settings_setLastRomPath },
-        { "A", SDL_KEY, NULL, NULL },
-        { "B", SDL_KEY, NULL, NULL },
-        { "UP", SDL_KEY, NULL, NULL },
-        { "DOWN", SDL_KEY, NULL, NULL },
-        { "LEFT", SDL_KEY, NULL, NULL },
-        { "RIGHT", SDL_KEY, NULL, NULL },
-        { "SELECT", SDL_KEY, NULL, NULL },
-        { "START", SDL_KEY, NULL, NULL },
-        { "MENU", SDL_KEY, NULL, NULL }
-    };
-    for( int i = 0; i < ACTION_COUNT; i++ ){
-        if( !strcmp( settingName, actions[i].settingName ) ){
-            if( actions[i].argType == STRING ){
-                actions[i].actionChar( settingValue );
-            } else if ( actions[i].argType == BOOLEAN ) {
-                actions[i].actionBool( (bool)strcmp( settingValue, "false" ) );
-            } else if ( actions[i].argType == SDL_KEY ) {
-                KeyBinds_addKeyBindFromStrings( settingName, settingValue );
-            }
-        }
-    }
+	configParserAction actions[ACTION_COUNT] = {
+		{ "DEBUG_MODE", BOOLEAN, &Settings_setDebugFlag, NULL },
+		{ "RUN_BOOT_ROM", BOOLEAN, &Settings_setRunBootRom, NULL },
+		{ "RUN_LAST_ROM_ON_START", BOOLEAN, &Settings_setRunLastRomOnBoot, NULL },
+		{ "BOOT_ROM_PATH", STRING, NULL, &Settings_setBootRomPath },
+		{ "LAST_ROM_PATH", STRING, NULL, &Settings_setLastRomPath },
+		{ "A", SDL_KEY, NULL, NULL },
+		{ "B", SDL_KEY, NULL, NULL },
+		{ "UP", SDL_KEY, NULL, NULL },
+		{ "DOWN", SDL_KEY, NULL, NULL },
+		{ "LEFT", SDL_KEY, NULL, NULL },
+		{ "RIGHT", SDL_KEY, NULL, NULL },
+		{ "SELECT", SDL_KEY, NULL, NULL },
+		{ "START", SDL_KEY, NULL, NULL },
+		{ "MENU", SDL_KEY, NULL, NULL }
+	};
+	for( int i = 0; i < ACTION_COUNT; i++ ){
+		if( !strcmp( settingName, actions[i].settingName ) ){
+			if( actions[i].argType == STRING ){
+				actions[i].actionChar( settingValue );
+			} else if ( actions[i].argType == BOOLEAN ) {
+				actions[i].actionBool( (bool)strcmp( settingValue, "false" ) );
+			} else if ( actions[i].argType == SDL_KEY ) {
+				KeyBinds_addKeyBindFromStrings( settingName, settingValue );
+			}
+		}
+	}
 }

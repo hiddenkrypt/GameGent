@@ -8,8 +8,8 @@ typedef enum argumentTypeEnum {
 } argumentType;
 
 typedef struct{
-    char *settingName;
-    argumentType argType;
+	char *settingName;
+	argumentType argType;
 	void (*actionBool) (bool);
 	void (*actionChar) (char*);
 } configParserAction;
