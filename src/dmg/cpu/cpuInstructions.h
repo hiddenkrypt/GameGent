@@ -1,5 +1,6 @@
 #pragma once
 
+#include "instructionStructure.h"
 void executeInstruction( instruction opcode );
 
 

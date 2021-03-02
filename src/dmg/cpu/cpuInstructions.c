@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "registers.h"
-#include "opcodes.h"
 #include "../mmu/mmu.h"
+#include "registers.h"
+#include "instructionStructure.h"
 #include "cpu.h"
 #include "cpuInstructions.h"
 #include "cpuInstructionHeaders.h"
