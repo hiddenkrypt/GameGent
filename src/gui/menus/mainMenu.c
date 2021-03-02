@@ -3,12 +3,17 @@
 #include "../../dmg/dmg.h"
 #include "../menuManager.h"
 #include "loadRomMenu.h"
+#include "settingsMenu.h"
 #include "menu.h"
-#include "menuItem.h"
+#include "menuItemStructure.h"
 #include "mainMenu.h"
 
 void loadRom(){
 	MenuManager_setMenu( LoadRomMenu_getMenu() );
+}
+
+void settings(){
+	MenuManager_setMenu( SettingsMenu_getMenu() );
 }
 
 static void noop();
@@ -22,13 +27,13 @@ static char *optionsLabel();
 static char *exitLabel();
 
 menuItem menuItems[7] = {
-	{&noop,&DMG_isEmulating,&continueLabel},
-	{&loadRom,&always,&loadRomLabel},
-	{&noop,&DMG_isEmulating,&loadStateLabel},
-	{&noop,&DMG_isEmulating,&saveStateLabel},
-	{&noop,&DMG_isEmulating,&stateNumberLabel},
-	{&noop,&always,&optionsLabel},
-	{&GameGent_shutdown,&always,&exitLabel}
+	{&noop,					&DMG_isEmulating,	&continueLabel},
+	{&loadRom,				&always,			&loadRomLabel},
+	{&noop,					&DMG_isEmulating,	&loadStateLabel},
+	{&noop,					&DMG_isEmulating,	&saveStateLabel},
+	{&noop,					&DMG_isEmulating,	&stateNumberLabel},
+	{&settings,				&always,			&optionsLabel},
+	{&GameGent_shutdown,	&always,			&exitLabel}
 };
 const int MAIN_MENU_ITEMS = 7;
 
@@ -97,7 +102,7 @@ static bool always(){ return true; }
 /**\brief Menu item label: literal value  */
 static char *continueLabel(){ return "Continue"; }
 /**\brief Menu item label: literal value  */
-static char *loadRomLabel(){ return "Load ROM"; }
+static char *loadRomLabel(){ return "Load ROM ==>"; }
 /**\brief Menu item label: literal value  */
 static char *loadStateLabel(){ return "Load State"; }
 /**\brief Menu item label: literal value  */
@@ -105,7 +110,7 @@ static char *saveStateLabel(){ return "Save State"; }
 /**\brief Menu item label: dynamic value, currently unimplemented  */
 static char *stateNumberLabel(){ return "State Number:"; } /**@todo append current state number */
 /**\brief Menu item label: literal value  */
-static char *optionsLabel(){ return "Options..."; }
+static char *optionsLabel(){ return "Settings ==>"; }
 /**\brief Menu item label: literal value  */
 static char *exitLabel(){ return "EXIT"; }
 
