@@ -1,4 +1,6 @@
 #include <string.h>
+#include <stdio.h>
+#include "../../settings/settings.h"
 #include "../../GameGent.h"
 #include "../../dmg/dmg.h"
 #include "../menuManager.h"
@@ -11,12 +13,14 @@
 
 static void noop();
 static bool always();
-static char *keyBindsLabel();
-static char *debugLabel();
-static char *runBootromLabel();
-static char *bootRomPathLabel();
-static char *runLastRomLabel();
-static char *backLabel();
+
+static void keyBindsLabel( char *label );
+static void debugLabel( char *label );
+static void runBootromLabel( char *label );
+static void bootRomPathLabel( char *label );
+static void runLastRomLabel( char *label );
+static void backLabel( char *label );
+
 static void backAction();
 
 menuItem settingsMenuItems[6] = {
@@ -46,9 +50,9 @@ static void getLabel( int i, char *returnBuffer ){
 		return;
 	}
 	for( int j = 0; j < SETTINGS_MENU_ITEMS; j++ ){
-		if( settingsMenuItems[j].activeCondition(j) ){
+		if( settingsMenuItems[j].activeCondition( j ) ){
 			if(i-- == 0){
-				strncpy( returnBuffer, settingsMenuItems[j].getLabel(j), 18 );
+				settingsMenuItems[j].getLabel( returnBuffer );
 				return;
 			}
 		}
@@ -91,18 +95,46 @@ static void activateItem(int i){
 static void noop(){}
 /**\brief Menu item condition: always display  */
 static bool always(){ return true; }
+
 /**\brief Menu item label: literal value  */
-static char *keyBindsLabel(){ return "Key Binds ==>"; }
+static void keyBindsLabel( char *label ){
+	char *constantLabel = "Key Binds ==>";
+	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+}
+
 /**\brief Menu item label: dynamic value @todo: dynamically concat state of setting */
-static char *debugLabel(){ return "Use Debugger: "; }
+static void debugLabel( char *label ){
+	char value = 'N';
+	if( Settings_getDebugFlag() ){
+		value = 'Y';
+	}
+	snprintf( label, 14, "Debug Mode: %c", value );
+	return;
+}
+
 /**\brief Menu item label: dynamic value  @todo: dynamically concat state of setting*/
-static char *runBootromLabel(){ return "Run Boot Rom: "; }
+static void runBootromLabel( char *label ){
+	char *constantLabel = "Run Boot Rom: ";
+	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+}
+
 /**\brief Menu item label: dynamic value @todo: dynamically concat path of bootrom */
-static char *bootRomPathLabel(){ return "Bootrom: "; }
+static void bootRomPathLabel( char *label ){
+	char *constantLabel = "Bootrom: ";
+	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+}
+
 /**\brief Menu item label: dynamic value, @todo: dynamically apply state of setting  */
-static char *runLastRomLabel(){ return "Run Last Rom on Boot: "; }
+static void runLastRomLabel( char *label ){
+	char *constantLabel = "Run Last on Boot: ";
+	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+}
+
 /**\brief Menu item label: literal value  */
-static char *backLabel(){ return "<=="; }
+static void backLabel( char *label ){
+	char *constantLabel = "<==";
+	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+}
 
 static void backAction(){
 	MenuManager_setMenu( MainMenu_getMenu() );

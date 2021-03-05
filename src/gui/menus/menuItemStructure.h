@@ -8,7 +8,7 @@
  */
 
 typedef struct{
-	void  (*activate) ();			/**< a function for performing the menu item's action */
-	bool  (*activeCondition) ();	/**< is this item active or not */
-	char *(*getLabel) ();			/**< what is the string label of this item */
+	void (*activate) ();			/**< a function for performing the menu item's action */
+	bool (*activeCondition) ();	/**< is this item active or not */
+	void (*getLabel) ( char *label );			/**< what is the string label of this item */
 } menuItem;
