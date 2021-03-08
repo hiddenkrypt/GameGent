@@ -19,13 +19,13 @@ void settings(){
 static void noop();
 static bool always();
 
-static void continueLabel( char *label );
-static void loadRomLabel( char *label );
-static void loadStateLabel( char *label );
-static void saveStateLabel( char *label );
-static void stateNumberLabel( char *label );
-static void optionsLabel( char *label );
-static void exitLabel( char *label );
+static void continueLabel( char *labelBuffer, int bufferSize );
+static void loadRomLabel( char *labelBuffer, int bufferSize );
+static void loadStateLabel( char *labelBuffer, int bufferSize );
+static void saveStateLabel( char *labelBuffer, int bufferSize );
+static void stateNumberLabel( char *labelBuffer, int bufferSize );
+static void optionsLabel( char *labelBuffer, int bufferSize );
+static void exitLabel( char *labelBuffer, int bufferSize );
 
 menuItem menuItems[7] = {
 	{&noop,					&DMG_isEmulating,	&continueLabel},
@@ -49,7 +49,7 @@ const int MAIN_MENU_ITEMS = 7;
  * \param the index of the item requested
  * \param a passed char* buffer to put the label into
  **/
-static void getLabel( int i, char *returnBuffer ){
+static void getLabel( int i, char *returnBuffer, int bufferSize ){
 	if(i > MAIN_MENU_ITEMS) {
 		strncpy(returnBuffer, "getLabel FAILURE!",18);
 		return;
@@ -57,7 +57,7 @@ static void getLabel( int i, char *returnBuffer ){
 	for( int j = 0; j < MAIN_MENU_ITEMS; j++ ){
 		if( menuItems[j].activeCondition(j) ){
 			if(i-- == 0){
-				menuItems[j].getLabel( returnBuffer );
+				menuItems[j].getLabel( returnBuffer, bufferSize );
 				return;
 			}
 		}
@@ -103,51 +103,51 @@ static bool always(){ return true; }
 
 
 /**\brief Menu item label: literal value  */
-static void continueLabel( char *label ){
+static void continueLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "Continue";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 
 /**\brief Menu item label: literal value  */
-static void loadRomLabel( char *label ){
+static void loadRomLabel( char *labelBuffer, int bufferSize ){
  	char *constantLabel = "Load ROM ==>";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 
 /**\brief Menu item label: literal value  */
-static void loadStateLabel( char *label ){
+static void loadStateLabel( char *labelBuffer, int bufferSize ){
  	char *constantLabel = "Load State";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 
 /**\brief Menu item label: literal value  */
-static void saveStateLabel( char *label ){
+static void saveStateLabel( char *labelBuffer, int bufferSize ){
  	char *constantLabel = "Save State";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 
 /**\brief Menu item label: dynamic value, currently unimplemented  */
-static void stateNumberLabel( char *label ){
+static void stateNumberLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "State Number:";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 } /**@todo append current state number */
 
 /**\brief Menu item label: literal value  */
-static void optionsLabel( char *label ){
+static void optionsLabel( char *labelBuffer, int bufferSize ){
  	char *constantLabel = "Settings ==>";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 
 /**\brief Menu item label: literal value  */
-static void exitLabel( char *label ){
+static void exitLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "EXIT";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 
 }
 

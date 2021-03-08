@@ -14,12 +14,12 @@
 static void noop();
 static bool always();
 
-static void keyBindsLabel( char *label );
-static void debugLabel( char *label );
-static void runBootromLabel( char *label );
-static void bootRomPathLabel( char *label );
-static void runLastRomLabel( char *label );
-static void backLabel( char *label );
+static void keyBindsLabel( char *labelBuffer, int bufferSize );
+static void debugLabel( char *labelBuffer, int bufferSize );
+static void runBootromLabel( char *labelBuffer, int bufferSize );
+static void bootRomPathLabel( char *labelBuffer, int bufferSize );
+static void runLastRomLabel( char *labelBuffer, int bufferSize );
+static void backLabel( char *labelBuffer, int bufferSize );
 
 static void backAction();
 
@@ -44,20 +44,20 @@ const int SETTINGS_MENU_ITEMS = 6;
  * \param the index of the item requested
  * \param a passed char* buffer to put the label into
  **/
-static void getLabel( int i, char *returnBuffer ){
+static void getLabel( int i, char *returnBuffer, int bufferSize ){
 	if(i > SETTINGS_MENU_ITEMS) {
-		strncpy(returnBuffer, "getLabel FAILURE!",18);
+		snprintf( returnBuffer, 10, "ERR LABEL" );
 		return;
 	}
 	for( int j = 0; j < SETTINGS_MENU_ITEMS; j++ ){
 		if( settingsMenuItems[j].activeCondition( j ) ){
 			if(i-- == 0){
-				settingsMenuItems[j].getLabel( returnBuffer );
+				settingsMenuItems[j].getLabel( returnBuffer, bufferSize );
 				return;
 			}
 		}
 	}
-	strncpy( returnBuffer, "wat", 18 );
+	snprintf( returnBuffer, 10, "ERR LABEL" );
 }
 
 /** \brief gets the number of menu items that are active
@@ -97,43 +97,44 @@ static void noop(){}
 static bool always(){ return true; }
 
 /**\brief Menu item label: literal value  */
-static void keyBindsLabel( char *label ){
+static void keyBindsLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "Key Binds ==>";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 }
 
 /**\brief Menu item label: dynamic value @todo: dynamically concat state of setting */
-static void debugLabel( char *label ){
+static void debugLabel( char *labelBuffer, int bufferSize ){
 	char value = 'N';
 	if( Settings_getDebugFlag() ){
 		value = 'Y';
 	}
-	snprintf( label, 14, "Debug Mode: %c", value );
-	return;
+	snprintf( labelBuffer, bufferSize, "Debug Mode: %c", value );
 }
 
 /**\brief Menu item label: dynamic value  @todo: dynamically concat state of setting*/
-static void runBootromLabel( char *label ){
-	char *constantLabel = "Run Boot Rom: ";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+static void runBootromLabel( char *labelBuffer, int bufferSize ){
+	char value = 'N';
+	if( Settings_getRunBootRom() ){
+		value = 'Y';
+	}
+	snprintf( labelBuffer, bufferSize, "Run Boot Rom: %c", value );
 }
 
 /**\brief Menu item label: dynamic value @todo: dynamically concat path of bootrom */
-static void bootRomPathLabel( char *label ){
-	char *constantLabel = "Bootrom: ";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+static void bootRomPathLabel( char *labelBuffer, int bufferSize ){
+	snprintf( labelBuffer, bufferSize, "Bootrom: %s", Settings_getBootRomPath() );
 }
 
 /**\brief Menu item label: dynamic value, @todo: dynamically apply state of setting  */
-static void runLastRomLabel( char *label ){
+static void runLastRomLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "Run Last on Boot: ";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 }
 
 /**\brief Menu item label: literal value  */
-static void backLabel( char *label ){
+static void backLabel( char *labelBuffer, int bufferSize ){
 	char *constantLabel = "<==";
-	strncpy( label, constantLabel, strlen( constantLabel ) + 1);
+	strncpy( labelBuffer, constantLabel, strlen( constantLabel ) + 1);
 }
 
 static void backAction(){
@@ -144,7 +145,7 @@ static void backAction(){
  * The menuManager uses Menu Structs to hold a reference to the currently
  * active menu. this function loads the setting menu.
  *
- * \return a menu struct for the settins Menu
+ * \return a menu struct for the settings Menu
  */
 menu SettingsMenu_getMenu(){
 	menu settingsMenu;

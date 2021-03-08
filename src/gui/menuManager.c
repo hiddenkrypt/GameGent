@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "../GameGent.h"
@@ -43,8 +44,9 @@ void MenuManager_draw( SDL_Renderer *renderer ){
 	Tiles_paintStringAt( 10 - 5, 3, menuTitle[3],  renderer );
 
 	for( int i = 0; i < currentMenu.itemCount(); i++ ) {
-		char itemLabel[20];
-		currentMenu.getLabel(i, itemLabel);
+		#define LABEL_BUFFER_SIZE 2048
+		char *itemLabel = malloc( sizeof( char ) * LABEL_BUFFER_SIZE );
+		currentMenu.getLabel(i, itemLabel, LABEL_BUFFER_SIZE);
 		if( i == menuCursorIndex ){
 			SDL_Rect cursorRect = {
 				0,
@@ -57,6 +59,7 @@ void MenuManager_draw( SDL_Renderer *renderer ){
 			Tiles_paintCharAt( 0, 17 - currentMenu.itemCount()+menuCursorIndex, 138 + ( menuCursorIndex % 4 ), renderer );
 		}
 		Tiles_paintStringAt( 1, 17 - currentMenu.itemCount() + i, itemLabel, renderer );
+		free( itemLabel );
 	}
 }
 

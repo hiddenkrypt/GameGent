@@ -7,6 +7,6 @@
 
 typedef struct{
 	int (*itemCount) (); 			/**< a function returning the number of items in the menu */
-	void (*getLabel) (int, char*);	/**< a function returning the string label of item # i */
+	void (*getLabel) (int, char*, int);	/**< a function returning the string label of item # i */
 	void (*activateItem) (int);		/**< a function telling the menu that the user has activated item # i */
 } menu;
